@@ -324,7 +324,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
             }
             return flag;
         }
-
+  
         @Override
         protected void onPostExecute(Integer result) {
             super.onPostExecute(result);

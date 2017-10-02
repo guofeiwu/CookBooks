@@ -1,12 +1,10 @@
 package com.wgf.cookbooks.activity;
 
-import android.content.Intent;
-import android.support.design.widget.CoordinatorLayout;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
@@ -15,11 +13,15 @@ import com.wgf.cookbooks.fragment.DiscoverFragment;
 import com.wgf.cookbooks.fragment.HomePageFragment;
 import com.wgf.cookbooks.fragment.MenuFragment;
 import com.wgf.cookbooks.fragment.MineFragment;
-import com.wgf.cookbooks.util.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * author guofei_wu
+ * email guofei_wu@163.com
+ * 主界面
+ */
 public class MainActivity extends AppCompatActivity {
     private List<Fragment> mFragments;
     private BottomNavigationBar mBottomNavigationBar;

@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize">
+        <android.support.v7.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/color_red"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_mine"
+                android:textSize="@dimen/text_title_size"
+                android:textColor="@color/color_white"
+                android:layout_gravity="center"
+                />
+        </android.support.v7.widget.Toolbar>
+        <ImageView
+            android:id="@+id/id_iv_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/setting_32"
+            android:layout_gravity="center_vertical|right"
+            android:layout_marginRight="20dp"
+            />
+    </FrameLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="80dp">
+                <com.wgf.cookbooks.view.CircleImageView
+                    android:id="@+id/civ_user_icon"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/icon"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="6dp"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/id_tv_login_or_register"
+                    android:layout_toRightOf="@id/civ_user_icon"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="6dp"
+                    android:text="@string/text_click_login_register"
+                    android:textSize="@dimen/text_content_size"
+                    />
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/id_sign"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_mine_not_sign"
+                    android:textSize="@dimen/text_content_size"
+                    android:layout_centerInParent="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="20dp"
+                    />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="15dp"
+                android:background="@color/view_gray"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:orientation="horizontal"
+                android:gravity="center"
+                >
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:id="@+id/id_ll_menu"
+                    >
+
+                    <ImageView
+                        android:clickable="false"
+                        android:focusable="false"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="20dp"
+                        android:layout_centerInParent="true"
+                        android:padding="5dp"
+                        android:src="@drawable/login"
+                        android:id="@+id/imageView" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="10dp"
+                        android:text="@string/text_mine_menus"
+                        android:gravity="center"
+                        android:textSize="@dimen/mine_text_size" />
+                </LinearLayout>
+                <View
+                    android:layout_width="2dp"
+                    android:layout_height="45dp"
+                    android:background="@color/view_gray"
+                    />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:id="@+id/id_ll_collect"
+                    >
+                    <ImageView
+                        android:clickable="false"
+                        android:focusable="false"
+                        android:id="@+id/iv_mine"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="20dp"
+                        android:layout_centerInParent="true"
+                        android:padding="5dp"
+                        android:src="@drawable/login" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="10dp"
+                        android:text="@string/text_mine_collects"
+                        android:gravity="center"
+                        android:textSize="@dimen/mine_text_size" />
+                </LinearLayout>
+                <View
+                    android:layout_width="2dp"
+                    android:layout_height="45dp"
+                    android:background="@color/view_gray"
+                    />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:id="@+id/id_ll_album"
+                    >
+                    <ImageView
+                        android:clickable="false"
+                        android:focusable="false"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginLeft="20dp"
+                        android:layout_centerInParent="true"
+                        android:padding="5dp"
+                        android:src="@drawable/login" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="10dp"
+                        android:text="@string/text_mine_albums"
+                        android:gravity="center"
+                        android:layout_marginRight="20dp"
+                        android:textSize="@dimen/mine_text_size" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="15dp"
+                android:background="@color/view_gray"/>
+            <com.wgf.cookbooks.view.MineLayout
+                android:id="@+id/ml_info"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/layout_height"
+                android:gravity="center"
+                app:mineIcon="@drawable/about_32"
+                app:mineTitle="@string/text_mine_look_info"
+                android:visibility="gone"
+                />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/view_gray"
+                />
+            <com.wgf.cookbooks.view.MineLayout
+                android:id="@+id/ml_comment"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/layout_height"
+                android:gravity="center"
+                app:mineIcon="@drawable/about_32"
+                app:mineTitle="@string/text_mine_comment"
+                />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/view_gray"
+                />
+            <com.wgf.cookbooks.view.MineLayout
+                android:id="@+id/ml_point"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/layout_height"
+                android:gravity="center"
+                app:mineIcon="@drawable/about_32"
+                app:mineTitle="@string/text_mine_point"
+                />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/view_gray"
+                />
+            <com.wgf.cookbooks.view.MineLayout
+            android:id="@+id/ml_record"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/layout_height"
+            android:gravity="center"
+            app:mineIcon="@drawable/about_32"
+            app:mineTitle="@string/text_mine_record"
+            />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="15dp"
+                android:background="@color/view_gray"/>
+            <!--<com.wgf.cookbooks.view.MineLayout-->
+                <!--android:id="@+id/ml_system"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="@dimen/layout_height"-->
+                <!--android:gravity="center"-->
+                <!--app:mineIcon="@drawable/about_32"-->
+                <!--app:mineTitle="@string/text_mine_system"/>-->
+            <!--<View-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="1dp"-->
+                <!--android:background="@color/view_gray"-->
+                <!--/>-->
+        </LinearLayout>
+    </ScrollView>
+
+
+
+
+
+
+
+
+</LinearLayout>

@@ -1,0 +1,124 @@
+<resources>
+    <string name="app_name">美食菜谱</string>
+
+    <!-- Strings related to login -->
+
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_phone_number">手机号码无效</string>
+    <string name="error_invalid_password_null">密码不能为空</string>
+    <string name="error_invalid_password_length">密码长度为6到16位</string>
+    <string name="error_incorrect_password">用户名或密码错误</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="text_textview_title">标题</string>
+    <string name="text_action_sign_in">登录</string>
+    <string name="text_action_tv_register">注册</string>
+    <string name="text_action_tv_lost_password">忘记密码？</string>
+    <string name="text_mine_person_info">个人资料</string>
+    <string name="text_mine_about">关于我们</string>
+    <string name="text_mine_advice">意见反馈</string>
+    <string name="text_mine_clear_cache">清除缓存</string>
+    <string name="text_mine_alter_password">修改密码</string>
+    <string name="text_mine_exit">退出登录</string>
+    <string name="text_mine_about_content">\u3000\u3000针对于现在人们对生活质量的要求的提高，对生活的享受的提高，这款阅读杂志的app应运而生，人们在闲暇时光，或者感觉有压力的时候可以打开我们的app看看上面的美文杂志，杂志的类型主要是以图片的形式表现出来的，有文字，又有配图，吸引用户的眼球，让用户忘却一些烦心的事，全心的投入到我们的杂志当中来，让用户放松放松。我们追求卓越的产品品质以及完美的用户体验。</string>
+    <string name="text_back">返回</string>
+    <string name="text_personal_info">个人信息</string>
+    <string name="text_hint_feedback_content">请输入您遇到的问题和建议，我们将不断改进，至少输入15个字</string>
+    <string name="text_feedback">问题和建议</string>
+    <string name="text_call">昵称</string>
+    <string name="text_hint_contact">请输入您的联系方式</string>
+    <string name="text_limit_character">至少输入15个字</string>
+    <string name="text_hint_call">请输入您的称呼</string>
+    <string name="text_input_password">请输入密码</string>
+    <string name="text_correct_password">密码长度必须在在6-16位</string>
+    <string name="text_phone_number">请输入手机号码</string>
+    <string name="text_correct_phone">请输入正确的手机号码</string>
+    <string name="text_man">男</string>
+    <string name="text_famale">女</string>
+    <string name="text_birthday">请选择正确的日期</string>
+    <string name="text_pickphoto_from_album">从相册选择图片</string>
+    <string name="text_take_photo">拍照</string>
+    <string name="text_yes">放弃修改</string>
+    <string name="text_no">继续修改</string>
+    <string name="text_immediately_login">立即登录</string>
+    <string name="text_nikename">昵称</string>
+    <string name="text_update">检查更新</string>
+    <string name="text_cancel">取消</string>
+    <string name="text_affirm">确认</string>
+
+
+
+    <string name="text_failed_msg">系统异常,请检查您的网络</string>
+    <string name="text_success_msg">操作成功</string>
+    <string name="text_sms_login">短信快捷登录</string>
+    <string name="text_login_success">登录成功</string>
+    <string name="text_not_exist_user">用户不存在</string>
+    <string name="text_register_success">注册成功</string>
+    <string name="text_register_failed">注册失败</string>
+    <string name="text_phone_exist">该手机号已经被注册</string>
+    <string name="text_phone_not_exist">用户不存在</string>
+    <string name="text_get_verify_code">获取验证码成功</string>
+    <string name="text_sms_code">请输入验证码</string>
+    <string name="text_get_code">获取验证码</string>
+    <string name="text_login_failed">登录失败</string>
+    <string name="text_login_now">正在登录,请稍后...</string>
+    <string name="text_modify_password">修改密码</string>
+    <string name="text_verify_code">验证码</string>
+    <string name="text_sure_modify">确认修改</string>
+    <string name="text_modify_success">修改成功</string>
+    <string name="text_modify_failed">修改失败</string>
+    <string name="text_click_login_register">点击登录或注册</string>
+    <string name="text_account_level">等级</string>
+    <string name="text_mine_look_info">查看资料</string>
+    <string name="text_mine_record">美食足迹</string>
+    <string name="text_mine_collect">我的收藏</string>
+    <string name="text_mine_comment">我的评论</string>
+    <string name="text_mine_point">我的积分</string>
+    <string name="text_mine_menu">我的菜谱</string>
+    <string name="text_mine_album">我的相册</string>
+    <string name="text_mine_system">系统设置</string>
+    <string name="text_mine_not_sign">签到</string>
+    <string name="text_mine_sign">已签到</string>
+    <string name="text_mine_menus">菜谱</string>
+    <string name="text_mine_sign_failed">签到失败</string>
+    <string name="text_mine_sign_success">签到成功</string>
+    <string name="text_mine_collects">收藏</string>
+    <string name="text_mine_albums">相册</string>
+    
+    
+    <string name="text_system_setting">设置</string>
+    <string name="text_system_account">账号</string>
+    <string name="text_system_my_info">我的资料</string>
+    <string name="text_system_change_phone">更换手机</string>
+    <string name="text_system_modify_password">修改密码</string>
+    <string name="text_system_common">通用</string>
+    <string name="text_system_clean_cache">清除缓存</string>
+    <string name="text_system_about_us">关于我们</string>
+    <string name="text_system_feedback">意见反馈</string>
+    <string name="text_system_support">支持</string>
+    <string name="text_system_update_version">版本更新</string>
+    <string name="text_system_share_app">分享美食菜谱APP</string>
+    <string name="text_system_logout">退出登录</string>
+    <string name="text_user_name">昵称</string>
+    <string name="text_user_real_name">子非鱼</string>
+    <string name="text_user_sex">性别</string>
+    <string name="text_user_real_sex">男</string>
+    <string name="text_user_birth">生日</string>
+    <string name="text_user_real_birth">1993-08-04</string>
+    <string name="text_user_point">积分</string>
+    <string name="text_user_real_point">0</string>
+    <string name="text_user_level">等级</string>
+    <string name="text_user_real_level">1级</string>
+    <string name="text_input_user_name">请输入昵称</string>
+    <string name="text_user_name_length">用户名最短为3个字符,最长为30个字符</string>
+    <string name="text_permission_failed">应用获取读写权限失败,请到应用中重新获取</string>
+    <string name="text_upload_progress">上传进度</string>
+    <string name="text_change_icon_success">更换头像成功</string>
+    <string name="text_change_icon_failed">更换头像失败</string>
+    
+    <string name="text_mine">我的</string>
+
+    <integer name="actionId">1</integer>
+
+</resources>

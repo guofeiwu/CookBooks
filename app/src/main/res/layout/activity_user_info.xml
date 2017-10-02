@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/layout"
+    android:orientation="vertical">
+
+    <com.wgf.cookbooks.view.CustomToolbar
+        android:id="@+id/customToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:toolbarTitle="@string/text_personal_info" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:background="@color/color_red">
+
+                <com.wgf.cookbooks.view.CircleImageView
+                    android:id="@+id/civ_icon"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/icon"
+                    />
+                <TextView
+                    android:id="@+id/id_tv_change_icon"
+                    android:layout_width="100dp"
+                    android:layout_height="28dp"
+                    android:layout_below="@id/civ_icon"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/tv_change_icon_selector"
+                    android:gravity="center"
+                    android:text="更换头像"
+                    android:textColor="@color/color_white"
+                    android:textSize="@dimen/text_content_size" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="正在上传头像"
+                    android:textColor="@color/color_white"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"
+                    android:visibility="gone"
+                    android:id="@+id/id_tv_upload" />
+            </RelativeLayout>
+            <com.wgf.cookbooks.view.UserInfoView
+                android:id="@+id/id_user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:userInfoViewTitle="@string/text_user_name"
+                app:userInfoViewContent="@string/text_user_real_name"/>
+            <com.wgf.cookbooks.view.UserInfoView
+                android:id="@+id/id_user_sex"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:userInfoViewTitle="@string/text_user_sex"
+                app:userInfoViewContent="@string/text_user_real_sex"/>
+            <com.wgf.cookbooks.view.UserInfoView
+                android:id="@+id/id_user_birthday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:userInfoViewTitle="@string/text_user_birth"
+                app:userInfoViewContent="@string/text_user_real_birth"/>
+            <View
+                android:id="@+id/view"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/view_gray" />
+            <com.wgf.cookbooks.view.UserInfoView
+                android:id="@+id/id_user_point"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:userInfoViewTitle="@string/text_user_point"
+                app:userInfoViewContent="@string/text_user_real_point"/>
+            <com.wgf.cookbooks.view.UserInfoView
+                android:id="@+id/id_user_level"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:userInfoViewTitle="@string/text_user_level"
+                app:userInfoViewContent="@string/text_user_real_level"/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

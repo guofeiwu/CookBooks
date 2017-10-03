@@ -9,4 +9,5 @@
     <dimen name="system_layout_height">40dp</dimen>
     <dimen name="ppe_margin">10dp</dimen>
     <dimen name="user_info_layout_height">40dp</dimen>
+    <dimen name="text_small_content_size">13sp</dimen>
 </resources>

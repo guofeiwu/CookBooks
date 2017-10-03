@@ -1,9 +1,11 @@
-package com.wgf.cookbooks.util;
+package com.wgf.cookbooks.clazz;
 
 import android.content.Context;
 import android.os.AsyncTask;
 
 import com.lzy.okgo.OkGo;
+import com.wgf.cookbooks.util.GetAuthorizationUtil;
+import com.wgf.cookbooks.util.JsonUtils;
 
 import org.json.JSONObject;
 
@@ -36,7 +38,7 @@ public class GetUserInfoAsyncTask extends AsyncTask<Void,Void,JSONObject> {
         String url =BASE_URL+"/app/user";
         try {
             Response response = OkGo.<String>get(url)
-                    .headers(AUTHORIZATION,GetAuthorizationUtil.getAuth(context))
+                    .headers(AUTHORIZATION, GetAuthorizationUtil.getAuth(context))
                     .execute();
 
             String resJson = response.body().string();

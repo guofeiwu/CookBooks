@@ -24,17 +24,15 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.PopupWindow;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Progress;
 import com.wgf.cookbooks.R;
 import com.wgf.cookbooks.util.GetAuthorizationUtil;
-import com.wgf.cookbooks.util.GetUserInfoAsyncTask;
+import com.wgf.cookbooks.clazz.GetUserInfoAsyncTask;
 import com.wgf.cookbooks.util.JsonUtils;
 import com.wgf.cookbooks.util.L;
 import com.wgf.cookbooks.util.SpUtils;

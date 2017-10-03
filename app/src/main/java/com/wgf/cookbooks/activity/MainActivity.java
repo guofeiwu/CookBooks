@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
     private FragmentManager mFragmentManager;
     private FragmentTransaction mTransaction;
     private Fragment homepage,dicover,menu,mine;
-    private String loginFlag = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

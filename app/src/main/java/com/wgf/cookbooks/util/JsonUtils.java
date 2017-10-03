@@ -1,5 +1,6 @@
 package com.wgf.cookbooks.util;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -25,7 +26,7 @@ public class JsonUtils {
     }
 
     /**
-     * 返回附加的内容
+     * 返回附加的内容（单个JsonObject）
      * @param response
      * @return
      */
@@ -39,4 +40,21 @@ public class JsonUtils {
         }
         return content;
     }
+
+    /**
+     * 返回附加的内容（JsonArray）
+     * @param response
+     * @return
+     */
+    public static JSONArray getJsonArray(String response){
+        JSONArray content = null;
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            content = jsonObject.getJSONObject("extend").getJSONArray("content");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return content;
+    }
+
 }

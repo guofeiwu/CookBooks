@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.wgf.cookbooks.view.CustomToolbar
+            android:id="@+id/id_toolbar_back"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize">
+        </com.wgf.cookbooks.view.CustomToolbar>
+        <ImageView
+            android:id="@+id/id_iv_shai"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ppe"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginRight="20dp"
+            />
+    </FrameLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/id_rv_shais"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

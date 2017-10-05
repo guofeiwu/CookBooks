@@ -5,10 +5,13 @@ import android.os.AsyncTask;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
+import com.wgf.cookbooks.bean.Shai;
 import com.wgf.cookbooks.util.JsonUtils;
 
 import org.json.JSONArray;
 
+
+import java.util.List;
 
 import static com.wgf.cookbooks.util.Constants.BASE_URL;
 import static com.wgf.cookbooks.util.Constants.SUCCESS;
@@ -36,8 +39,9 @@ public class GetShaiAsyncTask extends AsyncTask<Integer, Void, Void> {
                             String resJosn = response.body().toString();
                             int code = JsonUtils.getCode(resJosn);
                             if(code == SUCCESS){
-                                JSONArray jsonArray = JsonUtils.getJsonArray(resJosn);
-                                listener.getShaiList(jsonArray);
+//                                JSONArray jsonArray = JsonUtils.getJsonArray(resJosn);
+                                List<Shai> list = JsonUtils.getShaiList(resJosn);
+                                listener.getShaiList(list);
                             }else{
                                 listener.getShaiList(null);
                             }
@@ -46,13 +50,12 @@ public class GetShaiAsyncTask extends AsyncTask<Integer, Void, Void> {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return null;
     }
 
 
     public interface IGetShaiListener{
-        void getShaiList(JSONArray shais);
+        void getShaiList(List<Shai> lists);
     }
 
 

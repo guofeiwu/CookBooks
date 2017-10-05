@@ -1,5 +1,6 @@
 package com.wgf.cookbooks.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,9 +13,13 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.wgf.cookbooks.R;
+import com.wgf.cookbooks.activity.ShaiActivity;
 import com.wgf.cookbooks.adapter.ShaiRecycleViewAdapter;
+import com.wgf.cookbooks.bean.Shai;
 import com.wgf.cookbooks.clazz.GetShaiAsyncTask;
+import com.wgf.cookbooks.util.IntentUtils;
 import com.wgf.cookbooks.util.RecycleDivider;
+
 
 import org.json.JSONArray;
 
@@ -70,7 +75,8 @@ public class DiscoverFragment extends Fragment {
         mShaiYiShai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                //跳转，查看更多的晒一晒
+                IntentUtils.jump(getActivity(), ShaiActivity.class);
             }
         });
     }
@@ -80,22 +86,16 @@ public class DiscoverFragment extends Fragment {
      */
     void initData() {
         urls = new ArrayList<>();
-//        urls.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1506961663400&di=3424fd25a07287cb53e711e93646422c&imgtype=0&src=http%3A%2F%2Fh.hiphotos.baidu.com%2Fbaike%2Fpic%2Fitem%2Fca1349540923dd547964fba5db09b3de9d8248e3.jpg");
-//        urls.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1506961663498&di=43f9457a0907a905fd3b61efb1bec62e&imgtype=0&src=http%3A%2F%2Fc.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2Fc9fcc3cec3fdfc03b0a84995df3f8794a5c226ce.jpg");
-//        urls.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1506961663497&di=7d9bfebd8ea73ce881f38447050ad380&imgtype=0&src=http%3A%2F%2Fe.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F37d12f2eb9389b50fb6112868c35e5dde6116e4c.jpg");
-//        urls.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1506961663496&di=601b9c094b4529dd22a638b1063380a2&imgtype=0&src=http%3A%2F%2Ff.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F14ce36d3d539b60097b9999ae250352ac65cb7ac.jpg");
-//        urls.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1506961663497&di=7d9bfebd8ea73ce881f38447050ad380&imgtype=0&src=http%3A%2F%2Fe.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F37d12f2eb9389b50fb6112868c35e5dde6116e4c.jpg");
-//        urls.add("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1506961663496&di=601b9c094b4529dd22a638b1063380a2&imgtype=0&src=http%3A%2F%2Ff.hiphotos.baidu.com%2Fimage%2Fpic%2Fitem%2F14ce36d3d539b60097b9999ae250352ac65cb7ac.jpg");
         if (mGetShaiAsyncTask != null) {
             return;
         }
         mGetShaiAsyncTask = new GetShaiAsyncTask(new GetShaiAsyncTask.IGetShaiListener() {
             @Override
-            public void getShaiList(JSONArray shais) {
-                if (shais != null) {
+            public void getShaiList(List<Shai> list) {
+                if (list != null) {
                     try {
-                        for (int i = 0; i < shais.length(); i++) {
-                            urls.add(BASE_URL_FILE_SHAI + shais.getJSONObject(i).getString("address"));
+                        for (int i = 0; i < list.size(); i++) {
+                            urls.add(BASE_URL_FILE_SHAI + list.get(i).getAddress());
                         }
                         mRecycleDivider = new RecycleDivider(getContext(), RecycleDivider.HORIZONTAL_LIST);
                         mShaiRecycleViewAdapter = new ShaiRecycleViewAdapter(getActivity(), urls);

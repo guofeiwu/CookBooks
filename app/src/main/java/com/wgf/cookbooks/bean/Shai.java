@@ -12,7 +12,7 @@ public class Shai {
     private String descr;
     private String address;
     private String time;
-    private int likes;
+    private int likes;//晒晒被点赞的次数
     public int getShaiPkId() {
         return shaiPkId;
     }

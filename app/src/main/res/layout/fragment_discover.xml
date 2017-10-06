@@ -30,6 +30,8 @@
                 android:layout_toRightOf="@+id/iv_search"
                 android:background="@color/view_gray"
                 android:hint="菜谱、晒一晒"
+                android:maxLines="1"
+                android:singleLine="true"
                 android:textSize="@dimen/text_content_size" />
         </RelativeLayout>
 

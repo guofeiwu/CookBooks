@@ -13,6 +13,7 @@ import com.wgf.cookbooks.fragment.DiscoverFragment;
 import com.wgf.cookbooks.fragment.HomePageFragment;
 import com.wgf.cookbooks.fragment.MenuFragment;
 import com.wgf.cookbooks.fragment.MineFragment;
+import com.wgf.cookbooks.util.SwitchAnimationUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +32,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+       // SwitchAnimationUtils.enterActivitySlideRight(this);
+        //SwitchAnimationUtils.exitActivitySlideLeft(this);
+
+
         setContentView(R.layout.activity_main);
 
 

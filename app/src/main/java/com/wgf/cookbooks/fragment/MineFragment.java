@@ -1,5 +1,7 @@
 package com.wgf.cookbooks.fragment;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -8,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -21,7 +24,9 @@ import com.wgf.cookbooks.activity.UserInfoActivity;
 import com.wgf.cookbooks.util.IntentUtils;
 import com.wgf.cookbooks.util.JsonUtils;
 import com.wgf.cookbooks.util.L;
+import com.wgf.cookbooks.util.SoftInputUtils;
 import com.wgf.cookbooks.util.SpUtils;
+import com.wgf.cookbooks.util.SwitchAnimationUtils;
 import com.wgf.cookbooks.util.ToastUtils;
 import com.wgf.cookbooks.view.CircleImageView;
 import com.wgf.cookbooks.view.MineLayout;
@@ -71,9 +76,9 @@ public class MineFragment extends Fragment implements View.OnClickListener{
         initView(view);
         setListener();
 
-
         return view;
     }
+
 
     /**
      * 绑定控件
@@ -174,7 +179,9 @@ public class MineFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onResume() {
         super.onResume();
-        L.e("onResume...");
+        SoftInputUtils.hintKbTwo(getActivity());
+
+    L.e("onResume...");
         getUserInfo();
     }
 

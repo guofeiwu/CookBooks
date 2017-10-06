@@ -1,5 +1,6 @@
 package com.wgf.cookbooks.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -13,7 +14,10 @@ import com.wgf.cookbooks.R;
 import com.wgf.cookbooks.adapter.ShaiDetailRecycleViewAdapter;
 import com.wgf.cookbooks.bean.Shai;
 import com.wgf.cookbooks.clazz.GetShaiAsyncTask;
+import com.wgf.cookbooks.util.GetAuthorizationUtil;
+import com.wgf.cookbooks.util.IntentUtils;
 import com.wgf.cookbooks.util.RecycleDivider;
+import com.wgf.cookbooks.util.SwitchAnimationUtils;
 import com.wgf.cookbooks.util.ToastUtils;
 import com.wgf.cookbooks.view.CustomToolbar;
 
@@ -46,6 +50,9 @@ public class ShaiActivity extends AppCompatActivity implements ShaiDetailRecycle
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SwitchAnimationUtils.exitActivitySlideLeft(this);
+
+
         setContentView(R.layout.activity_shai);
         shaiList = new ArrayList<>();
 
@@ -173,12 +180,25 @@ public class ShaiActivity extends AppCompatActivity implements ShaiDetailRecycle
 
 
     @Override
-    public void like(ImageView icon, TextView number, int position) {
-            ToastUtils.toast(this, "like pos:" + position);
+    public void like(int position) {
+        String token = GetAuthorizationUtil.getAuth(ShaiActivity.this);
+        if(token != null){
             mShaiDetailRecycleViewAdapter.flashItem(position);
-
-
+        }else{
+            ToastUtils.toast(ShaiActivity.this,"请先登录");
+            IntentUtils.jump(ShaiActivity.this,LoginActivity.class);
+        }
     }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(mShaiDetailRecycleViewAdapter!=null) {
+            mShaiDetailRecycleViewAdapter.flashLikeContent();
+        }
+    }
+
 
     @Override
     public void comment(int position) {
@@ -191,4 +211,12 @@ public class ShaiActivity extends AppCompatActivity implements ShaiDetailRecycle
         ToastUtils.toast(this, "detail pos:" + position);
     }
 
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(mShaiDetailRecycleViewAdapter!=null){
+            mShaiDetailRecycleViewAdapter = null;
+        }
+    }
 }

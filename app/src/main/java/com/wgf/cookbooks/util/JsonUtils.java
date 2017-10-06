@@ -1,13 +1,18 @@
 package com.wgf.cookbooks.util;
 
 import com.wgf.cookbooks.bean.Shai;
+import com.wgf.cookbooks.bean.UserInfo;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static com.wgf.cookbooks.util.Constants.BASE_URL_FILE_ICON;
 
 /**
  * author guofei_wu
@@ -46,6 +51,28 @@ public class JsonUtils {
         return content;
     }
 
+
+    /**
+     * 返回附加的内容（点赞主键，晒晒主键）
+     * @param response
+     * @return
+     */
+    public static Map getMaps(String response){
+        Map content = null;
+        Map map = new HashMap();
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            content = (Map) jsonObject.getJSONObject("extend").get("content");
+            L.e("co"+content);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return map;
+    }
+
+
+
+
     /**
      * 返回附加的内容（JsonArray）
      * @param response
@@ -78,8 +105,6 @@ public class JsonUtils {
         }
         return content;
     }
-
-
 
     /**
      * 返回附加的内容（Shai对象的集合）
@@ -118,6 +143,33 @@ public class JsonUtils {
         }
         return shais;
     }
+
+
+
+    /**
+     * 返回附加的内容（用户信息UserInfo）
+     * @param response
+     * @return
+     */
+    public static UserInfo getUserInfo(String response){
+        UserInfo userInfo = null;
+        userInfo = new UserInfo();
+        JSONObject jsonUserInfo = getContent(response);
+        try{
+            userInfo.setUserName(jsonUserInfo.getString("name"));
+            userInfo.setSex(jsonUserInfo.getInt("sex")==0?"女":"男");
+            userInfo.setBirthday(jsonUserInfo.getString("birthday"));
+            userInfo.setPoint(jsonUserInfo.getInt("point"));
+            userInfo.setLevel(jsonUserInfo.getString("level"));
+            userInfo.setIcon(BASE_URL_FILE_ICON+jsonUserInfo.getString("icon"));
+
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+        return userInfo;
+    }
+
+
 
 
 }

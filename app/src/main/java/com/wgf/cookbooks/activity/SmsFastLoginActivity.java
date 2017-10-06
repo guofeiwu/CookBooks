@@ -1,5 +1,6 @@
 package com.wgf.cookbooks.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,10 +20,13 @@ import android.widget.TextView;
 import com.lzy.okgo.OkGo;
 import com.wgf.cookbooks.R;
 import com.wgf.cookbooks.util.Constants;
+import com.wgf.cookbooks.util.IntentUtils;
 import com.wgf.cookbooks.util.JsonUtils;
 import com.wgf.cookbooks.util.L;
+import com.wgf.cookbooks.util.SoftInputUtils;
 import com.wgf.cookbooks.util.SpUtils;
 import com.wgf.cookbooks.util.ToastUtils;
+import com.wgf.cookbooks.view.CustomToolbar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,6 +50,7 @@ public class SmsFastLoginActivity extends AppCompatActivity implements View.OnCl
     private SmsLoginAsyncTask mSmsLoginAsyncTask;
     private CountDownTimer mCountDownTimer;
     private String lastPhone;
+    private CustomToolbar mCustomToolbar;
 
     private Handler mHandler = new Handler() {
         @Override
@@ -96,10 +102,11 @@ public class SmsFastLoginActivity extends AppCompatActivity implements View.OnCl
             mBtnLogin.setEnabled(true);//登录按钮可见
             if(integer == Constants.SUCCESS){
                 ToastUtils.toast(SmsFastLoginActivity.this,getString(R.string.text_login_success));
-                Intent intent = new Intent(SmsFastLoginActivity.this,MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
+                //Intent intent = new Intent(SmsFastLoginActivity.this,MainActivity.class);
+                //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                //startActivity(intent);
                 finish();
+                SoftInputUtils.hintKbTwo(SmsFastLoginActivity.this);
             }else if (integer == Constants.LOGIN_ERROR_CODE){
                 ToastUtils.toast(SmsFastLoginActivity.this,getString(R.string.text_phone_not_exist));
             }else{
@@ -107,14 +114,21 @@ public class SmsFastLoginActivity extends AppCompatActivity implements View.OnCl
             }
         }
 
+
+
         @Override
         protected void onCancelled() {
             super.onCancelled();
             mSmsLoginAsyncTask = null;
         }
+    }
 
 
-
+    @Override
+    public void onBackPressed() {
+        IntentUtils.jump(SmsFastLoginActivity.this,LoginActivity.class);
+        finish();
+        super.onBackPressed();
     }
 
 
@@ -200,6 +214,14 @@ public class SmsFastLoginActivity extends AppCompatActivity implements View.OnCl
         };
 
 
+
+
+        mCustomToolbar.setBtnOnBackOnClickListener(new CustomToolbar.BtnOnBackOnClickListener() {
+            @Override
+            public void onClick() {
+                finish();
+            }
+        });
     }
 
     private void initView() {
@@ -207,6 +229,7 @@ public class SmsFastLoginActivity extends AppCompatActivity implements View.OnCl
         mVerifyCode = (EditText) findViewById(R.id.verification_code);
         mTvVerifyCode = (TextView) findViewById(R.id.get_verify_code);
         mBtnLogin = (Button) findViewById(R.id.btn_login);
+        mCustomToolbar = (CustomToolbar) findViewById(R.id.id_toolbar);
     }
 
 

@@ -31,6 +31,7 @@ import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Progress;
 import com.wgf.cookbooks.R;
+import com.wgf.cookbooks.bean.UserInfo;
 import com.wgf.cookbooks.util.GetAuthorizationUtil;
 import com.wgf.cookbooks.clazz.GetUserInfoAsyncTask;
 import com.wgf.cookbooks.util.JsonUtils;
@@ -110,20 +111,20 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
             }
             mGetUserInfoAsyncTask = new GetUserInfoAsyncTask(UserInfoActivity.this, new GetUserInfoAsyncTask.IGetUserInfoListener() {
                 @Override
-                public void getUserInfo(JSONObject jsonUserInfo) {
+                public void getUserInfo(UserInfo userInfo) {
                     try {
                         //设置用户信息
-                        mUserName.setContent(jsonUserInfo.getString("name"));
-                        mUserSex.setContent(jsonUserInfo.getInt("sex")==0?"女":"男");
-                        mUserBirthday.setContent(jsonUserInfo.getString("birthday"));
-                        mUserPoint.setContent(jsonUserInfo.getInt("point")+"");
-                        mUserLevel.setContent(jsonUserInfo.getString("level"));
+                        mUserName.setContent(userInfo.getUserName());
+                        mUserSex.setContent(userInfo.getSex());
+                        mUserBirthday.setContent(userInfo.getBirthday());
+                        mUserPoint.setContent(userInfo.getPoint()+"");
+                        mUserLevel.setContent(userInfo.getLevel());
                         Glide.with(UserInfoActivity.this)
-                                .load(BASE_URL_FILE_ICON+jsonUserInfo.getString("icon"))
+                                .load(userInfo.getIcon())
 //                                .skipMemoryCache(true)
 //                                .diskCacheStrategy(DiskCacheStrategy.NONE )
                                 .into(mCircleImageView);
-                    } catch (JSONException e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }finally {
                         if(mGetUserInfoAsyncTask!=null){

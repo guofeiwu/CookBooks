@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import com.lzy.okgo.OkGo;
 import com.wgf.cookbooks.R;
 import com.wgf.cookbooks.util.Constants;
+import com.wgf.cookbooks.util.IntentUtils;
 import com.wgf.cookbooks.util.JsonUtils;
 import com.wgf.cookbooks.util.L;
 import com.wgf.cookbooks.util.Md5;
@@ -101,7 +103,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             mRegister.setEnabled(true);//注册按钮可见
             if(integer == Constants.SUCCESS){
                 ToastUtils.toast(RegisterActivity.this,getString(R.string.text_register_success));
-                // TODO: 2017/9/28 还没实现注册成功跳转逻辑
+                IntentUtils.jump(RegisterActivity.this,LoginActivity.class);
+                finish();
             }else if (integer == Constants.REGISTER_ERROR_CODE){
                 ToastUtils.toast(RegisterActivity.this,getString(R.string.text_phone_exist));
             }else{
@@ -117,6 +120,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
 
+    @Override
+    public void onBackPressed() {
+        IntentUtils.jump(RegisterActivity.this,LoginActivity.class);
+        finish();
+        super.onBackPressed();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

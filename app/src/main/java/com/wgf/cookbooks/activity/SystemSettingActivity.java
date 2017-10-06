@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import com.wgf.cookbooks.R;
 import com.wgf.cookbooks.util.IntentUtils;
 import com.wgf.cookbooks.util.SpUtils;
+import com.wgf.cookbooks.util.SwitchAnimationUtils;
 import com.wgf.cookbooks.view.CustomToolbar;
 
 import static com.wgf.cookbooks.util.Constants.AUTHORIZATION;
@@ -31,6 +32,10 @@ public class SystemSettingActivity  extends AppCompatActivity implements View.On
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //SwitchAnimationUtils.enterActivitySlideRight(this);
+        SwitchAnimationUtils.exitActivitySlideLeft(this);
+
         setContentView(R.layout.activity_system_setting);
 
         initView();

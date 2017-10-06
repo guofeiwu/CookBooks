@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.lzy.okgo.OkGo;
+import com.wgf.cookbooks.bean.UserInfo;
 import com.wgf.cookbooks.util.GetAuthorizationUtil;
 import com.wgf.cookbooks.util.JsonUtils;
 
@@ -22,8 +23,8 @@ import static com.wgf.cookbooks.util.Constants.SUCCESS;
  * email guofei_wu@163.com
  * 获取用户信息
  */
-public class GetUserInfoAsyncTask extends AsyncTask<Void,Void,JSONObject> {
-    private JSONObject userInfo;//用户信息
+public class GetUserInfoAsyncTask extends AsyncTask<Void,Void,UserInfo> {
+    private UserInfo userInfo;//用户信息
     private Context context;
     private IGetUserInfoListener listener;
     public GetUserInfoAsyncTask(Context context){
@@ -34,7 +35,7 @@ public class GetUserInfoAsyncTask extends AsyncTask<Void,Void,JSONObject> {
         this.listener = listener;
     }
     @Override
-    protected JSONObject doInBackground(Void... params) {
+    protected UserInfo doInBackground(Void... params) {
         String url =BASE_URL+"/app/user";
         try {
             Response response = OkGo.<String>get(url)
@@ -44,7 +45,7 @@ public class GetUserInfoAsyncTask extends AsyncTask<Void,Void,JSONObject> {
             String resJson = response.body().string();
             int code = JsonUtils.getCode(resJson);
             if(code == SUCCESS){
-                userInfo = JsonUtils.getContent(resJson);//获取用户信息
+                userInfo = JsonUtils.getUserInfo(resJson);//获取用户信息
                 return userInfo;
             }
         } catch (IOException e) {
@@ -54,15 +55,15 @@ public class GetUserInfoAsyncTask extends AsyncTask<Void,Void,JSONObject> {
     }
 
     @Override
-    protected void onPostExecute(JSONObject jsonObject) {
-        super.onPostExecute(jsonObject);
-        if(jsonObject !=null){
-            listener.getUserInfo(jsonObject);
+    protected void onPostExecute(UserInfo userInfo) {
+        super.onPostExecute(userInfo);
+        if(userInfo !=null){
+            listener.getUserInfo(userInfo);
         }
     }
 
     public interface IGetUserInfoListener{
-        void getUserInfo(JSONObject jsonUserInfo);
+        void getUserInfo(UserInfo userInfo);
     }
 
     public void setListener(IGetUserInfoListener listener) {

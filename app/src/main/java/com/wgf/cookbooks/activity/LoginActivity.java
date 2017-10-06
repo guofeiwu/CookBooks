@@ -4,18 +4,24 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.transition.Transition;
+import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,7 +33,9 @@ import com.wgf.cookbooks.util.Constants;
 import com.wgf.cookbooks.util.IntentUtils;
 import com.wgf.cookbooks.util.L;
 import com.wgf.cookbooks.util.Md5;
+import com.wgf.cookbooks.util.SoftInputUtils;
 import com.wgf.cookbooks.util.SpUtils;
+import com.wgf.cookbooks.util.SwitchAnimationUtils;
 import com.wgf.cookbooks.util.ToastUtils;
 import com.wgf.cookbooks.view.CustomToolbar;
 
@@ -46,7 +54,6 @@ import static com.wgf.cookbooks.util.Constants.SHOW_DATA;
  * 用户登录
  */
 public class LoginActivity extends AppCompatActivity implements OnClickListener{
-    private int requestCode = 0;//判断是哪个页面跳转过来的
     private static final String TAG = "TAG";
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
@@ -64,11 +71,21 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
 
 
     @Override
+    public void onEnterAnimationComplete() {
+        super.onEnterAnimationComplete();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        //SwitchAnimationUtils.enterActivitySlideRight(this);
+        SwitchAnimationUtils.exitActivitySlideLeft(this);
+
         setContentView(R.layout.activity_login);
 
-        requestCode = getIntent().getIntExtra("requestCode",0);
 
         // Set up the login form.
         findView();
@@ -107,6 +124,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
             @Override
             public void onClick() {
                 finish();//
+                SoftInputUtils.hintKbTwo(LoginActivity.this);//隐藏软键盘
             }
         });
 
@@ -119,18 +137,23 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
         switch (id){
             case R.id.tv_register:/**注册**/
                IntentUtils.jump(LoginActivity.this,RegisterActivity.class);
+                finish();//关闭登录
                 break;
             case R.id.tv_forget_password:/**忘记密码**/
                 IntentUtils.jump(LoginActivity.this,ModifyPasswordActivity.class);
                 break;
             case R.id.tv_sms_login:/** 短信快速登录**/
                 IntentUtils.jump(LoginActivity.this,SmsFastLoginActivity.class);
+                finish();//关闭登录
                 break;
         }
+
     }
 
 
-
+    /**
+     * 初始化控件
+     */
     private void findView() {
         mNumberView = (AutoCompleteTextView) findViewById(R.id.number);
         mPasswordView = (EditText) findViewById(R.id.password);
@@ -338,6 +361,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
                 //login or register  success logic
                 ToastUtils.toast(LoginActivity.this,"登录成功");
                 finish();
+                SoftInputUtils.hintKbTwo(LoginActivity.this);
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();

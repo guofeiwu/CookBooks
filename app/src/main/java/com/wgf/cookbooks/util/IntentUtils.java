@@ -1,8 +1,11 @@
 package com.wgf.cookbooks.util;
 
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 
 
@@ -21,6 +24,15 @@ public class IntentUtils {
         context.startActivity(intent);
     }
 
+    /**
+     * 跳转界面
+     * @param activity
+     * @param cla
+     */
+    public static void jump(Activity activity, Class<?> cla){
+        Intent intent = new Intent(activity,cla);
+        activity.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(activity).toBundle());
+    }
 
     /**
      * 跳转界面

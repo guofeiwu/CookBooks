@@ -1,6 +1,7 @@
 package com.wgf.cookbooks.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
@@ -308,8 +309,14 @@ public class ShaiActivity extends AppCompatActivity implements ShaiDetailRecycle
     public void detail(int position) {
         ToastUtils.toast(this, "detail pos:" + position);
         initComment();
-
-        // TODO: 2017/10/6  还有做些其他的事情
+        //显示晒晒详情
+        //IntentUtils.jump(ShaiActivity.this,ShaiDetailActivity.class);
+        Intent intent = new Intent(ShaiActivity.this,ShaiDetailActivity.class);
+        Shai shai = shaiList.get(position);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("shai",shai);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
 

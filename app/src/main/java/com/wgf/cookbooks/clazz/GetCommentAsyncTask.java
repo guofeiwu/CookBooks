@@ -1,0 +1,65 @@
+package com.wgf.cookbooks.clazz;
+
+import android.os.AsyncTask;
+
+import com.lzy.okgo.OkGo;
+import com.lzy.okgo.callback.AbsCallback;
+import com.lzy.okgo.callback.StringCallback;
+import com.lzy.okgo.model.Response;
+import com.wgf.cookbooks.bean.Comment;
+import com.wgf.cookbooks.util.JsonUtils;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.wgf.cookbooks.util.Constants.BASE_URL;
+import static com.wgf.cookbooks.util.Constants.FAILED;
+import static com.wgf.cookbooks.util.Constants.SUCCESS;
+
+/**
+ * author guofei_wu
+ * email guofei_wu@163.com
+ */
+public class GetCommentAsyncTask extends AsyncTask<Integer,Void,Void> {
+    private ICommentListener mListener;
+
+    public GetCommentAsyncTask(ICommentListener mListener){
+        this.mListener = mListener;
+    }
+    @Override
+    protected Void doInBackground(Integer... params) {
+        int shaiPkId = params[0];
+        int pageNo = params[1];
+
+        String url = BASE_URL +"/app/shai/comment/"+shaiPkId+"/"+pageNo;
+        try {
+            OkGo.<String>get(url)
+                    .execute(new StringCallback() {
+                        @Override
+                        public void onSuccess(Response<String> response) {
+                            String resJson = response.body().toString();
+                            int code = JsonUtils.getCode(resJson);
+                            if(code == SUCCESS){
+                                List<Comment> comments = JsonUtils.getCommentsList(resJson);
+                                mListener.success(comments);
+                            }else if (code == FAILED){
+                                mListener.fail();
+                            }
+                        }
+                    });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public interface ICommentListener{
+        void success(List<Comment> comments);
+        void fail();
+    }
+
+    public void setmListener(ICommentListener mListener) {
+        this.mListener = mListener;
+    }
+}

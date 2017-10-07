@@ -1,5 +1,6 @@
 package com.wgf.cookbooks.util;
 
+import com.wgf.cookbooks.bean.Comment;
 import com.wgf.cookbooks.bean.Shai;
 import com.wgf.cookbooks.bean.UserInfo;
 
@@ -169,6 +170,37 @@ public class JsonUtils {
         return userInfo;
     }
 
+
+    /**
+     * 返回附加的内容（Comment集合）
+     * @param response
+     * @return
+     */
+    public static List<Comment> getCommentsList(String response){
+        List<Comment> comments = null;
+        try {
+            comments = new ArrayList<>();
+            JSONObject jsonObject = new JSONObject(response);
+            JSONArray jsonArray = jsonObject.getJSONObject("extend").getJSONArray("content");
+            for (int i = 0;i<jsonArray.length();i++){
+                Comment comment = new Comment();
+                JSONObject jo = jsonArray.getJSONObject(i);
+                String content = jo.getString("content");
+                String commentTime = jo.getString("commentTime");
+                String userIconUrl = jo.getString("userIconUrl");
+                String username = jo.getString("username");
+                comment.setContent(content);
+                comment.setCommentTime(commentTime);
+                comment.setUserIconUrl(userIconUrl);
+                comment.setUserName(username);
+
+                comments.add(comment);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return comments;
+    }
 
 
 

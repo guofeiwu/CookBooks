@@ -1,0 +1,52 @@
+<LinearLayout android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+            <com.wgf.cookbooks.view.CircleImageView
+                android:layout_marginLeft="10dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/rank"
+                android:id="@+id/id_civ_1"
+                android:layout_centerVertical="true"
+                />
+            <TextView
+                android:layout_marginTop="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="用户名"
+                android:layout_toRightOf="@id/id_civ_1"
+                android:layout_marginLeft="5dp"
+                android:id="@+id/id_tv_username"
+                android:layout_alignParentTop="true"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="评论时间"
+                android:layout_toRightOf="@id/id_civ_1"
+                android:layout_marginLeft="5dp"
+                android:layout_below="@id/id_tv_username"
+                android:layout_alignParentBottom="true"
+                android:gravity="bottom"
+                />
+        </RelativeLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="这里是评论的内容"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="35dp"
+            />
+    </LinearLayout>
+
+
+
+</LinearLayout>

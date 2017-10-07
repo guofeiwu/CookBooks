@@ -1,11 +1,13 @@
 package com.wgf.cookbooks.bean;
 
+import java.io.Serializable;
+
 /**
  * author guofei_wu
  * email guofei_wu@163.com
  * 晒一晒实体类
  */
-public class Shai {
+public class Shai implements Serializable{
     private int shaiPkId;
     private String userName;
     private String icon;

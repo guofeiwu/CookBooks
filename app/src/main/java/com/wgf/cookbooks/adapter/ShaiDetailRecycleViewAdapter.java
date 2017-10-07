@@ -136,9 +136,6 @@ public class ShaiDetailRecycleViewAdapter extends RecyclerView.Adapter<RecyclerV
             }
         } else if (viewHolder instanceof ShaiDetailViewHolder) {
             holder = (ShaiDetailViewHolder) viewHolder;
-
-            Shai s1 = shaiLists.get(0);
-
             Shai shai = shaiLists.get(position - 1);
             int shaiPkId = shai.getShaiPkId();
             String userName = shai.getUserName();
@@ -167,7 +164,6 @@ public class ShaiDetailRecycleViewAdapter extends RecyclerView.Adapter<RecyclerV
                     e.printStackTrace();
                 }
             }
-
             if (likes == 0) {
                 holder.mLikeNumber.setText("赞");
             } else if (likes != 0) {

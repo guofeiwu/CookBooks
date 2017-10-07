@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -12,16 +11,12 @@ import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.transition.Transition;
-import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -124,7 +119,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
             @Override
             public void onClick() {
                 finish();//
-                SoftInputUtils.hintKbTwo(LoginActivity.this);//隐藏软键盘
+                SoftInputUtils.hideSoftInput(LoginActivity.this);//隐藏软键盘
             }
         });
 
@@ -361,7 +356,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
                 //login or register  success logic
                 ToastUtils.toast(LoginActivity.this,"登录成功");
                 finish();
-                SoftInputUtils.hintKbTwo(LoginActivity.this);
+                SoftInputUtils.hideSoftInput(LoginActivity.this);
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();

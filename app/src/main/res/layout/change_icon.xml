@@ -15,7 +15,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/view_gray" />
+        android:background="@color/view_white_gray" />
 
     <TextView
         android:background="@drawable/textview_bg_selector"
@@ -30,7 +30,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="15dp"
-        android:background="@color/view_gray" />
+        android:background="@color/view_white_gray" />
     <TextView
         android:background="@drawable/textview_bg_selector"
         android:id="@+id/tv_cancel"

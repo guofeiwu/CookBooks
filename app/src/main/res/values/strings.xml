@@ -118,6 +118,7 @@
     <string name="text_change_icon_failed">更换头像失败</string>
     
     <string name="text_mine">我的</string>
+    <string name="text_shai_yi_shai">晒一晒</string>
 
     <integer name="actionId">1</integer>
 

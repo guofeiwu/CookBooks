@@ -7,7 +7,7 @@
     <color name="color_btn_read">#A4A4A3</color>
     <color name="color_white">#FAFAFA</color>
     <color name="color_white_gray">#eaf1df</color>
-    <color name="view_gray">#f1f0f0</color>
+    <color name="view_white_gray">#f1f0f0</color>
     <color name="view_small_gray">#f7f7f7</color>
     <color name="text_gray">#5a5757</color>
     <color name="color_yellow">#F5F8ED26</color>
@@ -20,6 +20,7 @@
     <color name="color_red_deep">#f94d53</color>
     <color name="common_blue_0090FF">#0090FF</color>
     <color name="color_textview_bg">#e3dede</color>
+    <color name="color_gray">#c5c1c1</color>
 
 
 

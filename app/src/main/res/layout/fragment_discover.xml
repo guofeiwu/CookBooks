@@ -17,7 +17,7 @@
                 android:layout_height="30dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
-                android:background="@color/view_gray"
+                android:background="@color/view_white_gray"
                 android:src="@drawable/search_32" />
 
             <EditText
@@ -28,7 +28,7 @@
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_toRightOf="@+id/iv_search"
-                android:background="@color/view_gray"
+                android:background="@color/view_white_gray"
                 android:hint="菜谱、晒一晒"
                 android:maxLines="1"
                 android:singleLine="true"
@@ -40,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="15dp"
             android:layout_alignParentBottom="true"
-            android:background="@color/view_gray" />
+            android:background="@color/view_white_gray" />
 
         <RelativeLayout
             android:background="?attr/selectableItemBackground"
@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="15dp"
-                android:text="晒一晒"
+                android:text="@string/text_shai_yi_shai"
                 android:textSize="@dimen/text_content_size" />
 
             <TextView
@@ -93,7 +93,7 @@
             android:layout_width="match_parent"
             android:layout_height="15dp"
             android:layout_alignParentBottom="true"
-            android:background="@color/view_gray" />
+            android:background="@color/view_white_gray" />
 
         <RelativeLayout
             android:id="@+id/rl_rank"
@@ -147,7 +147,7 @@
             android:layout_width="match_parent"
             android:layout_height="15dp"
             android:layout_alignParentBottom="true"
-            android:background="@color/view_gray" />
+            android:background="@color/view_white_gray" />
         <RelativeLayout
             android:id="@+id/rl_"
             android:layout_width="match_parent"

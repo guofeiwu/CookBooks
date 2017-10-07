@@ -79,7 +79,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
                 android:layout_alignParentBottom="true"
-                android:background="@color/view_gray" />
+                android:background="@color/view_white_gray" />
             <com.wgf.cookbooks.view.UserInfoView
                 android:id="@+id/id_user_point"
                 android:layout_width="wrap_content"

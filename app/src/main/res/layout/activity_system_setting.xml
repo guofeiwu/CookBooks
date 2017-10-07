@@ -32,7 +32,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
-                    android:background="@color/view_gray"
+                    android:background="@color/view_white_gray"
                     android:gravity="center_vertical">
 
                     <TextView
@@ -73,7 +73,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_alignParentBottom="true"
-                        android:background="@color/view_gray" />
+                        android:background="@color/view_white_gray" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -105,7 +105,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_alignParentBottom="true"
-                        android:background="@color/view_gray" />
+                        android:background="@color/view_white_gray" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -137,7 +137,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_alignParentBottom="true"
-                        android:background="@color/view_gray" />
+                        android:background="@color/view_white_gray" />
                 </RelativeLayout>
             </LinearLayout>
 
@@ -150,7 +150,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
-                    android:background="@color/view_gray"
+                    android:background="@color/view_white_gray"
                     android:gravity="center_vertical">
 
                     <TextView
@@ -189,7 +189,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_alignParentBottom="true"
-                        android:background="@color/view_gray" />
+                        android:background="@color/view_white_gray" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -220,7 +220,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_alignParentBottom="true"
-                        android:background="@color/view_gray" />
+                        android:background="@color/view_white_gray" />
                 </RelativeLayout>
             </LinearLayout>
 
@@ -233,7 +233,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
-                    android:background="@color/view_gray"
+                    android:background="@color/view_white_gray"
                     android:gravity="center_vertical">
 
                     <TextView
@@ -272,7 +272,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_alignParentBottom="true"
-                        android:background="@color/view_gray" />
+                        android:background="@color/view_white_gray" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -303,7 +303,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_alignParentBottom="true"
-                        android:background="@color/view_gray" />
+                        android:background="@color/view_white_gray" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -326,7 +326,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_alignParentBottom="true"
-                        android:background="@color/view_gray"
+                        android:background="@color/view_white_gray"
                         android:id="@+id/view2" />
 
                     <TextView
@@ -354,7 +354,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:layout_alignParentBottom="true"
-                    android:background="@color/view_gray" />
+                    android:background="@color/view_white_gray" />
 
                 <RelativeLayout
                     android:background="?attr/selectableItemBackground"
@@ -376,7 +376,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="2dp"
                         android:layout_alignParentBottom="true"
-                        android:background="@color/view_gray" />
+                        android:background="@color/view_white_gray" />
                 </RelativeLayout>
 
             </LinearLayout>

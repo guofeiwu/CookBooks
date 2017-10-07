@@ -6,11 +6,10 @@
 
         <Button
             android:id="@+id/btn_back"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="15dp"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/arrowb"
-            android:text="@string/text_back"
+            android:drawableLeft="@drawable/left_32"
             android:textColor="@color/color_white"
             android:background="@null"
             android:textSize="14sp"

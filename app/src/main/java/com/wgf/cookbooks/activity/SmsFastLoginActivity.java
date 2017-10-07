@@ -1,7 +1,5 @@
 package com.wgf.cookbooks.activity;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -11,7 +9,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -106,7 +103,7 @@ public class SmsFastLoginActivity extends AppCompatActivity implements View.OnCl
                 //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 //startActivity(intent);
                 finish();
-                SoftInputUtils.hintKbTwo(SmsFastLoginActivity.this);
+                SoftInputUtils.hideSoftInput(SmsFastLoginActivity.this);
             }else if (integer == Constants.LOGIN_ERROR_CODE){
                 ToastUtils.toast(SmsFastLoginActivity.this,getString(R.string.text_phone_not_exist));
             }else{

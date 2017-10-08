@@ -86,7 +86,7 @@
                             android:id="@+id/id_tv_look"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="浏览:30"
+                            android:text="浏览:0"
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="3dp"
                             />
@@ -113,14 +113,27 @@
                     android:textSize="@dimen/text_title_size"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="评论（20）"
+                    android:text="评论（0）"
                     />
             </LinearLayout>
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/id_rv_comment"
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-            </android.support.v7.widget.RecyclerView>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/id_rv_comment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                </android.support.v7.widget.RecyclerView>
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/id_tv_no_comment"
+                    android:layout_width="match_parent"
+                    android:layout_height="50sp"
+                    android:text="暂时还没有评论，快来抢座沙发吧~"
+                    android:gravity="center"
+                    android:textSize="@dimen/text_content_size"
+                    />
+            </FrameLayout>
             <LinearLayout
                 android:id="@+id/id_ll_more"
                 android:clickable="true"

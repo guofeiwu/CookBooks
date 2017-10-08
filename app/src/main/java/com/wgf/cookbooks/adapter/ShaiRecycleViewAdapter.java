@@ -9,6 +9,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.wgf.cookbooks.R;
+import com.wgf.cookbooks.clazz.GetShaiAsyncTask;
 
 import java.util.List;
 
@@ -21,10 +22,13 @@ public class ShaiRecycleViewAdapter extends RecyclerView.Adapter<ShaiRecycleView
     private List<String> urls;
     private Context context;
     private LayoutInflater mInflater;
-    public ShaiRecycleViewAdapter(Context context,List<String> urls){
+    private IShaiImageClickListener mListener;
+    public ShaiRecycleViewAdapter(Context context,List<String> urls,IShaiImageClickListener listener){
         this.context = context;
         this.urls = urls;
+        this.mListener = listener;
         mInflater = LayoutInflater.from(context);
+
     }
     @Override
     public ShaiViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -33,8 +37,22 @@ public class ShaiRecycleViewAdapter extends RecyclerView.Adapter<ShaiRecycleView
     }
 
     @Override
-    public void onBindViewHolder(ShaiViewHolder holder, int position) {
+    public void onBindViewHolder(ShaiViewHolder holder, final int position) {
         Glide.with(context).load(urls.get(position)).into(holder.mImageView);
+        holder.mImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mListener.onClick(position);
+            }
+        });
+    }
+
+    public interface IShaiImageClickListener {
+        void onClick(int position);
+    }
+
+    public void setmListener(IShaiImageClickListener mListener) {
+        this.mListener = mListener;
     }
 
     @Override

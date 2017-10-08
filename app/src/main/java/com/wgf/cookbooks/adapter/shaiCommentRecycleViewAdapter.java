@@ -23,6 +23,9 @@ import static com.wgf.cookbooks.util.Constants.BASE_URL_FILE_ICON;
  */
 public class ShaiCommentRecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    private ICommentDeleteListener mListener;
+
+
     private Context context;
     private List<Comment> comments;
     private LayoutInflater mInflater;
@@ -40,7 +43,7 @@ public class ShaiCommentRecycleViewAdapter extends RecyclerView.Adapter<Recycler
 
     private CommentViewHolder mHolder;
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if(holder instanceof CommentViewHolder){
             mHolder = (CommentViewHolder) holder;
             Comment comment = comments.get(position);
@@ -48,6 +51,18 @@ public class ShaiCommentRecycleViewAdapter extends RecyclerView.Adapter<Recycler
             mHolder.mUserName.setText(comment.getUserName());
             mHolder.mCommentTime.setText(comment.getCommentTime());
             mHolder.mCommentContent.setText(comment.getContent());
+            int currentUser = comment.getCurrentUser();
+            if(currentUser == 0){
+                mHolder.mCommentDelete.setVisibility(View.VISIBLE);
+            }else{
+                mHolder.mCommentDelete.setVisibility(View.GONE);
+            }
+            mHolder.mCommentDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListener.delete(position);
+                }
+            });
         }
     }
     @Override
@@ -60,13 +75,40 @@ public class ShaiCommentRecycleViewAdapter extends RecyclerView.Adapter<Recycler
         private TextView mUserName;
         private TextView mCommentTime;
         private TextView mCommentContent;
+        private TextView mCommentDelete;
         public CommentViewHolder(View itemView) {
             super(itemView);
             mCircleImageView = (CircleImageView) itemView.findViewById(R.id.id_civ);
             mUserName = (TextView) itemView.findViewById(R.id.id_tv_username);
             mCommentTime = (TextView) itemView.findViewById(R.id.id_comment_time);
             mCommentContent = (TextView) itemView.findViewById(R.id.id_comment_content);
+            mCommentDelete = (TextView) itemView.findViewById(R.id.id_comment_delete);
         }
     }
+
+
+    /**
+     * 删除评论时，刷新列表
+     * @param position
+     */
+    public void deleteComment(int position){
+        comments.remove(position);
+        notifyDataSetChanged();
+    }
+
+
+
+
+
+
+    public interface ICommentDeleteListener{
+        void delete(int position);
+    }
+
+    public void setmListener(ICommentDeleteListener mListener) {
+        this.mListener = mListener;
+    }
+
+
 
 }

@@ -1,20 +1,14 @@
 package com.wgf.cookbooks.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -28,6 +22,7 @@ import com.wgf.cookbooks.util.GetAuthorizationUtil;
 import com.wgf.cookbooks.util.IntentUtils;
 import com.wgf.cookbooks.util.RecycleDivider;
 import com.wgf.cookbooks.util.SoftInputUtils;
+import com.wgf.cookbooks.util.SpUtils;
 import com.wgf.cookbooks.util.SwitchAnimationUtils;
 import com.wgf.cookbooks.util.ToastUtils;
 import com.wgf.cookbooks.view.CustomToolbar;
@@ -224,8 +219,16 @@ public class ShaiActivity extends AppCompatActivity implements ShaiDetailRecycle
     @Override
     protected void onResume() {
         super.onResume();
-        if (mShaiDetailRecycleViewAdapter != null) {
+        if (mShaiDetailRecycleViewAdapter != null && GetAuthorizationUtil.getAuth(ShaiActivity.this) !=null) {
             mShaiDetailRecycleViewAdapter.flashLikeContent();
+        }
+
+        int pos = SpUtils.getSharedPreferences(this).getInt("deleteShaiPosition",0);
+
+        if(pos != 0){
+            shaiList.remove(pos);
+            mShaiDetailRecycleViewAdapter.removeItem(pos);
+            SpUtils.getEditor(this).putInt("deleteShaiPosition",0).commit();
         }
     }
 
@@ -276,7 +279,7 @@ public class ShaiActivity extends AppCompatActivity implements ShaiDetailRecycle
                             @Override
                             public void commentSuccess() {
                                 SoftInputUtils.hideSoftInput(ShaiActivity.this);
-                                ToastUtils.toast(ShaiActivity.this, "评论成功");
+                                ToastUtils.toast(ShaiActivity.this, getString(R.string.text_comment_success));
                                 mCommentContent.setText("");
                                 mCommentLayout.setVisibility(View.GONE);
                                 if(mUpCommentAsyncTask!= null){
@@ -288,7 +291,7 @@ public class ShaiActivity extends AppCompatActivity implements ShaiDetailRecycle
                             @Override
                             public void commentFailed() {
                                 SoftInputUtils.hideSoftInput(ShaiActivity.this);
-                                ToastUtils.toast(ShaiActivity.this, "评论失败");
+                                ToastUtils.toast(ShaiActivity.this,  getString(R.string.text_comment_failed));
                                 if(mUpCommentAsyncTask!= null){
                                     mUpCommentAsyncTask = null;
                                 }
@@ -309,13 +312,10 @@ public class ShaiActivity extends AppCompatActivity implements ShaiDetailRecycle
     public void detail(int position) {
         initComment();
         //显示晒晒详情
-        //IntentUtils.jump(ShaiActivity.this,ShaiDetailActivity.class);
         Intent intent = new Intent(ShaiActivity.this,ShaiDetailActivity.class);
         Shai shai = shaiList.get(position);
-//        Bundle bundle = new Bundle();
-//        bundle.putSerializable("shai",shai);
-//        intent.putExtras(bundle);
         intent.putExtra("shaiPkId",shai.getShaiPkId());
+        intent.putExtra("position",position);
         startActivity(intent);
     }
 
@@ -331,4 +331,6 @@ public class ShaiActivity extends AppCompatActivity implements ShaiDetailRecycle
             mUpCommentAsyncTask = null;
         }
     }
+
+
 }

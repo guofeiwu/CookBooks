@@ -14,10 +14,13 @@ import android.widget.RelativeLayout;
 
 import com.wgf.cookbooks.R;
 import com.wgf.cookbooks.activity.ShaiActivity;
+import com.wgf.cookbooks.activity.ShaiDetailActivity;
+import com.wgf.cookbooks.adapter.ShaiDetailRecycleViewAdapter;
 import com.wgf.cookbooks.adapter.ShaiRecycleViewAdapter;
 import com.wgf.cookbooks.bean.Shai;
 import com.wgf.cookbooks.clazz.GetShaiAsyncTask;
 import com.wgf.cookbooks.util.IntentUtils;
+import com.wgf.cookbooks.util.L;
 import com.wgf.cookbooks.util.RecycleDivider;
 
 
@@ -33,7 +36,7 @@ import static com.wgf.cookbooks.util.Constants.BASE_URL_FILE_SHAI;
  * email guofei_wu@163.com
  * 发现主页
  */
-public class DiscoverFragment extends Fragment {
+public class DiscoverFragment extends Fragment{
 
     private RecyclerView mRecyclerViewShai;
     private ShaiRecycleViewAdapter mShaiRecycleViewAdapter;
@@ -41,6 +44,8 @@ public class DiscoverFragment extends Fragment {
     private RecycleDivider mRecycleDivider;
     private GetShaiAsyncTask mGetShaiAsyncTask;
     private RelativeLayout mShaiYiShai;
+
+    private List<Shai> shais;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,10 +58,9 @@ public class DiscoverFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_discover, container, false);
 
-        initData();
+        //initData();
 
         initView(view);
-
 
         setListener();
         return view;
@@ -81,10 +85,19 @@ public class DiscoverFragment extends Fragment {
         });
     }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        L.e("onResume");
+        initData();
+    }
+
     /**
      * 获取初始化数据
      */
     void initData() {
+        shais = new ArrayList<>();
         urls = new ArrayList<>();
         if (mGetShaiAsyncTask != null) {
             return;
@@ -93,25 +106,38 @@ public class DiscoverFragment extends Fragment {
             @Override
             public void getShaiList(List<Shai> list) {
                 if (list != null) {
+                    shais.addAll(list);
                     try {
                         for (int i = 0; i < list.size(); i++) {
                             urls.add(BASE_URL_FILE_SHAI + list.get(i).getAddress());
                         }
                         mRecycleDivider = new RecycleDivider(getContext(), RecycleDivider.HORIZONTAL_LIST);
-                        mShaiRecycleViewAdapter = new ShaiRecycleViewAdapter(getActivity(), urls);
+                        mShaiRecycleViewAdapter = new ShaiRecycleViewAdapter(getActivity(), urls, new ShaiRecycleViewAdapter.IShaiImageClickListener() {
+                            @Override
+                            public void onClick(int position) {
+                                Intent intent = new Intent(getActivity(),ShaiDetailActivity.class);
+                                Shai shai = shais.get(position);
+                                intent.putExtra("shaiPkId",shai.getShaiPkId());
+                                intent.putExtra("position",position);
+                                startActivity(intent);
+                            }
+                        });
                         mRecyclerViewShai.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayout.HORIZONTAL, false));
                         mRecyclerViewShai.addItemDecoration(mRecycleDivider);
                         mRecyclerViewShai.setAdapter(mShaiRecycleViewAdapter);
                     }catch (Exception e){
                         e.printStackTrace();
+                    }finally {
+                        if(mGetShaiAsyncTask!=null)
+                        {
+                            mGetShaiAsyncTask=null;
+                        }
                     }
-
                 }
             }
         });
         mGetShaiAsyncTask.execute(1);//开始加载第一页数据
     }
-
 
     /**
      * 获取晒一晒

@@ -249,7 +249,8 @@ public class ShaiDetailRecycleViewAdapter extends RecyclerView.Adapter<RecyclerV
     //删除
     public void removeItem(int index) {
         shaiLists.remove(index);
-        notifyDataSetChanged();
+        notifyItemRemoved(index);
+        //notifyDataSetChanged();
     }
 
 

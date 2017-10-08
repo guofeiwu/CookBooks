@@ -116,6 +116,10 @@
     <string name="text_upload_progress">上传进度</string>
     <string name="text_change_icon_success">更换头像成功</string>
     <string name="text_change_icon_failed">更换头像失败</string>
+    <string name="text_delete_success">删除成功</string>
+    <string name="text_delete_failed">删除失败</string>
+    <string name="text_comment_success">评论成功</string>
+    <string name="text_comment_failed">评论失败</string>
     
     <string name="text_mine">我的</string>
     <string name="text_shai_yi_shai">晒一晒</string>

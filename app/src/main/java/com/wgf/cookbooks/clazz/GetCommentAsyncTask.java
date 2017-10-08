@@ -1,5 +1,6 @@
 package com.wgf.cookbooks.clazz;
 
+import android.content.Context;
 import android.os.AsyncTask;
 
 import com.lzy.okgo.OkGo;
@@ -7,12 +8,16 @@ import com.lzy.okgo.callback.AbsCallback;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 import com.wgf.cookbooks.bean.Comment;
+import com.wgf.cookbooks.util.GetAuthorizationUtil;
 import com.wgf.cookbooks.util.JsonUtils;
+
+import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.wgf.cookbooks.util.Constants.AUTHORIZATION;
 import static com.wgf.cookbooks.util.Constants.BASE_URL;
 import static com.wgf.cookbooks.util.Constants.FAILED;
 import static com.wgf.cookbooks.util.Constants.SUCCESS;
@@ -23,8 +28,9 @@ import static com.wgf.cookbooks.util.Constants.SUCCESS;
  */
 public class GetCommentAsyncTask extends AsyncTask<Integer,Void,Void> {
     private ICommentListener mListener;
-
-    public GetCommentAsyncTask(ICommentListener mListener){
+    private Context context;
+    public GetCommentAsyncTask(Context context,ICommentListener mListener){
+        this.context = context;
         this.mListener = mListener;
     }
     @Override
@@ -35,6 +41,7 @@ public class GetCommentAsyncTask extends AsyncTask<Integer,Void,Void> {
         String url = BASE_URL +"/app/shai/comment/"+shaiPkId+"/"+pageNo;
         try {
             OkGo.<String>get(url)
+                    .headers(AUTHORIZATION, GetAuthorizationUtil.getAuth(context))
                     .execute(new StringCallback() {
                         @Override
                         public void onSuccess(Response<String> response) {
@@ -44,7 +51,12 @@ public class GetCommentAsyncTask extends AsyncTask<Integer,Void,Void> {
                                 List<Comment> comments = JsonUtils.getCommentsList(resJson);
                                 mListener.success(comments);
                             }else if (code == FAILED){
-                                mListener.fail();
+                                try {
+                                    int result = JsonUtils.getContent(resJson).getInt("comment");
+                                    mListener.fail(result);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         }
                     });
@@ -56,7 +68,7 @@ public class GetCommentAsyncTask extends AsyncTask<Integer,Void,Void> {
 
     public interface ICommentListener{
         void success(List<Comment> comments);
-        void fail();
+        void fail(int result);
     }
 
     public void setmListener(ICommentListener mListener) {

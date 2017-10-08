@@ -6,10 +6,28 @@ package com.wgf.cookbooks.bean;
  * 评论实体类
  */
 public class Comment {
+    private int commnetPkId;
     private String userIconUrl;
     private String userName;
     private String content;
     private String commentTime;
+    private int currentUser;//是否是当前用户，0表示是，-1表示不是
+
+    public int getCommnetPkId() {
+        return commnetPkId;
+    }
+
+    public void setCommnetPkId(int commnetPkId) {
+        this.commnetPkId = commnetPkId;
+    }
+
+    public int getCurrentUser() {
+        return currentUser;
+    }
+
+    public void setCurrentUser(int currentUser) {
+        this.currentUser = currentUser;
+    }
 
     public String getCommentTime() {
         return commentTime;

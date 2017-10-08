@@ -31,7 +31,7 @@
                 />
             <TextView
                 android:id="@+id/id_comment_time"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="评论时间"
                 android:layout_toRightOf="@id/id_civ"
@@ -41,6 +41,20 @@
                 android:gravity="bottom"
                 android:textSize="@dimen/text_small_content_size"
                 android:layout_marginBottom="10dp"
+                />
+            <TextView
+                android:id="@+id/id_comment_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="删除"
+                android:layout_toRightOf="@id/id_comment_time"
+                android:layout_marginLeft="25dp"
+                android:layout_below="@id/id_tv_username"
+                android:layout_alignParentBottom="true"
+                android:gravity="bottom"
+                android:textSize="@dimen/text_small_content_size"
+                android:layout_marginBottom="10dp"
+                android:visibility="gone"
                 />
         </RelativeLayout>
        <TextView

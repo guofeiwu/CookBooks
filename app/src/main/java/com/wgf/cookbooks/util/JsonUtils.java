@@ -52,6 +52,23 @@ public class JsonUtils {
         return content;
     }
 
+    /**
+     * 返回附加的内容（String）
+     * @param response
+     * @return
+     */
+    public static String getStringContent(String response){
+        String content = null;
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            content = jsonObject.getJSONObject("extend").getString("content");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return content;
+    }
+
+
 
     /**
      * 返回附加的内容（点赞主键，晒晒主键）
@@ -193,10 +210,14 @@ public class JsonUtils {
                 String commentTime = jo.getString("commentTime");
                 String userIconUrl = jo.getString("userIconUrl");
                 String username = jo.getString("username");
+                int currentUser = jo.getInt("currentUser");
+                int commentPkId = jo.getInt("commentPkId");
                 comment.setContent(content);
                 comment.setCommentTime(commentTime);
                 comment.setUserIconUrl(userIconUrl);
                 comment.setUserName(username);
+                comment.setCurrentUser(currentUser);
+                comment.setCommnetPkId(commentPkId);
                 comments.add(comment);
             }
         } catch (JSONException e) {

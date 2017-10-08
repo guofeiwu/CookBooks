@@ -307,15 +307,15 @@ public class ShaiActivity extends AppCompatActivity implements ShaiDetailRecycle
 
     @Override
     public void detail(int position) {
-        ToastUtils.toast(this, "detail pos:" + position);
         initComment();
         //显示晒晒详情
         //IntentUtils.jump(ShaiActivity.this,ShaiDetailActivity.class);
         Intent intent = new Intent(ShaiActivity.this,ShaiDetailActivity.class);
         Shai shai = shaiList.get(position);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("shai",shai);
-        intent.putExtras(bundle);
+//        Bundle bundle = new Bundle();
+//        bundle.putSerializable("shai",shai);
+//        intent.putExtras(bundle);
+        intent.putExtra("shaiPkId",shai.getShaiPkId());
         startActivity(intent);
     }
 
@@ -330,12 +330,5 @@ public class ShaiActivity extends AppCompatActivity implements ShaiDetailRecycle
         if(mUpCommentAsyncTask!= null){
             mUpCommentAsyncTask = null;
         }
-
     }
-
-
-
-
-
-
 }

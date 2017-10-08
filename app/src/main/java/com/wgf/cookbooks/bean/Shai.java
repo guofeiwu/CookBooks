@@ -15,6 +15,36 @@ public class Shai implements Serializable{
     private String address;
     private String time;
     private int likes;//晒晒被点赞的次数
+
+    private int commentTotal;//评论的总数
+    private int lookTotal;//浏览的总数
+
+    private int currentUser;//0表示是当前用户，-1表示不是当前用户
+
+    public int getCurrentUser() {
+        return currentUser;
+    }
+
+    public void setCurrentUser(int currentUser) {
+        this.currentUser = currentUser;
+    }
+
+    public int getLookTotal() {
+        return lookTotal;
+    }
+
+    public void setLookTotal(int lookTotal) {
+        this.lookTotal = lookTotal;
+    }
+
+    public int getCommentTotal() {
+        return commentTotal;
+    }
+
+    public void setCommentTotal(int commentTotal) {
+        this.commentTotal = commentTotal;
+    }
+
     public int getShaiPkId() {
         return shaiPkId;
     }

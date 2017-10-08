@@ -128,6 +128,8 @@ public class JsonUtils {
                 String address = jo.getString("address");//晒一晒图片地址
                 String time  =jo.getString("cTime");//创建时间
                 int likes = jo.getInt("shaiLike");
+                int commentTotal = jo.getInt("commentTotal");//评论的总数
+                int lookTotal = jo.getInt("lookTotal");
 
                 shai.setShaiPkId(pkId);
                 shai.setUserName(userName);
@@ -136,6 +138,8 @@ public class JsonUtils {
                 shai.setDescr(descr);
                 shai.setTime(time);
                 shai.setLikes(likes);
+                shai.setCommentTotal(commentTotal);
+                shai.setLookTotal(lookTotal);
                 shais.add(shai);
             }
 
@@ -193,7 +197,6 @@ public class JsonUtils {
                 comment.setCommentTime(commentTime);
                 comment.setUserIconUrl(userIconUrl);
                 comment.setUserName(username);
-
                 comments.add(comment);
             }
         } catch (JSONException e) {
@@ -203,5 +206,44 @@ public class JsonUtils {
     }
 
 
+    /**
+     * 返回附加的内容（单个Shai）
+     * @param response
+     * @return
+     */
+    public static Shai getShaiDetail(String response){
+        Shai shai = null;
+
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            JSONObject jo = jsonObject.getJSONObject("extend").getJSONObject("content");
+            shai = new Shai();
+            int pkId = jo.getInt("pkid");
+            String userName = jo.getString("userName");
+            String icon = jo.getString("icon");
+            String descr = jo.getString("descr");
+            String address = jo.getString("address");//晒一晒图片地址
+            String time  =jo.getString("cTime");//创建时间
+            int likes = jo.getInt("shaiLike");
+            int commentTotal = jo.getInt("commentTotal");//评论的总数
+            int lookTotal = jo.getInt("lookTotal");
+            int currentUser = jo.getInt("currentUser");
+
+            shai.setShaiPkId(pkId);
+            shai.setUserName(userName);
+            shai.setAddress(address);
+            shai.setIcon(icon);
+            shai.setDescr(descr);
+            shai.setTime(time);
+            shai.setLikes(likes);
+            shai.setCommentTotal(commentTotal);
+            shai.setLookTotal(lookTotal);
+            shai.setCurrentUser(currentUser);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return shai;
+    }
 
 }

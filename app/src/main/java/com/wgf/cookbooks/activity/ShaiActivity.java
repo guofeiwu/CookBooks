@@ -223,7 +223,7 @@ public class ShaiActivity extends AppCompatActivity implements ShaiDetailRecycle
             mShaiDetailRecycleViewAdapter.flashLikeContent();
         }
 
-        int pos = SpUtils.getSharedPreferences(this).getInt("deleteShaiPosition",0);
+        int pos = SpUtils.getSharedPreferences(this).getInt("deleteShaiPosition",0);//删除晒一晒，删除的位置
 
         if(pos != 0){
             shaiList.remove(pos);

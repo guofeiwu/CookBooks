@@ -62,6 +62,7 @@ public class ShaiDetailActivity extends AppCompatActivity implements View.OnClic
     private DeleteShaiAsyncTask mDeleteShaiAsyncTask;
     private TextView mNoComment;
     private DeleteShaiCommentAsyncTask mDeleteShaiCommentAsyncTask;
+    private int commentTotal;//评论的总数
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,7 +81,6 @@ public class ShaiDetailActivity extends AppCompatActivity implements View.OnClic
      * 初始化数据
      */
     private void initData() {
-        comments = new ArrayList<>();
 
         Intent intent = getIntent();
         shaiPkId =intent.getIntExtra("shaiPkId",0);
@@ -92,11 +92,19 @@ public class ShaiDetailActivity extends AppCompatActivity implements View.OnClic
             initShaiDetail();
         }
 
-        comments = new ArrayList<>();
+
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecycleDivider = new RecycleDivider(ShaiDetailActivity.this,RecycleDivider.VERITCAL_LIST);
         mRecyclerView.addItemDecoration(mRecycleDivider);
 
+        loadComments();
+    }
+
+    /**
+     * 加载评论
+     */
+    private void loadComments() {
+        comments = new ArrayList<>();
 
         if(mGetCommentAsyncTask !=null){
             return;
@@ -107,7 +115,7 @@ public class ShaiDetailActivity extends AppCompatActivity implements View.OnClic
             @Override
             public void success(List<Comment> commentList) {
                 comments.addAll(commentList);
-                mAdapter = new ShaiCommentRecycleViewAdapter(ShaiDetailActivity.this,comments);
+                mAdapter = new ShaiCommentRecycleViewAdapter(ShaiDetailActivity.this,commentList);
                 mRecyclerView.setAdapter(mAdapter);
 
                 mAdapter.setmListener(ShaiDetailActivity.this);
@@ -126,7 +134,29 @@ public class ShaiDetailActivity extends AppCompatActivity implements View.OnClic
         });
         mGetCommentAsyncTask.execute(shaiPkId,1);
     }
-    private Shai currentShai;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //从评论列表返回时候
+        int result = SpUtils.getSharedPreferences(this).getInt("commentChange",-1);//返回剩下的评论数量
+        if (result >0){//改变了，需要刷新列表
+            mCommentTotal.setText("评论("+result+")");
+            commentTotal = result;
+            if(result>6){
+                mMore.setVisibility(View.VISIBLE);
+            }else{
+                mMore.setVisibility(View.GONE);
+            }
+            loadComments();
+            SpUtils.getEditor(this).putInt("commentChange",-1).commit();
+        }else if (result == 0){
+            //删除完了
+            mCommentTotal.setText("评论(0)");
+            mMore.setVisibility(View.GONE);
+            mNoComment.setVisibility(View.VISIBLE);
+        }
+    }
 
     /**
      * 初始化晒详情
@@ -135,7 +165,6 @@ public class ShaiDetailActivity extends AppCompatActivity implements View.OnClic
         mGetShaiDetailAsyncTask = new GetShaiDetailAsyncTask(ShaiDetailActivity.this,new GetShaiDetailAsyncTask.IGetShaiListener() {
             @Override
             public void getShaiDetail(Shai shai) {
-                currentShai = shai;
                 Glide.with(ShaiDetailActivity.this).load(BASE_URL_FILE_ICON+shai.getIcon()).into(mUserIcon);
                 mUserName.setText(shai.getUserName());
                 mShaiContent.setText(shai.getDescr());
@@ -144,7 +173,7 @@ public class ShaiDetailActivity extends AppCompatActivity implements View.OnClic
                 int lookTotal = shai.getLookTotal();
                 mLookTotal.setText("浏览:"+(lookTotal+1));
 
-                int commentTotal = shai.getCommentTotal();
+                commentTotal= shai.getCommentTotal();
                 mUserName.setText(shai.getUserName());
                 mCommentTotal.setText("评论("+commentTotal+")");
                 if(commentTotal>6){
@@ -230,7 +259,12 @@ public class ShaiDetailActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.id_ll_more:
-                ToastUtils.toast(ShaiDetailActivity.this,"查看更多");
+
+                Intent intent = new Intent(this,ShaiCommentActivity.class);
+                intent.putExtra("shaiPkId",shaiPkId);
+                intent.putExtra("commentTotal",commentTotal);
+                startActivity(intent);
+                //ToastUtils.toast(ShaiDetailActivity.this,"查看更多");
                 break;
             case R.id.id_tv_delete://删除当前晒晒
                 if(mDeleteShaiAsyncTask!=null){
@@ -261,12 +295,26 @@ public class ShaiDetailActivity extends AppCompatActivity implements View.OnClic
     public void delete(int position) {
 
         Comment comment = comments.get(position);
+        comments.remove(position);
+
+        commentTotal = commentTotal -flag;
+        mCommentTotal.setText("评论("+commentTotal+")");
+        if(commentTotal>6){
+            mMore.setVisibility(View.VISIBLE);
+        }else{
+            mMore.setVisibility(View.GONE);
+        }
+
+        if(comments.size() == 0){
+            mNoComment.setVisibility(View.VISIBLE);
+        }else{
+            mNoComment.setVisibility(View.GONE);
+        }
 
         //删除评论
-        mAdapter.deleteComment(position);
-        int commentTotal = currentShai.getCommentTotal();
-        mCommentTotal.setText("评论("+(commentTotal-flag)+")");
-        flag ++;
+        //mAdapter.deleteComment(position);
+
+        //flag ++;
         if(mDeleteShaiCommentAsyncTask!=null){
             return;
         }
@@ -276,6 +324,7 @@ public class ShaiDetailActivity extends AppCompatActivity implements View.OnClic
             public void result(int code) {
                 if(code == SUCCESS){
                     ToastUtils.toast(ShaiDetailActivity.this,getString(R.string.text_delete_success));
+                    loadComments();//重新加载数据
                 }else{
                     ToastUtils.toast(ShaiDetailActivity.this,getString(R.string.text_delete_failed));
                 }

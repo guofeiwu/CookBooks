@@ -84,7 +84,7 @@ public class ShaiDetailActivity extends AppCompatActivity implements View.OnClic
 
         Intent intent = getIntent();
         shaiPkId =intent.getIntExtra("shaiPkId",0);
-        position = intent.getIntExtra("position",0);
+        position = intent.getIntExtra("position",-1);
 
         if(mGetShaiDetailAsyncTask!=null){
             return;

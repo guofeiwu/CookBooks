@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
+import com.wgf.cookbooks.bean.Shai;
 import com.wgf.cookbooks.util.GetAuthorizationUtil;
 import com.wgf.cookbooks.util.JsonUtils;
 
@@ -13,6 +14,7 @@ import java.io.File;
 
 import static com.wgf.cookbooks.util.Constants.AUTHORIZATION;
 import static com.wgf.cookbooks.util.Constants.BASE_URL;
+import static com.wgf.cookbooks.util.Constants.SUCCESS;
 
 /**
  * author guofei_wu
@@ -39,6 +41,11 @@ public class UploadShaiAsyncTask extends AsyncTask<File,Void,Void> {
                     public void onSuccess(Response<String> response) {
                         String resJson = response.body().toString();
                         int code = JsonUtils.getCode(resJson);
+//                        if(code == SUCCESS){
+//                            mListener.result(shai);
+//                        }else{
+//                            mListener.result(null);
+//                        }
                         mListener.result(code);
                     }
                 });

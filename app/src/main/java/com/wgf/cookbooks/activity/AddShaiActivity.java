@@ -24,9 +24,11 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.wgf.cookbooks.R;
+import com.wgf.cookbooks.bean.Shai;
 import com.wgf.cookbooks.clazz.UploadShaiAsyncTask;
 import com.wgf.cookbooks.util.L;
 import com.wgf.cookbooks.util.SoftInputUtils;
+import com.wgf.cookbooks.util.SpUtils;
 import com.wgf.cookbooks.util.ToastUtils;
 import com.wgf.cookbooks.view.CustomToolbar;
 import com.yanzhenjie.permission.AndPermission;
@@ -365,6 +367,9 @@ public class AddShaiActivity extends AppCompatActivity implements View.OnClickLi
         if(code == SUCCESS){
             ToastUtils.toast(AddShaiActivity.this,getString(R.string.text_release_success));
             mEditTextIntroduce.setText("");
+
+            SpUtils.getEditor(this).putInt("addShai",1).commit();
+
             finish();
         }else{
             ToastUtils.toast(AddShaiActivity.this,getString(R.string.text_release_failed));

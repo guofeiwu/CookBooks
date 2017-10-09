@@ -66,7 +66,6 @@ public class ShaiActivity extends AppCompatActivity implements ShaiDetailRecycle
 
 
         setContentView(R.layout.activity_shai);
-        shaiList = new ArrayList<>();
 
         initView();
 
@@ -80,6 +79,10 @@ public class ShaiActivity extends AppCompatActivity implements ShaiDetailRecycle
      * 初始化显示的数据
      */
     private void initData() {
+        if(shaiList!=null){
+            shaiList.clear();
+        }
+        shaiList = new ArrayList<>();
         if (mGetShaiAsyncTask != null) {
             return;
         }
@@ -231,12 +234,19 @@ public class ShaiActivity extends AppCompatActivity implements ShaiDetailRecycle
             mShaiDetailRecycleViewAdapter.flashLikeContent();
         }
 
-        int pos = SpUtils.getSharedPreferences(this).getInt("deleteShaiPosition",0);//删除晒一晒，删除的位置
-
-        if(pos != 0){
+        //删除时候回调
+        int pos = SpUtils.getSharedPreferences(this).getInt("deleteShaiPosition",-1);//删除晒一晒，删除的位置
+        if(pos != -1){
             shaiList.remove(pos);
             mShaiDetailRecycleViewAdapter.removeItem(pos);
-            SpUtils.getEditor(this).putInt("deleteShaiPosition",0).commit();
+            SpUtils.getEditor(this).putInt("deleteShaiPosition",-1).commit();
+        }
+
+        //添加时候回调
+        int add = SpUtils.getSharedPreferences(this).getInt("addShai",0);//添加时候回调
+        if(add != 0){
+            initData();
+            SpUtils.getEditor(this).putInt("addShai",0).commit();
         }
     }
 
@@ -339,6 +349,4 @@ public class ShaiActivity extends AppCompatActivity implements ShaiDetailRecycle
             mUpCommentAsyncTask = null;
         }
     }
-
-
 }

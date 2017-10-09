@@ -122,9 +122,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onBackPressed() {
+        super.onBackPressed();
         IntentUtils.jump(RegisterActivity.this,LoginActivity.class);
         finish();
-        super.onBackPressed();
     }
 
     @Override
@@ -138,6 +138,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         mCustomToolbar.setBtnOnBackOnClickListener(new CustomToolbar.BtnOnBackOnClickListener() {
             @Override
             public void onClick() {
+                IntentUtils.jump(RegisterActivity.this,LoginActivity.class);
                 finish();
             }
         });

@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -122,7 +123,13 @@ public class ShaiActivity extends AppCompatActivity implements ShaiDetailRecycle
         mAddShai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtils.toast(ShaiActivity.this, "go to share shai");
+                String token = GetAuthorizationUtil.getAuth(ShaiActivity.this);
+                if(token == null){
+                    IntentUtils.jump(ShaiActivity.this,LoginActivity.class);
+                }else{
+                    //添加晒一晒
+                    IntentUtils.jump(ShaiActivity.this,AddShaiActivity.class);
+                }
             }
         });
 
@@ -219,6 +226,7 @@ public class ShaiActivity extends AppCompatActivity implements ShaiDetailRecycle
     @Override
     protected void onResume() {
         super.onResume();
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);//activity启动的时候输入法默认不开启
         if (mShaiDetailRecycleViewAdapter != null && GetAuthorizationUtil.getAuth(ShaiActivity.this) !=null) {
             mShaiDetailRecycleViewAdapter.flashLikeContent();
         }

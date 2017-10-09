@@ -25,12 +25,29 @@ public class SoftInputUtils {
     }
 
     /**
+     * 此方法只是关闭软键盘
+     * @param context
+     */
+    public static void hideSoftInput1(Activity context) {
+        InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        if(imm.isActive()&&context.getCurrentFocus()!=null){
+                imm.hideSoftInputFromWindow(context.getCurrentFocus().getWindowToken(), 0);
+        }
+    }
+
+    /**
      * 显示软键盘
      * @param context
      */
     public static void showSoftInput(Activity context){
         InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+    }
+
+    public static void showSoftInput1(Activity context){
+        InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        //imm.showSoftInputFromInputMethod(context.getCurrentFocus().getWindowToken(), InputMethodManager.SHOW_FORCED);
+        imm.showSoftInput(context.getCurrentFocus(),InputMethodManager.SHOW_FORCED);
     }
 
 //

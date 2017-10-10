@@ -1,8 +1,10 @@
 package com.wgf.cookbooks.util;
 
 import com.wgf.cookbooks.bean.Comment;
+import com.wgf.cookbooks.bean.Materials;
 import com.wgf.cookbooks.bean.Menu;
 import com.wgf.cookbooks.bean.Shai;
+import com.wgf.cookbooks.bean.Step;
 import com.wgf.cookbooks.bean.UserInfo;
 
 import org.json.JSONArray;
@@ -227,6 +229,37 @@ public class JsonUtils {
         return comments;
     }
 
+    /**
+     * 返回附加的内容（菜单集合）
+     * @param response
+     * @return
+     */
+    public static List<Menu> getMenusList(String response){
+        List<Menu> menus = null;
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            JSONArray jsonArray = jsonObject.getJSONObject("extend").getJSONArray("content");
+            menus = new ArrayList<>();
+
+            for (int i = 0;i<jsonArray.length();i++){
+                Menu menu  = new Menu();
+                JSONObject jo = jsonArray.getJSONObject(i);
+                menu.setMenuPkId(jo.getInt("menuPkId"));
+                menu.setMenuName(jo.getString("menuName"));
+                menu.setMainIcon(jo.getString("mainIcon"));
+                menu.setIntroduce(jo.getString("introduce"));
+                menu.setUserName(jo.getString("userName"));
+                menu.setUserIconUrl(jo.getString("userIconUrl"));
+                menu.setCurrentUser(jo.getInt("currentUser"));
+                menus.add(menu);
+            }
+
+            return menus;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     /**
      * 返回附加的内容（单个Shai）
@@ -268,37 +301,66 @@ public class JsonUtils {
         return shai;
     }
 
-
     /**
-     * 返回附加的内容（菜单集合）
+     * 返回附加的内容 （获取菜谱详情）
      * @param response
      * @return
      */
-    public static List<Menu> getMenusList(String response){
-        List<Menu> menus = null;
+    public static Menu getMenuDetail(String response){
+        Menu menu = null;
+
         try {
             JSONObject jsonObject = new JSONObject(response);
-            JSONArray jsonArray = jsonObject.getJSONObject("extend").getJSONArray("content");
-            menus = new ArrayList<>();
+            JSONObject jo = jsonObject.getJSONObject("extend").getJSONObject("content");
+            menu = new Menu();
 
-            for (int i = 0;i<jsonArray.length();i++){
-                Menu menu  = new Menu();
-                JSONObject jo = jsonArray.getJSONObject(i);
-                menu.setMenuPkId(jo.getInt("menuPkId"));
-                menu.setMenuName(jo.getString("menuName"));
-                menu.setMainIcon(jo.getString("mainIcon"));
-                menu.setIntroduce(jo.getString("introduce"));
-                menu.setUserName(jo.getString("userName"));
-                menu.setUserIconUrl(jo.getString("userIconUrl"));
-                menu.setCurrentUser(jo.getInt("currentUser"));
-                menus.add(menu);
+            int menuPkId = jo.getInt("menuPkId");
+            String menuName = jo.getString("menuName");
+            String mainIcon = jo.getString("mainIcon");
+            String introduce = jo.getString("introduce");
+            String userName = jo.getString("userName");
+            String userIconUrl = jo.getString("userIconUrl");
+            int currentUser = jo.getInt("currentUser");
+
+            JSONArray steps = jo.getJSONArray("steps");
+            List<Step> stepList = new ArrayList<>();
+            for(int i = 0;i<steps.length();i++){
+                Step step = new Step();
+                JSONObject jsonObject1 = steps.getJSONObject(i);
+                String stepDesc = jsonObject1.getString("stepDesc");
+                String stepIcon = jsonObject1.getString("stepIcon");
+                step.setStepDesc(stepDesc);
+                step.setStepIcon(stepIcon);
+                stepList.add(step);
             }
 
-            return menus;
+            JSONArray materials = jo.getJSONArray("materials");
+            List<Materials> materialsList = new ArrayList<>();
+            for(int i = 0;i<materials.length();i++){
+                Materials materials1 = new Materials();
+                JSONObject jsonObject1 = materials.getJSONObject(i);
+                String materialName = jsonObject1.getString("materialName");
+                materials1.setMaterialsName(materialName);
+                materialsList.add(materials1);
+            }
+            menu.setMenuPkId(menuPkId);
+            menu.setMainIcon(mainIcon);
+            menu.setMenuName(menuName);
+            menu.setUserName(userName);
+            menu.setIntroduce(introduce);
+            menu.setUserIconUrl(userIconUrl);
+            menu.setCurrentUser(currentUser);
+
+            menu.setSteps(stepList);
+            menu.setMaterials(materialsList);
+
         } catch (JSONException e) {
             e.printStackTrace();
-            return null;
         }
+        return menu;
     }
+
+
+
 
 }

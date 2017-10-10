@@ -1,5 +1,8 @@
 package com.wgf.cookbooks.bean;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * author guofei_wu
  * email guofei_wu@163.com
@@ -12,6 +15,9 @@ public class Menu {
     private String userName;
     private String userIconUrl;
     private int currentUser;
+    private List<Step> steps;//步骤
+    private List<Materials> materials ;//材料
+
 
 
     public String getMainIcon() {
@@ -68,5 +74,22 @@ public class Menu {
 
     public void setCurrentUser(int currentUser) {
         this.currentUser = currentUser;
+    }
+
+
+    public List<Step> getSteps() {
+        return steps;
+    }
+
+    public void setSteps(List<Step> steps) {
+        this.steps = steps;
+    }
+
+    public List<Materials> getMaterials() {
+        return materials;
+    }
+
+    public void setMaterials(List<Materials> materials) {
+        this.materials = materials;
     }
 }

@@ -26,7 +26,7 @@ import java.util.Map;
  * email guofei_wu@163.com
  * 一日三餐的界面
  */
-public class MenuListActivity extends AppCompatActivity implements MenuAsyncTask.IGetMenuListener{
+public class MenuListActivity extends AppCompatActivity implements MenuAsyncTask.IGetMenuListener,MenuRecycleViewAdapter.IMenuDetailListener{
     private CustomToolbar mCustomToolbar;
     private RecyclerView mThreeMealsRecyclerView;
     private MenuRecycleViewAdapter mAdapter;
@@ -43,7 +43,7 @@ public class MenuListActivity extends AppCompatActivity implements MenuAsyncTask
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_three_meals);
+        setContentView(R.layout.activity_menu_list);
         Intent intent = getIntent();
         position = intent.getIntExtra("pos",0);
         type = intent.getStringExtra("type");
@@ -263,6 +263,8 @@ public class MenuListActivity extends AppCompatActivity implements MenuAsyncTask
             menus.addAll(list);
             if(mAdapter == null){
                 mAdapter = new MenuRecycleViewAdapter(this,list);
+                //设置点击事件的回调监听
+                mAdapter.setmListener(this);
                 mThreeMealsRecyclerView.setAdapter(mAdapter);
             }else{
                 mAdapter.addMoreItem(list);
@@ -290,5 +292,14 @@ public class MenuListActivity extends AppCompatActivity implements MenuAsyncTask
         if(menus!=null){
             menus = null;
         }
+    }
+
+    @Override
+    public void detail(int position) {
+        //ToastUtils.toast(this,"pos:"+position);
+        //跳转界面，显示详情
+        Intent intent = new Intent(MenuListActivity.this,MenuDetailActivity.class);
+        intent.putExtra("menuPkId",menus.get(position).getMenuPkId());
+        startActivity(intent);
     }
 }

@@ -32,6 +32,9 @@ public class MenuRecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private int status = 0;
     private Context context;
     private LayoutInflater mInflater;
+
+    private IMenuDetailListener mListener;
+
     public MenuRecycleViewAdapter(Context context ,List<Menu> menus){
         this.context = context;
         this.menus = menus;
@@ -55,7 +58,7 @@ public class MenuRecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private FooterViewHolder fHolder;
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         if(holder instanceof MenuViewHolder){
             mHolder = (MenuViewHolder) holder;
             Menu menu = menus.get(position);
@@ -64,6 +67,14 @@ public class MenuRecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             mHolder.mMenuIntroduce.setText("简介:"+menu.getIntroduce());
             Glide.with(context).load(BASE_URL_FILE_ICON+menu.getUserIconUrl()).into(mHolder.mUserIcon);
             mHolder.mUserName.setText(menu.getUserName());
+
+            mHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mListener.detail(position);
+                }
+            });
+
         }else if(holder instanceof FooterViewHolder){
             fHolder = (FooterViewHolder) holder;
 
@@ -151,6 +162,11 @@ public class MenuRecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
 
 
+    public interface IMenuDetailListener{
+        void detail(int position);
+    }
 
-
+    public void setmListener(IMenuDetailListener mListener) {
+        this.mListener = mListener;
+    }
 }

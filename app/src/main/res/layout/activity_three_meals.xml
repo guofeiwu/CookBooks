@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.wgf.cookbooks.view.CustomToolbar
+        android:id="@+id/id_ct_three_meal"
+        app:toolbarTitle="标题"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"/>
+     <android.support.v7.widget.RecyclerView
+         android:id="@+id/id_rv_three_meal"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"/>
+</LinearLayout>

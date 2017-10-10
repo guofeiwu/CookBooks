@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="75dp">
+        <ImageView
+            android:id="@+id/id_iv_menu_icon"
+            android:src="@drawable/food1"
+            android:layout_width="150dp"
+            android:layout_height="75dp"/>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_toRightOf="@id/id_iv_menu_icon"
+            android:layout_width="match_parent"
+            android:layout_height="75dp">
+            <TextView
+                android:id="@+id/id_tv_menu_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="菜谱名字"
+                android:textSize="@dimen/text_content_size"/>
+            <TextView
+                android:id="@+id/id_tv_menu_introduce"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="很多东西的做法就是这么简单很多东西的做法就是这么简单"
+                android:maxLines="2"
+                android:textSize="@dimen/text_small_content_size"
+                />
+            <LinearLayout
+                android:layout_marginTop="2dp"
+                android:gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+                <com.wgf.cookbooks.view.CircleImageView
+                    android:id="@+id/id_iv_user_icon"
+                    android:src="@drawable/icon"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp" />
+                <TextView
+                    android:id="@+id/id_user_name"
+                    android:layout_marginLeft="10dp"
+                    android:maxLines="1"
+                    android:text="用户名"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>

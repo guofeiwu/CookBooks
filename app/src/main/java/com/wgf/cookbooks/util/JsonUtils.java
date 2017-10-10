@@ -1,6 +1,7 @@
 package com.wgf.cookbooks.util;
 
 import com.wgf.cookbooks.bean.Comment;
+import com.wgf.cookbooks.bean.Menu;
 import com.wgf.cookbooks.bean.Shai;
 import com.wgf.cookbooks.bean.UserInfo;
 
@@ -265,6 +266,39 @@ public class JsonUtils {
             e.printStackTrace();
         }
         return shai;
+    }
+
+
+    /**
+     * 返回附加的内容（菜单集合）
+     * @param response
+     * @return
+     */
+    public static List<Menu> getMenusList(String response){
+        List<Menu> menus = null;
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            JSONArray jsonArray = jsonObject.getJSONObject("extend").getJSONArray("content");
+            menus = new ArrayList<>();
+
+            for (int i = 0;i<jsonArray.length();i++){
+                Menu menu  = new Menu();
+                JSONObject jo = jsonArray.getJSONObject(i);
+                menu.setMenuPkId(jo.getInt("menuPkId"));
+                menu.setMenuName(jo.getString("menuName"));
+                menu.setMainIcon(jo.getString("mainIcon"));
+                menu.setIntroduce(jo.getString("introduce"));
+                menu.setUserName(jo.getString("userName"));
+                menu.setUserIconUrl(jo.getString("userIconUrl"));
+                menu.setCurrentUser(jo.getInt("currentUser"));
+                menus.add(menu);
+            }
+
+            return menus;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 }

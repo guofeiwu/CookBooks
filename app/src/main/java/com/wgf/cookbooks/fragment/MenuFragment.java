@@ -1,16 +1,20 @@
 package com.wgf.cookbooks.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.wgf.cookbooks.R;
+import com.wgf.cookbooks.activity.MenuListActivity;
 import com.wgf.cookbooks.adapter.MenuTypeAdapter;
-import com.wgf.cookbooks.util.GridViewHeightUtil;
+import com.wgf.cookbooks.util.Constants;
+import com.wgf.cookbooks.util.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,8 +28,8 @@ import java.util.Map;
 public class MenuFragment extends Fragment {
     private GridView mThreeMeals,mCaiShi,mCaiXi,mTianDian,mZhuShi;
 
-    private int[] threeMealsImageId = {R.drawable.type_menu,R.drawable.type_menu,R.drawable.type_menu};
-    private String[] threeMealsTitles = {"早餐","中餐","晚餐"};
+    private int[] threeMealsImageId = {R.drawable.type_menu,R.drawable.type_menu,R.drawable.type_menu,R.drawable.type_menu};
+    private String[] threeMealsTitles = {"早餐","中餐","晚餐","夜宵"};
 
     private int[] caiShiImageId = {R.drawable.type_menu,R.drawable.type_menu,R.drawable.type_menu,R.drawable.type_menu,R.drawable.type_menu,R.drawable.type_menu};
     private String[] caiShiTitles = {"家常菜","素菜","汤","凉菜","私房菜","荤菜"};
@@ -62,6 +66,7 @@ public class MenuFragment extends Fragment {
 
         initData();
 
+        setListener();
 
         return view;
     }
@@ -72,6 +77,71 @@ public class MenuFragment extends Fragment {
 
         initAdapter();
     }
+
+
+    /**
+     * 初始化监听
+     */
+    private void setListener(){
+        mThreeMeals.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ToastUtils.toast(getActivity(),"pos:"+position);
+                //
+                Intent intent = new Intent(getActivity(), MenuListActivity.class);
+                intent.putExtra("type", Constants.YIRISANCAN);
+                intent.putExtra("pos",position);
+                startActivity(intent);
+            }
+        });
+
+        mCaiShi.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(), MenuListActivity.class);
+                intent.putExtra("type", Constants.CAISHI);
+                intent.putExtra("pos",position);
+                startActivity(intent);
+            }
+        });
+
+
+        mCaiXi.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(), MenuListActivity.class);
+                intent.putExtra("type", Constants.CAIXI);
+                intent.putExtra("pos",position);
+                startActivity(intent);
+            }
+        });
+
+
+        mTianDian.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(), MenuListActivity.class);
+                intent.putExtra("type", Constants.TIANDIAN);
+                intent.putExtra("pos",position);
+                startActivity(intent);
+            }
+        });
+
+
+        mZhuShi.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(), MenuListActivity.class);
+                intent.putExtra("type", Constants.ZHUSHI);
+                intent.putExtra("pos",position);
+                startActivity(intent);
+            }
+        });
+    }
+
+
+
+
 
 
     /**

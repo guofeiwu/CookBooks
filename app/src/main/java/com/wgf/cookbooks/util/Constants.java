@@ -49,6 +49,17 @@ public class Constants {
     public static final int REQUEST_CODE_ALBUM = 0;//从相册选择
     public static final int REQUEST_CODE_CAMERA = 1;//拍照
 
+//    public static final String  BREAKFAST = "早餐";
+//    public static final String  LUNCH = "中餐";
+//    public static final String  DINNER = "晚餐";
+//    public static final String  NIGHT_SNACK = "夜宵";
+
+    public static final String YIRISANCAN = "一日三餐";
+    public static final String CAISHI ="菜式";
+    public static final String CAIXI="菜系";
+    public static final String TIANDIAN ="烘焙甜点";
+    public static final String ZHUSHI="主食";
+
 
 
 

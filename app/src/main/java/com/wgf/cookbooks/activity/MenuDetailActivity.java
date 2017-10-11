@@ -22,6 +22,7 @@ import com.wgf.cookbooks.adapter.MenuStepAdapter;
 import com.wgf.cookbooks.bean.Comment;
 import com.wgf.cookbooks.bean.Materials;
 import com.wgf.cookbooks.bean.Menu;
+import com.wgf.cookbooks.clazz.CollectMenuAsyncTask;
 import com.wgf.cookbooks.clazz.DeleteCommentAsyncTask;
 import com.wgf.cookbooks.clazz.GetCommentAsyncTask;
 import com.wgf.cookbooks.clazz.LikeMenuAsyncTask;
@@ -47,7 +48,7 @@ import static com.wgf.cookbooks.util.Constants.SUCCESS;
  * email guofei_wu@163.com
  */
 public class MenuDetailActivity extends AppCompatActivity implements MenuDetailAsyncTask.IMenuDetailListener, GetCommentAsyncTask.ICommentListener,
-        CommentRecycleViewAdapter.ICommentDeleteListener,View.OnClickListener,LikeMenuAsyncTask.ILikeMenuListener{
+        CommentRecycleViewAdapter.ICommentDeleteListener,View.OnClickListener,LikeMenuAsyncTask.ILikeMenuListener, CollectMenuAsyncTask.ICollectMenuListener{
 
     private LinearLayout mMaterialsDose;//食材及用量
     private MenuDetailAsyncTask mMenuDetailAsyncTask;
@@ -91,6 +92,8 @@ public class MenuDetailActivity extends AppCompatActivity implements MenuDetailA
 
     private LikeMenuAsyncTask mLikeMenuAsyncTask;
 
+    private CollectMenuAsyncTask mCollectMenuAsyncTask;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -118,6 +121,7 @@ public class MenuDetailActivity extends AppCompatActivity implements MenuDetailA
         });
         readMoreComment.setOnClickListener(this);
         likeLayout.setOnClickListener(this);
+        collectLayout.setOnClickListener(this);
     }
 
     private int menuPkId = 0;
@@ -167,21 +171,20 @@ public class MenuDetailActivity extends AppCompatActivity implements MenuDetailA
 
 
     private int menuPkid = -1;//菜谱主键
-    private int currentLike = -1;//当前用户收藏
+    private int currentLike = -1;//当前用户点赞
     private int likeSize;//点赞总数
     private int likePkId=-1;//点赞主键
     private int collectPkId = -1;//收藏主键
+
+    private int currentCollect = -1;//当前用户收藏
+    private int collectSize;//收藏总数
+
     @Override
     public void result(Menu menu) {
         if (menu == null) {
             ToastUtils.toast(this, "系统或网络出错");
             return;
         }
-
-
-
-
-
         menuPkid = menu.getMenuPkId();
         String mainIcon = menu.getMainIcon();
         Glide.with(this).load(BASE_URL_FILE_MENUS + mainIcon).into(mMainIcon);
@@ -271,7 +274,7 @@ public class MenuDetailActivity extends AppCompatActivity implements MenuDetailA
         }
 
 
-        int currentCollect = menu.getCurrentCollect();
+        currentCollect = menu.getCurrentCollect();
         if (currentCollect == 0) {
             colloectImageView.setImageResource(R.drawable.collect_red_32);
         } else {
@@ -279,7 +282,7 @@ public class MenuDetailActivity extends AppCompatActivity implements MenuDetailA
         }
 
 
-        int collectSize = menu.getCollectTotal();
+        collectSize = menu.getCollectTotal();
         if (collectSize == 0) {
             collectNumber.setText("收藏");
         } else {
@@ -408,6 +411,8 @@ public class MenuDetailActivity extends AppCompatActivity implements MenuDetailA
 
     @Override
     public void onClick(View v) {
+        String url = null;
+        String token = null;
         switch (v.getId()){
             case R.id.id_ll_more://查看更多评论
                 Intent intent = new Intent(this,CommentListActivity.class);
@@ -418,17 +423,16 @@ public class MenuDetailActivity extends AppCompatActivity implements MenuDetailA
                 break;
             case R.id.id_ll_like://点赞
                 //用户未登录，则进行登录
-                String token = GetAuthorizationUtil.getAuth(this);
+                token = GetAuthorizationUtil.getAuth(this);
                 if(TextUtils.isEmpty(token)){
                     IntentUtils.jump(this,LoginActivity.class);
                     return;
                 }
-                String url = null;
-                if (currentLike == 0){//是当前用户收藏
-                    //则取消收藏
+                if (currentLike == 0){//是当前用户点赞
+                    //则取消点赞
                     url = BASE_URL+"/app/menu/dislike/"+likePkId;
                 }else{
-                    //进行收藏
+                    //进行点赞
                     url = BASE_URL+"/app/menu/like/"+menuPkId;
                 }
                 if(mLikeMenuAsyncTask!=null){
@@ -440,7 +444,26 @@ public class MenuDetailActivity extends AppCompatActivity implements MenuDetailA
 
                 break;
             case R.id.id_ll_collect://收藏
+                //用户未登录，则进行登录
+                token = GetAuthorizationUtil.getAuth(this);
+                if(TextUtils.isEmpty(token)){
+                    IntentUtils.jump(this,LoginActivity.class);
+                    return;
+                }
+                if (currentCollect == 0){//是当前用户收藏
+                    //则取消收藏
+                    url = BASE_URL+"/app/menu/notCollect/"+collectPkId;
+                }else{
+                    //进行收藏
+                    url = BASE_URL+"/app/menu/collect/"+menuPkId;
+                }
 
+                if(mCollectMenuAsyncTask!=null){
+                    return;
+                }
+                mCollectMenuAsyncTask = new CollectMenuAsyncTask(this);
+                mCollectMenuAsyncTask.setmListener(this);
+                mCollectMenuAsyncTask.execute(url);
                 break;
             case R.id.id_ll_comment://评论
 
@@ -482,24 +505,66 @@ public class MenuDetailActivity extends AppCompatActivity implements MenuDetailA
         if(code == SUCCESS){
             ToastUtils.toast(this,getString(R.string.text_operate_success));
             if (currentLike == 0) {//是当前用户点赞，则进行取消点赞
-                currentLike =-1;//当前用户没点赞此菜谱
+                currentLike =-1;//设置当前用户没点赞此菜谱
                 likeImageView.setImageResource(R.drawable.not_like_32);
+                --likeSize;
                 if (likeSize == 0) {
                     likeNumber.setText("赞");
                 } else {
-                    likeNumber.setText(--likeSize + "");
+                    likeNumber.setText(likeSize + "");
                 }
             } else {
                 likeImageView.setImageResource(R.drawable.like_32);
+                ++likeSize;
                 if (likeSize == 0) {
                     likeNumber.setText("赞");
                 } else {
-                    likeNumber.setText(++likeSize + "");
+                    likeNumber.setText(likeSize + "");
                 }
                 if(pkId!=-1){
                     likePkId = pkId;
                 }
                 currentLike =0;//点赞此菜谱
+            }
+        }else{
+            ToastUtils.toast(this,getString(R.string.text_operate_failed));
+        }
+    }
+
+
+    /**
+     * 收藏操作的回调
+     * @param code 总code
+     * @param pkId 收藏成功后返回的主键
+     */
+    @Override
+    public void collectResult(int code, int pkId) {
+        if(mCollectMenuAsyncTask!=null){
+            mCollectMenuAsyncTask = null;
+        }
+        if(code == SUCCESS){
+            ToastUtils.toast(this,getString(R.string.text_operate_success));
+            if (currentCollect == 0) {//是当前用户收藏，则进行取消收藏
+                currentCollect =-1;//设置当前用户没收藏此菜谱
+                colloectImageView.setImageResource(R.drawable.collect_gray_32);
+                --collectSize;
+                if (collectSize == 0) {
+                    collectNumber.setText("收藏");
+                } else {
+                    collectNumber.setText(collectSize + "");
+                }
+            } else {
+                colloectImageView.setImageResource(R.drawable.collect_red_32);
+                ++collectSize;
+                if (collectSize == 0) {
+                    collectNumber.setText("收藏");
+                } else {
+                    collectNumber.setText(collectSize + "");
+                }
+                if(pkId!=-1){
+                    collectPkId = pkId;
+                }
+                currentCollect =0;//收藏此菜谱
             }
         }else{
             ToastUtils.toast(this,getString(R.string.text_operate_failed));

@@ -18,7 +18,70 @@ public class Menu {
     private List<Step> steps;//步骤
     private List<Materials> materials ;//材料
 
+    private int likeTotal;
+    private int commentTotal;
+    private int collectTotal;
+    private int currentLike;
+    private int currentCollect;
 
+    private int likePkId;
+    private int collectPkId;
+
+    public int getLikePkId() {
+        return likePkId;
+    }
+
+    public void setLikePkId(int likePkId) {
+        this.likePkId = likePkId;
+    }
+
+    public int getCollectPkId() {
+        return collectPkId;
+    }
+
+    public void setCollectPkId(int collectPkId) {
+        this.collectPkId = collectPkId;
+    }
+
+    public int getLikeTotal() {
+        return likeTotal;
+    }
+
+    public void setLikeTotal(int likeTotal) {
+        this.likeTotal = likeTotal;
+    }
+
+    public int getCommentTotal() {
+        return commentTotal;
+    }
+
+    public void setCommentTotal(int commentTotal) {
+        this.commentTotal = commentTotal;
+    }
+
+    public int getCollectTotal() {
+        return collectTotal;
+    }
+
+    public void setCollectTotal(int collectTotal) {
+        this.collectTotal = collectTotal;
+    }
+
+    public int getCurrentLike() {
+        return currentLike;
+    }
+
+    public void setCurrentLike(int currentLike) {
+        this.currentLike = currentLike;
+    }
+
+    public int getCurrentCollect() {
+        return currentCollect;
+    }
+
+    public void setCurrentCollect(int currentCollect) {
+        this.currentCollect = currentCollect;
+    }
 
     public String getMainIcon() {
         return mainIcon;

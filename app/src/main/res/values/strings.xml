@@ -51,6 +51,8 @@
 
     <string name="text_failed_msg">系统异常,请检查您的网络</string>
     <string name="text_success_msg">操作成功</string>
+    <string name="text_operate_success">操作成功</string>
+    <string name="text_operate_failed">操作失败</string>
     <string name="text_sms_login">短信快捷登录</string>
     <string name="text_login_success">登录成功</string>
     <string name="text_not_exist_user">用户不存在</string>

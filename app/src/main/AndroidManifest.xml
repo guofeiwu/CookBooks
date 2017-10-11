@@ -41,7 +41,7 @@
             android:fitsSystemWindows="true"
             />
         <activity android:name=".activity.ShaiDetailActivity"/>
-        <activity android:name=".activity.ShaiCommentActivity"/>
+        <activity android:name=".activity.CommentListActivity"/>
         <activity android:name=".activity.AddShaiActivity" />
         <activity android:name=".activity.MenuListActivity"/>
         <activity android:name=".activity.MenuDetailActivity"/>

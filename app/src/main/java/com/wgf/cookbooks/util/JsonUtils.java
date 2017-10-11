@@ -74,21 +74,20 @@ public class JsonUtils {
 
 
     /**
-     * 返回附加的内容（点赞主键，晒晒主键）
+     * 返回附加的内容（返回一个pkId,点赞和收藏成功）
      * @param response
      * @return
      */
-    public static Map getMaps(String response){
-        Map content = null;
+    public static int getPkId(String response){
+        int pkId = 0;
         Map map = new HashMap();
         try {
             JSONObject jsonObject = new JSONObject(response);
-            content = (Map) jsonObject.getJSONObject("extend").get("content");
-            L.e("co"+content);
+            pkId = jsonObject.getJSONObject("extend").getJSONObject("content").getInt("pkId");
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return map;
+        return pkId;
     }
 
 
@@ -322,6 +321,16 @@ public class JsonUtils {
             String userIconUrl = jo.getString("userIconUrl");
             int currentUser = jo.getInt("currentUser");
 
+            int likeTotal = jo.getInt("likeTotal");
+            int commentTotal = jo.getInt("commentTotal");
+            int collectTotal = jo.getInt("collectTotal");
+            int currentLike = jo.getInt("currentLike");
+            int currentCollect = jo.getInt("currentCollect");
+            int likePkId = jo.getInt("likePkId");
+            int collectPkId = jo.getInt("collectPkId");
+
+
+
             JSONArray steps = jo.getJSONArray("steps");
             List<Step> stepList = new ArrayList<>();
             for(int i = 0;i<steps.length();i++){
@@ -353,6 +362,15 @@ public class JsonUtils {
 
             menu.setSteps(stepList);
             menu.setMaterials(materialsList);
+
+            menu.setLikeTotal(likeTotal);
+            menu.setCommentTotal(commentTotal);
+            menu.setCollectTotal(collectTotal);
+            menu.setCurrentCollect(currentCollect);
+            menu.setCurrentLike(currentLike);
+            menu.setLikePkId(likePkId);
+            menu.setCollectPkId(collectPkId);
+
 
         } catch (JSONException e) {
             e.printStackTrace();

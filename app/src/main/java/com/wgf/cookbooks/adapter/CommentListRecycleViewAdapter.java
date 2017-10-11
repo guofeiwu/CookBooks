@@ -23,7 +23,7 @@ import static com.wgf.cookbooks.util.Constants.BASE_URL_FILE_ICON;
  * email guofei_wu@163.com
  * 加载所有的评论
  */
-public class ShaiCommentListRecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class CommentListRecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private static final int TYPE_FOOTER = 1;
     private static final int TYPE_NORMAL = 2;
     private ICommentDeleteListener mListener;
@@ -32,7 +32,7 @@ public class ShaiCommentListRecycleViewAdapter extends RecyclerView.Adapter<Recy
     private Context context;
     private List<Comment> comments;
     private LayoutInflater mInflater;
-    public ShaiCommentListRecycleViewAdapter(Context context, List<Comment> comments){
+    public CommentListRecycleViewAdapter(Context context, List<Comment> comments){
         this.context = context;
         this.comments = comments;
         mInflater = LayoutInflater.from(context);

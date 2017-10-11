@@ -17,18 +17,23 @@ import static com.wgf.cookbooks.util.Constants.BASE_URL;
  * email guofei_wu@163.com
  * 删除晒一晒评论
  */
-public class DeleteShaiCommentAsyncTask extends AsyncTask<Integer,Void,Void> {
+public class DeleteCommentAsyncTask extends AsyncTask<Integer,Void,Void> {
 
     private IDeleteShaiCommentListener mListener;
     private Context context;
-    public DeleteShaiCommentAsyncTask(Context context, IDeleteShaiCommentListener mListener){
+    public DeleteCommentAsyncTask(Context context, IDeleteShaiCommentListener mListener){
         this.context = context;
         this.mListener = mListener;
     }
     @Override
     protected Void doInBackground(Integer... params) {
-        Integer shaiPkId = params[0];
-        String url = BASE_URL+"/app/shai/comment/"+shaiPkId;
+        Integer pkId = params[0];
+        String url = null;
+        if(params.length>=2){
+            url = BASE_URL+"/app/menu/comment/"+pkId;
+        }else {
+            url = BASE_URL+"/app/shai/comment/"+pkId;
+        }
 
         OkGo.<String>delete(url)
                 .headers(AUTHORIZATION, GetAuthorizationUtil.getAuth(context))

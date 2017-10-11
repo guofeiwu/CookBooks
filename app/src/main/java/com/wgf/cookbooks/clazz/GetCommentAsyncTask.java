@@ -35,10 +35,19 @@ public class GetCommentAsyncTask extends AsyncTask<Integer,Void,Void> {
     }
     @Override
     protected Void doInBackground(Integer... params) {
-        int shaiPkId = params[0];
+        int pkId = params[0];
         int pageNo = params[1];
-
-        String url = BASE_URL +"/app/shai/comment/"+shaiPkId+"/"+pageNo;
+        Integer flag = null;
+        int length = params.length;
+        if(length>2){
+            flag = params[2];//判断是获取晒晒评论还是菜谱评论
+        }
+        String url;
+        if(flag !=null){//菜谱评论
+            url = BASE_URL+"/app/menu/comment/"+pkId+"/page/"+pageNo;
+        }else{
+            url = BASE_URL +"/app/shai/comment/"+pkId+"/"+pageNo;
+        }
         try {
             OkGo.<String>get(url)
                     .headers(AUTHORIZATION, GetAuthorizationUtil.getAuth(context))

@@ -13,11 +13,11 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.wgf.cookbooks.R;
-import com.wgf.cookbooks.adapter.ShaiCommentRecycleViewAdapter;
+import com.wgf.cookbooks.adapter.CommentRecycleViewAdapter;
 import com.wgf.cookbooks.bean.Comment;
 import com.wgf.cookbooks.bean.Shai;
 import com.wgf.cookbooks.clazz.DeleteShaiAsyncTask;
-import com.wgf.cookbooks.clazz.DeleteShaiCommentAsyncTask;
+import com.wgf.cookbooks.clazz.DeleteCommentAsyncTask;
 import com.wgf.cookbooks.clazz.GetCommentAsyncTask;
 import com.wgf.cookbooks.clazz.GetShaiDetailAsyncTask;
 import com.wgf.cookbooks.clazz.UpdateLookTotalAsyncTask;
@@ -39,11 +39,11 @@ import static com.wgf.cookbooks.util.Constants.SUCCESS;
  * email guofei_wu@163.com
  * 晒一晒详情
  */
-public class ShaiDetailActivity extends AppCompatActivity implements View.OnClickListener,ShaiCommentRecycleViewAdapter.ICommentDeleteListener {
+public class ShaiDetailActivity extends AppCompatActivity implements View.OnClickListener,CommentRecycleViewAdapter.ICommentDeleteListener {
     private RecyclerView mRecyclerView;
     private CustomToolbar mCustomToolbar;
     private List<Comment> comments;
-    private ShaiCommentRecycleViewAdapter mAdapter;
+    private CommentRecycleViewAdapter mAdapter;
     private GetCommentAsyncTask mGetCommentAsyncTask;
     private int shaiPkId;
     private int position;
@@ -61,7 +61,7 @@ public class ShaiDetailActivity extends AppCompatActivity implements View.OnClic
     private UpdateLookTotalAsyncTask mUpdateLookTotalAsyncTask;
     private DeleteShaiAsyncTask mDeleteShaiAsyncTask;
     private TextView mNoComment;
-    private DeleteShaiCommentAsyncTask mDeleteShaiCommentAsyncTask;
+    private DeleteCommentAsyncTask mDeleteCommentAsyncTask;
     private int commentTotal;//评论的总数
 
     @Override
@@ -115,7 +115,7 @@ public class ShaiDetailActivity extends AppCompatActivity implements View.OnClic
             @Override
             public void success(List<Comment> commentList) {
                 comments.addAll(commentList);
-                mAdapter = new ShaiCommentRecycleViewAdapter(ShaiDetailActivity.this,commentList);
+                mAdapter = new CommentRecycleViewAdapter(ShaiDetailActivity.this,commentList);
                 mRecyclerView.setAdapter(mAdapter);
 
                 mAdapter.setmListener(ShaiDetailActivity.this);
@@ -139,7 +139,7 @@ public class ShaiDetailActivity extends AppCompatActivity implements View.OnClic
     protected void onResume() {
         super.onResume();
         //从评论列表返回时候
-        int result = SpUtils.getSharedPreferences(this).getInt("commentChange",-1);//返回剩下的评论数量
+        int result = SpUtils.getSharedPreferences(this).getInt("shaiCommentChange",-1);//返回剩下的评论数量
         if (result >0){//改变了，需要刷新列表
             mCommentTotal.setText("评论("+result+")");
             commentTotal = result;
@@ -149,7 +149,7 @@ public class ShaiDetailActivity extends AppCompatActivity implements View.OnClic
                 mMore.setVisibility(View.GONE);
             }
             loadComments();
-            SpUtils.getEditor(this).putInt("commentChange",-1).commit();
+            SpUtils.getEditor(this).putInt("shaiCommentChange",-1).commit();
         }else if (result == 0){
             //删除完了
             mCommentTotal.setText("评论(0)");
@@ -217,8 +217,8 @@ public class ShaiDetailActivity extends AppCompatActivity implements View.OnClic
             mDeleteShaiAsyncTask = null;
         }
 
-        if(mDeleteShaiCommentAsyncTask!=null){
-            mDeleteShaiCommentAsyncTask = null;
+        if(mDeleteCommentAsyncTask !=null){
+            mDeleteCommentAsyncTask = null;
         }
     }
 
@@ -254,13 +254,13 @@ public class ShaiDetailActivity extends AppCompatActivity implements View.OnClic
         });
     }
 
-
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.id_ll_more:
 
-                Intent intent = new Intent(this,ShaiCommentActivity.class);
+                Intent intent = new Intent(this,CommentListActivity.class);
+                intent.putExtra("flag","shai");
                 intent.putExtra("shaiPkId",shaiPkId);
                 intent.putExtra("commentTotal",commentTotal);
                 startActivity(intent);
@@ -315,11 +315,11 @@ public class ShaiDetailActivity extends AppCompatActivity implements View.OnClic
         //mAdapter.deleteComment(position);
 
         //flag ++;
-        if(mDeleteShaiCommentAsyncTask!=null){
+        if(mDeleteCommentAsyncTask !=null){
             return;
         }
 
-        mDeleteShaiCommentAsyncTask = new DeleteShaiCommentAsyncTask(this, new DeleteShaiCommentAsyncTask.IDeleteShaiCommentListener() {
+        mDeleteCommentAsyncTask = new DeleteCommentAsyncTask(this, new DeleteCommentAsyncTask.IDeleteShaiCommentListener() {
             @Override
             public void result(int code) {
                 if(code == SUCCESS){
@@ -329,12 +329,12 @@ public class ShaiDetailActivity extends AppCompatActivity implements View.OnClic
                     ToastUtils.toast(ShaiDetailActivity.this,getString(R.string.text_delete_failed));
                 }
 
-                if(mDeleteShaiCommentAsyncTask!=null){
-                    mDeleteShaiCommentAsyncTask = null;
+                if(mDeleteCommentAsyncTask !=null){
+                    mDeleteCommentAsyncTask = null;
                 }
             }
         });
-        mDeleteShaiCommentAsyncTask.execute(comment.getCommnetPkId());
+        mDeleteCommentAsyncTask.execute(comment.getCommnetPkId());
     }
 
 }

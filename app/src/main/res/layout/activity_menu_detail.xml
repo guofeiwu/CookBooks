@@ -11,254 +11,259 @@
         android:layout_height="?attr/actionBarSize"
         app:toolbarTitle="详情" />
 
-    <android.support.v4.widget.NestedScrollView
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <LinearLayout
+        <android.support.v4.widget.NestedScrollView
+            android:layout_marginBottom="40dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/id_iv_main_icon"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:scaleType="center"
-                    android:src="@drawable/food1" />
+                    android:orientation="vertical">
 
-                <View
+                    <ImageView
+                        android:id="@+id/id_iv_main_icon"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scaleType="center"
+                        android:src="@drawable/food1" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="12dp"
+                        android:background="@color/view_white_gray" />
+                    <com.wgf.cookbooks.view.CircleImageView
+                        android:id="@+id/id_civ_icon_item"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="15dp"
+                        android:src="@drawable/rank" />
+
+                    <TextView
+                        android:id="@+id/id_tv_user_name_item"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="5dp"
+                        android:text="子非鱼"
+                        android:textSize="@dimen/text_small_content_size" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/view_white_gray" />
+
+                    <TextView
+                        android:id="@+id/id_tv_menu_introduce"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="25dp"
+                        android:text="@string/text_menu_introduce"
+                        android:textSize="@dimen/text_small_content_size" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="12dp"
+                        android:background="@color/view_white_gray" />
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="12dp"
-                    android:background="@color/view_white_gray" />
-                <com.wgf.cookbooks.view.CircleImageView
-                    android:id="@+id/id_civ_icon_item"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginTop="15dp"
-                    android:src="@drawable/rank" />
+                    android:layout_marginTop="20dp"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/id_tv_user_name_item"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="20dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="5dp"
-                    android:text="子非鱼"
-                    android:textSize="@dimen/text_small_content_size" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="食材和用量"
+                        android:textSize="@dimen/text_title_size" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/view_white_gray" />
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:id="@+id/id_ll_materials_dose"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                    </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="12dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@color/view_white_gray" />
+                </LinearLayout>
 
-                <View
+                <LinearLayout
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/view_white_gray" />
-
-                <TextView
-                    android:id="@+id/id_tv_menu_introduce"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="20dp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginTop="25dp"
-                    android:text="@string/text_menu_introduce"
-                    android:textSize="@dimen/text_small_content_size" />
-
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="步骤"
+                        android:textSize="@dimen/text_title_size"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginLeft="10dp"
+                        />
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/id_rv_step"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="12dp"
-                    android:background="@color/view_white_gray" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="20dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="食材和用量"
-                    android:textSize="@dimen/text_title_size" />
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
                     android:layout_marginTop="10dp"
                     android:background="@color/view_white_gray" />
                 <LinearLayout
                     android:orientation="vertical"
-                    android:id="@+id/id_ll_materials_dose"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/id_comment_total"
+                        android:textSize="@dimen/text_title_size"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="评论（0）"
+                        />
+                    <View
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/view_white_gray" />
                 </LinearLayout>
-                <View
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="12dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@color/view_white_gray" />
+                    android:layout_height="wrap_content">
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/id_rv_comment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                    </android.support.v7.widget.RecyclerView>
+                    <TextView
+                        android:visibility="gone"
+                        android:id="@+id/id_tv_no_comment"
+                        android:layout_width="match_parent"
+                        android:layout_height="50sp"
+                        android:text="暂时还没有评论，快来抢座沙发吧~"
+                        android:gravity="center"
+                        android:textSize="@dimen/text_content_size"
+                        />
+                </FrameLayout>
+                <LinearLayout
+                    android:id="@+id/id_ll_more"
+                    android:clickable="true"
+                    android:visibility="gone"
+                    android:background="?attr/selectableItemBackground"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:text="查看更多评论"
+                        android:gravity="center"
+                        />
+                </LinearLayout>
+
             </LinearLayout>
 
+        </android.support.v4.widget.NestedScrollView>
+
+        <LinearLayout
+            android:gravity="center"
+            android:background="@color/white"
+            android:layout_gravity="bottom"
+            android:orientation="horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="45dp">
             <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
+                android:id="@+id/id_ll_like"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/id_menu_like"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/not_like_32"
+                    />
+                <TextView
+                    android:id="@+id/id_tv_menu_like"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="赞"
+                    android:layout_marginLeft="3dp"
+                    android:textSize="@dimen/text_small_content_size"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/id_ll_collect"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/id_menu_collect"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/collect_gray_32"/>
+                <TextView
+                    android:id="@+id/id_tv_menu_collect"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="收藏"
+                    android:layout_marginLeft="3dp"
+                    android:textSize="@dimen/text_small_content_size"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/id_ll_comment"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/id_menu_comment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/comment_gray_32"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="步骤"
-                    android:textSize="@dimen/text_title_size"
-                    android:layout_marginBottom="20dp"
-                    android:layout_marginLeft="10dp"
-                    />
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/id_rv_step"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-            </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="12dp"
-                android:layout_marginTop="10dp"
-                android:background="@color/view_white_gray" />
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <LinearLayout
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content">
-                    <ImageView
-                        android:id="@+id/id_menu_like"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/not_like_64"
-                        />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="赞"
-                        android:layout_marginLeft="3dp"
-                        android:textSize="@dimen/text_small_content_size"
-                        />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content">
-                    <ImageView
-                        android:id="@+id/id_menu_collect"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/not_collect_64"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="收藏"
-                        android:layout_marginLeft="3dp"
-                        android:textSize="@dimen/text_small_content_size"
-                        />
-                </LinearLayout>
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:gravity="center"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content">
-                    <ImageView
-                        android:id="@+id/id_menu_comment"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/comment_64"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="评论"
-                        android:layout_marginLeft="3dp"
-                        android:textSize="@dimen/text_small_content_size"
-                        />
-                </LinearLayout>
-
-            </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="12dp"
-                android:layout_marginTop="10dp"
-                android:background="@color/view_white_gray" />
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
-                android:layout_marginLeft="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:id="@+id/id_comment_total"
-                    android:textSize="@dimen/text_title_size"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="评论（0）"
-                    />
-                <View
-                    android:layout_marginTop="10dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/view_white_gray" />
-            </LinearLayout>
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/id_rv_comment"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                </android.support.v7.widget.RecyclerView>
-                <TextView
-                    android:visibility="gone"
-                    android:id="@+id/id_tv_no_comment"
-                    android:layout_width="match_parent"
-                    android:layout_height="50sp"
-                    android:text="暂时还没有评论，快来抢座沙发吧~"
-                    android:gravity="center"
-                    android:textSize="@dimen/text_content_size"
-                    />
-            </FrameLayout>
-            <LinearLayout
-                android:id="@+id/id_ll_more"
-                android:clickable="true"
-                android:visibility="gone"
-                android:background="?attr/selectableItemBackground"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:text="查看更多评论"
-                    android:gravity="center"
+                    android:text="评论"
+                    android:layout_marginLeft="3dp"
+                    android:textSize="@dimen/text_small_content_size"
                     />
             </LinearLayout>
-
         </LinearLayout>
-
-    </android.support.v4.widget.NestedScrollView>
+    </FrameLayout>
 
 </LinearLayout>

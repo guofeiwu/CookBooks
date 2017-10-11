@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -63,6 +64,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
     private View mLoginFormView;//scroll view
     private CustomToolbar mCustomToolbar;
     private TextView mTvSmsLogin;
+    private String menuDetail;//从菜谱详情界面跳转到登录界面的标志
 
 
     @Override
@@ -74,7 +76,7 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        menuDetail = getIntent().getStringExtra("menuDetail");
 
         //SwitchAnimationUtils.enterActivitySlideRight(this);
         SwitchAnimationUtils.exitActivitySlideLeft(this);
@@ -138,7 +140,12 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
                 IntentUtils.jump(LoginActivity.this,ModifyPasswordActivity.class);
                 break;
             case R.id.tv_sms_login:/** 短信快速登录**/
-                IntentUtils.jump(LoginActivity.this,SmsFastLoginActivity.class);
+                //IntentUtils.jump(LoginActivity.this,SmsFastLoginActivity.class);
+                Intent intent = new Intent(LoginActivity.this,SmsFastLoginActivity.class);
+                if(menuDetail!=null){
+                    intent.putExtra("menuDetail","menuDetail");
+                }
+                startActivity(intent);
                 finish();//关闭登录
                 break;
         }
@@ -357,6 +364,11 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
                 ToastUtils.toast(LoginActivity.this,"登录成功");
                 finish();
                 SoftInputUtils.hideSoftInput(LoginActivity.this);
+                //这个是用户在菜谱详细界面登录时候加入的标志
+                if(menuDetail!=null && menuDetail.equals("menuDetail")){
+                    SpUtils.getEditor(LoginActivity.this).putBoolean("menuDetail",true).commit();
+                }
+
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();

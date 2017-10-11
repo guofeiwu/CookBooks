@@ -6,20 +6,32 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.wgf.cookbooks.R;
 import com.wgf.cookbooks.adapter.CommentListRecycleViewAdapter;
 import com.wgf.cookbooks.bean.Comment;
 import com.wgf.cookbooks.clazz.DeleteCommentAsyncTask;
 import com.wgf.cookbooks.clazz.GetCommentAsyncTask;
+import com.wgf.cookbooks.clazz.UpCommentAsyncTask;
 import com.wgf.cookbooks.util.RecycleDivider;
+import com.wgf.cookbooks.util.SoftInputUtils;
 import com.wgf.cookbooks.util.SpUtils;
 import com.wgf.cookbooks.util.ToastUtils;
 import com.wgf.cookbooks.view.CustomToolbar;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static com.wgf.cookbooks.util.Constants.BASE_URL;
 import static com.wgf.cookbooks.util.Constants.SUCCESS;
 
 /**
@@ -31,7 +43,7 @@ public class CommentListActivity extends AppCompatActivity implements CommentLis
     private RecyclerView mRecyclerView;
     private CustomToolbar mCustomToolbar;
     private int commentTotal;
-    private int shaiPkId;
+    private int pkId;
     private List<Comment> comments;
     private RecycleDivider mRecycleDivider;
     private GetCommentAsyncTask mGetCommentAsyncTask;
@@ -40,15 +52,19 @@ public class CommentListActivity extends AppCompatActivity implements CommentLis
     private boolean havaData = true;//有数据
     private int pageNo = 1;//第几页数据
     private DeleteCommentAsyncTask mDeleteCommentAsyncTask;
+    private TextView mSendComment;
+    private EditText mCommentContent;
+    private UpCommentAsyncTask mUpCommentAsyncTask;
+    private LinearLayout mCommentLayout;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_shai_comment);
+        setContentView(R.layout.activity_list_comment);
         initView();
         initData();
 
         setListener();
-
 
 
     }
@@ -65,7 +81,7 @@ public class CommentListActivity extends AppCompatActivity implements CommentLis
         });
 
 
-        mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             private int lastVisiableItem;
 
             @Override
@@ -73,7 +89,7 @@ public class CommentListActivity extends AppCompatActivity implements CommentLis
                 super.onScrollStateChanged(recyclerView, newState);
 
                 if (isLoading && newState == RecyclerView.SCROLL_STATE_IDLE && lastVisiableItem + 1 == mAdapter.getItemCount()) {
-
+                    mCommentLayout.setVisibility(View.VISIBLE);
                     mAdapter.setLoadStatus(1);
                     isLoading = false;
                     if (mGetCommentAsyncTask != null) {
@@ -83,7 +99,7 @@ public class CommentListActivity extends AppCompatActivity implements CommentLis
                     mGetCommentAsyncTask = new GetCommentAsyncTask(CommentListActivity.this, new GetCommentAsyncTask.ICommentListener() {
                         @Override
                         public void success(List<Comment> commentList) {
-                            if(commentList!=null) {
+                            if (commentList != null) {
                                 comments.addAll(commentList);
                                 mAdapter.addMoreItem(commentList);
                                 isLoading = true;
@@ -94,26 +110,33 @@ public class CommentListActivity extends AppCompatActivity implements CommentLis
                             } else {
                                 mAdapter.setLoadStatus(0);
                                 havaData = false;//已经无数据，无需提醒
+                                mCommentLayout.setVisibility(View.VISIBLE);
                             }
                         }
 
                         @Override
                         public void fail(int result) {
-                            if(result!=-1){
+                            if (result != -1) {
                                 mAdapter.setLoadStatus(0);
                                 havaData = false;//已经无数据，无需提醒
+                                mCommentLayout.setVisibility(View.VISIBLE);
                             }
                         }
                     });
 
-                    if(flag.equals("menu")){
-                        mGetCommentAsyncTask.execute(shaiPkId,pageNo,100);//菜谱id
-                    }else{
-                        mGetCommentAsyncTask.execute(shaiPkId,pageNo);
+                    if (flag.equals("menu")) {
+                        mGetCommentAsyncTask.execute(pkId, pageNo, 100);//菜谱id
+                    } else {
+                        mGetCommentAsyncTask.execute(pkId, pageNo);
                     }
 
                 } else if (!isLoading && havaData && newState == RecyclerView.SCROLL_STATE_IDLE && lastVisiableItem + 1 == mAdapter.getItemCount()) {
                     ToastUtils.toast(CommentListActivity.this, "加载评论中...");
+                }else if(newState == RecyclerView.SCROLL_STATE_SETTLING || newState == RecyclerView.SCROLL_STATE_DRAGGING){
+                    //滚动
+                    mCommentLayout.setVisibility(View.GONE);
+                }else if(newState == RecyclerView.SCROLL_STATE_IDLE){
+                    mCommentLayout.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -126,6 +149,100 @@ public class CommentListActivity extends AppCompatActivity implements CommentLis
             }
         });
 
+
+        mSendComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String content = mCommentContent.getText().toString().trim();
+                if (TextUtils.isEmpty(content)) {
+                    ToastUtils.toast(CommentListActivity.this, "请输入要评论的内容");
+                } else {
+
+                    if (flag.equals("menu")) {
+                            //将菜谱的评论上传到服务器
+                        Map<String, Object> map = new HashMap<>();
+                        map.put("menuPkId", pkId);
+                        map.put("content", content);
+                        JSONObject jsonObject = new JSONObject(map);
+                        if (mUpCommentAsyncTask != null) {
+                            return;
+                        }
+
+                        mUpCommentAsyncTask = new UpCommentAsyncTask(CommentListActivity.this, new UpCommentAsyncTask.IUpCommentListener() {
+                            @Override
+                            public void commentSuccess(Comment comment) {
+                                SoftInputUtils.hideSoftInput(CommentListActivity.this);
+                                ToastUtils.toast(CommentListActivity.this, getString(R.string.text_comment_success));
+                                mCommentContent.setText("");
+                                if (mUpCommentAsyncTask != null) {
+                                    mUpCommentAsyncTask = null;
+                                }
+                                comments.add(comment);
+                                //刷新
+                                mAdapter.insertFirstComment(comment);
+                                SpUtils.getEditor(CommentListActivity.this).putInt("menuCommentChange", ++commentTotal).commit();
+                                mCustomToolbar.setToolbarTitle("评论(" + commentTotal + ")");
+                                mRecyclerView.scrollToPosition(0);
+                            }
+
+                            @Override
+                            public void commentFailed() {
+                                SoftInputUtils.hideSoftInput(CommentListActivity.this);
+                                ToastUtils.toast(CommentListActivity.this, getString(R.string.text_comment_failed));
+                                if (mUpCommentAsyncTask != null) {
+                                    mUpCommentAsyncTask = null;
+                                }
+                            }
+                        });
+                        String url = BASE_URL + "/app/menu/comment";
+                        mUpCommentAsyncTask.execute(jsonObject.toString(), url);
+
+
+                    } else {
+                        //将评论内容上传到服务器
+                        Map<String, Object> map = new HashMap<>();
+                        map.put("shaiPkId", pkId);
+                        map.put("content", content);
+                        JSONObject jsonObject = new JSONObject(map);
+
+                        if (mUpCommentAsyncTask != null) {
+                            return;
+                        }
+
+                        mUpCommentAsyncTask = new UpCommentAsyncTask(CommentListActivity.this, new UpCommentAsyncTask.IUpCommentListener() {
+                            @Override
+                            public void commentSuccess(Comment comment) {
+                                SoftInputUtils.hideSoftInput(CommentListActivity.this);
+                                ToastUtils.toast(CommentListActivity.this, getString(R.string.text_comment_success));
+                                mCommentContent.setText("");
+                                if (mUpCommentAsyncTask != null) {
+                                    mUpCommentAsyncTask = null;
+                                }
+                                comments.add(comment);
+                                //刷新
+                                mAdapter.insertFirstComment(comment);
+                                SpUtils.getEditor(CommentListActivity.this).putInt("shaiCommentChange", ++commentTotal).commit();
+                                mCustomToolbar.setToolbarTitle("评论(" + commentTotal + ")");
+                                mRecyclerView.scrollToPosition(0);
+                            }
+
+                            @Override
+                            public void commentFailed() {
+                                SoftInputUtils.hideSoftInput(CommentListActivity.this);
+                                ToastUtils.toast(CommentListActivity.this, getString(R.string.text_comment_failed));
+                                if (mUpCommentAsyncTask != null) {
+                                    mUpCommentAsyncTask = null;
+                                }
+                            }
+                        });
+                        String url = BASE_URL + "/app/shai/comment";
+                        mUpCommentAsyncTask.execute(jsonObject.toString(), url);
+                    }
+                }
+            }
+        });
+
+
     }
 
     /**
@@ -134,6 +251,9 @@ public class CommentListActivity extends AppCompatActivity implements CommentLis
     private void initView() {
         mRecyclerView = (RecyclerView) findViewById(R.id.rv_comment_list);
         mCustomToolbar = (CustomToolbar) findViewById(R.id.ct_back);
+        mSendComment = (TextView) findViewById(R.id.id_tv_send_comment);
+        mCommentContent = (EditText) findViewById(R.id.id_et_comment_content);
+        mCommentLayout = (LinearLayout) findViewById(R.id.id_ll_comment);
     }
 
 
@@ -146,55 +266,56 @@ public class CommentListActivity extends AppCompatActivity implements CommentLis
 
         Intent intent = getIntent();
         flag = intent.getStringExtra("flag");
-        if(flag.equals("menu")){
-            shaiPkId =intent.getIntExtra("menuPkId",0);//菜谱id
-        }else{
-            shaiPkId =intent.getIntExtra("shaiPkId",0);
+        if (flag.equals("menu")) {
+            pkId = intent.getIntExtra("menuPkId", 0);//菜谱id
+        } else {
+            pkId = intent.getIntExtra("shaiPkId", 0);
         }
 
-        commentTotal = intent.getIntExtra("commentTotal",0);
-        mCustomToolbar.setToolbarTitle("评论("+commentTotal+")");//设置toolbar的标题
+        commentTotal = intent.getIntExtra("commentTotal", 0);
+        mCustomToolbar.setToolbarTitle("评论(" + commentTotal + ")");//设置toolbar的标题
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecycleDivider = new RecycleDivider(CommentListActivity.this,RecycleDivider.VERITCAL_LIST);
+        mRecycleDivider = new RecycleDivider(CommentListActivity.this, RecycleDivider.VERITCAL_LIST);
         mRecyclerView.addItemDecoration(mRecycleDivider);
 
 
         comments = new ArrayList<>();
-        if(mGetCommentAsyncTask !=null){
+        if (mGetCommentAsyncTask != null) {
             return;
         }
 
-        mGetCommentAsyncTask = new GetCommentAsyncTask(CommentListActivity.this,new GetCommentAsyncTask.ICommentListener(){
+        mGetCommentAsyncTask = new GetCommentAsyncTask(CommentListActivity.this, new GetCommentAsyncTask.ICommentListener() {
 
             @Override
             public void success(List<Comment> commentList) {
                 comments.addAll(commentList);
-                mAdapter = new CommentListRecycleViewAdapter(CommentListActivity.this,commentList);
+                mAdapter = new CommentListRecycleViewAdapter(CommentListActivity.this, commentList);
                 mRecyclerView.setAdapter(mAdapter);
                 mAdapter.setmListener(CommentListActivity.this);
                 pageNo++;//下一页
-                if(mGetCommentAsyncTask!= null){
+                if (mGetCommentAsyncTask != null) {
                     mGetCommentAsyncTask = null;
                 }
             }
+
             @Override
             public void fail(int result) {
             }
         });
 
-        if(flag.equals("menu")){
-            mGetCommentAsyncTask.execute(shaiPkId,pageNo,100);//菜谱id
-        }else{
-            mGetCommentAsyncTask.execute(shaiPkId,pageNo);
+        if (flag.equals("menu")) {
+            mGetCommentAsyncTask.execute(pkId, pageNo, 100);//菜谱id
+        } else {
+            mGetCommentAsyncTask.execute(pkId, pageNo);
         }
 
     }
 
 
-
     /**
      * 删除评论
+     *
      * @param position
      */
     @Override
@@ -205,37 +326,37 @@ public class CommentListActivity extends AppCompatActivity implements CommentLis
 
         //删除评论
         mAdapter.deleteComment(position);
-        commentTotal = commentTotal -1;
+        commentTotal = commentTotal - 1;
 
-        mCustomToolbar.setToolbarTitle("评论("+commentTotal+")");
-        if(mDeleteCommentAsyncTask !=null){
+        mCustomToolbar.setToolbarTitle("评论(" + commentTotal + ")");
+        if (mDeleteCommentAsyncTask != null) {
             return;
         }
 
         mDeleteCommentAsyncTask = new DeleteCommentAsyncTask(this, new DeleteCommentAsyncTask.IDeleteShaiCommentListener() {
             @Override
             public void result(int code) {
-                if(code == SUCCESS){
-                    ToastUtils.toast(CommentListActivity.this,getString(R.string.text_delete_success));
-                    if(flag.equals("menu")){
-                        SpUtils.getEditor(CommentListActivity.this).putInt("menuCommentChange",commentTotal).commit();
-                    }else{
-                        SpUtils.getEditor(CommentListActivity.this).putInt("shaiCommentChange",commentTotal).commit();
+                if (code == SUCCESS) {
+                    ToastUtils.toast(CommentListActivity.this, getString(R.string.text_delete_success));
+                    if (flag.equals("menu")) {
+                        SpUtils.getEditor(CommentListActivity.this).putInt("menuCommentChange", commentTotal).commit();
+                    } else {
+                        SpUtils.getEditor(CommentListActivity.this).putInt("shaiCommentChange", commentTotal).commit();
                     }
 
-                }else{
-                    ToastUtils.toast(CommentListActivity.this,getString(R.string.text_delete_failed));
+                } else {
+                    ToastUtils.toast(CommentListActivity.this, getString(R.string.text_delete_failed));
                 }
 
-                if(mDeleteCommentAsyncTask !=null){
+                if (mDeleteCommentAsyncTask != null) {
                     mDeleteCommentAsyncTask = null;
                 }
             }
         });
 
-        if(flag.equals("menu")){
-            mDeleteCommentAsyncTask.execute(comment.getCommnetPkId(),100);//菜谱id
-        }else{
+        if (flag.equals("menu")) {
+            mDeleteCommentAsyncTask.execute(comment.getCommnetPkId(), 100);//菜谱id
+        } else {
             mDeleteCommentAsyncTask.execute(comment.getCommnetPkId());
         }
 

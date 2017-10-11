@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.wgf.cookbooks.R;
 import com.wgf.cookbooks.adapter.ShaiDetailRecycleViewAdapter;
+import com.wgf.cookbooks.bean.Comment;
 import com.wgf.cookbooks.bean.Shai;
 import com.wgf.cookbooks.clazz.GetShaiAsyncTask;
 import com.wgf.cookbooks.clazz.UpCommentAsyncTask;
@@ -295,7 +296,7 @@ public class ShaiActivity extends AppCompatActivity implements ShaiDetailRecycle
 
                         mUpCommentAsyncTask = new UpCommentAsyncTask(ShaiActivity.this, new UpCommentAsyncTask.IUpCommentListener() {
                             @Override
-                            public void commentSuccess() {
+                            public void commentSuccess(Comment comment) {
                                 SoftInputUtils.hideSoftInput(ShaiActivity.this);
                                 ToastUtils.toast(ShaiActivity.this, getString(R.string.text_comment_success));
                                 mCommentContent.setText("");

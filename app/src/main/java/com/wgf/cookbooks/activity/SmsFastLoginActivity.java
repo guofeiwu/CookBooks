@@ -102,6 +102,9 @@ public class SmsFastLoginActivity extends AppCompatActivity implements View.OnCl
                 //Intent intent = new Intent(SmsFastLoginActivity.this,MainActivity.class);
                 //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 //startActivity(intent);
+                if(menuDetail!=null && menuDetail.equals("menuDetail")){
+                    SpUtils.getEditor(SmsFastLoginActivity.this).putBoolean("menuDetail",true).commit();
+                }
                 finish();
                 SoftInputUtils.hideSoftInput(SmsFastLoginActivity.this);
             }else if (integer == Constants.LOGIN_ERROR_CODE){
@@ -128,12 +131,12 @@ public class SmsFastLoginActivity extends AppCompatActivity implements View.OnCl
         super.onBackPressed();
     }
 
-
+    private String menuDetail = null;//从菜谱详情界面跳转到登录界面的标志
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sms_login);
-
+        menuDetail = getIntent().getStringExtra("menuDetail");
         initView();
 
         mBtnLogin.setOnClickListener(this);

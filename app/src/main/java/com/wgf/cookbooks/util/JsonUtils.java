@@ -228,6 +228,41 @@ public class JsonUtils {
         return comments;
     }
 
+
+
+    /**
+     * 返回附加的内容（单个Comment）
+     * @param response
+     * @return
+     */
+    public static Comment getComment(String response){
+        Comment comment = null;
+        try {
+                comment = new Comment();
+                JSONObject jsonObject = new JSONObject(response);
+                JSONObject jo = jsonObject.getJSONObject("extend").getJSONObject("content");
+                String content = jo.getString("content");
+                String commentTime = jo.getString("commentTime");
+                String userIconUrl = jo.getString("userIconUrl");
+                String username = jo.getString("username");
+                int currentUser = jo.getInt("currentUser");
+                int commentPkId = jo.getInt("commentPkId");
+                comment.setContent(content);
+                comment.setCommentTime(commentTime);
+                comment.setUserIconUrl(userIconUrl);
+                comment.setUserName(username);
+                comment.setCurrentUser(currentUser);
+                comment.setCommnetPkId(commentPkId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return comment;
+    }
+
+
+
+
+
     /**
      * 返回附加的内容（菜单集合）
      * @param response

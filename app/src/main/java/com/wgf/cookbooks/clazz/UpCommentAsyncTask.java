@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
+import com.wgf.cookbooks.bean.Comment;
 import com.wgf.cookbooks.util.GetAuthorizationUtil;
 import com.wgf.cookbooks.util.JsonUtils;
 
@@ -44,7 +45,8 @@ public class UpCommentAsyncTask extends AsyncTask<String,Void,Void> {
                             String resJson = response.body().toString();
                             int code = JsonUtils.getCode(resJson);
                             if(code == SUCCESS){
-                                mListener.commentSuccess();
+                                Comment comment = JsonUtils.getComment(resJson);
+                                mListener.commentSuccess(comment);
                             }else {
                                 mListener.commentFailed();
                             }
@@ -58,7 +60,7 @@ public class UpCommentAsyncTask extends AsyncTask<String,Void,Void> {
 
 
     public interface IUpCommentListener{
-        void commentSuccess();
+        void commentSuccess(Comment comment);
         void commentFailed();
     }
 

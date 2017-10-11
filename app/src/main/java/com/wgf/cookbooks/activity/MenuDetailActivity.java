@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,6 +47,7 @@ import static com.wgf.cookbooks.util.Constants.SUCCESS;
 /**
  * author guofei_wu
  * email guofei_wu@163.com
+ * 菜谱详细界面
  */
 public class MenuDetailActivity extends AppCompatActivity implements MenuDetailAsyncTask.IMenuDetailListener, GetCommentAsyncTask.ICommentListener,
         CommentRecycleViewAdapter.ICommentDeleteListener,View.OnClickListener,LikeMenuAsyncTask.ILikeMenuListener, CollectMenuAsyncTask.ICollectMenuListener{
@@ -57,41 +59,22 @@ public class MenuDetailActivity extends AppCompatActivity implements MenuDetailA
     private CircleImageView muserIcon;
     private TextView mUserName;
     private TextView mIntroduce;
-
     private RecyclerView mRecyclerView;
     private MenuStepAdapter mMenuStepAdapter;
     private RecycleDivider mRecycleDivider;
-
-
     private TextView commentTotal;//评论总数
     private RecyclerView mRecyclerViewComment;
-
     private TextView noComment;//无评论
-
     private LinearLayout readMoreComment;//查看更多评论
-
     private LinearLayout likeLayout, collectLayout, commentLayout;
-
     private ImageView likeImageView, colloectImageView;
-
     private TextView likeNumber, collectNumber;
-
-
     private GetCommentAsyncTask mGetCommentAsyncTask;
-
-
     private List<Comment> comments;//菜谱对应的评论
-
-
     private CommentRecycleViewAdapter mAdapter;
-
     private int commentSize;//评论总数
-
     private DeleteCommentAsyncTask mDeleteCommentAsyncTask;
-
-
     private LikeMenuAsyncTask mLikeMenuAsyncTask;
-
     private CollectMenuAsyncTask mCollectMenuAsyncTask;
 
 
@@ -99,14 +82,10 @@ public class MenuDetailActivity extends AppCompatActivity implements MenuDetailA
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_detail);
+        menuPkId = getIntent().getIntExtra("menuPkId", 0);
         initView();
-
-
         initData();
-
         setListener();
-
-
     }
 
     /**
@@ -122,16 +101,16 @@ public class MenuDetailActivity extends AppCompatActivity implements MenuDetailA
         readMoreComment.setOnClickListener(this);
         likeLayout.setOnClickListener(this);
         collectLayout.setOnClickListener(this);
+        commentLayout.setOnClickListener(this);
     }
 
     private int menuPkId = 0;
+
 
     /**
      * 初始化数据
      */
     private void initData() {
-        menuPkId = getIntent().getIntExtra("menuPkId", 0);
-
         if (mMenuDetailAsyncTask != null) {
             return;
         }
@@ -296,11 +275,13 @@ public class MenuDetailActivity extends AppCompatActivity implements MenuDetailA
             likeNumber.setText(likeSize + "");
         }
 
-
-
         likePkId = menu.getLikePkId();
         collectPkId = menu.getCollectPkId();
 
+
+        if (mMenuDetailAsyncTask != null) {
+            mMenuDetailAsyncTask = null;
+        }
     }
 
 
@@ -408,24 +389,22 @@ public class MenuDetailActivity extends AppCompatActivity implements MenuDetailA
         mDeleteCommentAsyncTask.execute(commnetPkId, 100);
     }
 
-
     @Override
     public void onClick(View v) {
         String url = null;
         String token = null;
         switch (v.getId()){
             case R.id.id_ll_more://查看更多评论
-                Intent intent = new Intent(this,CommentListActivity.class);
-                intent.putExtra("flag","menu");
-                intent.putExtra("menuPkId",menuPkid);
-                intent.putExtra("commentTotal",commentSize);
-                startActivity(intent);
+                intentCommnetList();
                 break;
             case R.id.id_ll_like://点赞
                 //用户未登录，则进行登录
                 token = GetAuthorizationUtil.getAuth(this);
                 if(TextUtils.isEmpty(token)){
-                    IntentUtils.jump(this,LoginActivity.class);
+                    //IntentUtils.jump(this,LoginActivity.class);
+                    Intent intent1 = new Intent(this, LoginActivity.class);
+                    intent1.putExtra("menuDetail","menuDetail");
+                    startActivity(intent1);
                     return;
                 }
                 if (currentLike == 0){//是当前用户点赞
@@ -447,7 +426,9 @@ public class MenuDetailActivity extends AppCompatActivity implements MenuDetailA
                 //用户未登录，则进行登录
                 token = GetAuthorizationUtil.getAuth(this);
                 if(TextUtils.isEmpty(token)){
-                    IntentUtils.jump(this,LoginActivity.class);
+                    Intent intent2 = new Intent(this, LoginActivity.class);
+                    intent2.putExtra("menuDetail","menuDetail");
+                    startActivity(intent2);
                     return;
                 }
                 if (currentCollect == 0){//是当前用户收藏
@@ -466,9 +447,20 @@ public class MenuDetailActivity extends AppCompatActivity implements MenuDetailA
                 mCollectMenuAsyncTask.execute(url);
                 break;
             case R.id.id_ll_comment://评论
-
+                intentCommnetList();
                 break;
         }
+    }
+
+    /**
+     * 跳转到评论列表界面
+     */
+    private void intentCommnetList(){
+        Intent intent = new Intent(this,CommentListActivity.class);
+        intent.putExtra("flag","menu");
+        intent.putExtra("menuPkId",menuPkid);
+        intent.putExtra("commentTotal",commentSize);
+        startActivity(intent);
     }
 
 
@@ -493,8 +485,15 @@ public class MenuDetailActivity extends AppCompatActivity implements MenuDetailA
             readMoreComment.setVisibility(View.GONE);
             noComment.setVisibility(View.VISIBLE);
         }
-    }
 
+        //登录之后恢复显示界面
+        boolean menuDetail = SpUtils.getSharedPreferences(this).getBoolean("menuDetail",false);
+        if(menuDetail){
+            mMaterialsDose.removeAllViews();
+            initData();
+            SpUtils.getEditor(this).putBoolean("menuDetail",false).commit();
+        }
+    }
 
     //点赞操作的回调
     @Override
@@ -570,4 +569,8 @@ public class MenuDetailActivity extends AppCompatActivity implements MenuDetailA
             ToastUtils.toast(this,getString(R.string.text_operate_failed));
         }
     }
+
+
+
+
 }

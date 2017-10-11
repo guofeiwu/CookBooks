@@ -157,6 +157,14 @@ public class CommentListRecycleViewAdapter extends RecyclerView.Adapter<Recycler
         notifyDataSetChanged();
     }
 
+    /**
+     * 添加 刷新数据
+     */
+    public void insertFirstComment(Comment comment){
+        comments.add(0,comment);
+        notifyItemInserted(0);
+    }
+
 
     @Override
     public int getItemViewType(int position) {

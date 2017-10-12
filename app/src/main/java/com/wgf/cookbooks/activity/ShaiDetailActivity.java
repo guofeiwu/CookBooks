@@ -63,6 +63,7 @@ public class ShaiDetailActivity extends AppCompatActivity implements View.OnClic
     private TextView mNoComment;
     private DeleteCommentAsyncTask mDeleteCommentAsyncTask;
     private int commentTotal;//评论的总数
+    private LinearLayout mCommentLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -104,6 +105,10 @@ public class ShaiDetailActivity extends AppCompatActivity implements View.OnClic
      * 加载评论
      */
     private void loadComments() {
+        if(comments!=null){
+            comments.clear();
+            comments = null;
+        }
         comments = new ArrayList<>();
 
         if(mGetCommentAsyncTask !=null){
@@ -130,6 +135,9 @@ public class ShaiDetailActivity extends AppCompatActivity implements View.OnClic
                 if(result==-1){
                     ToastUtils.toast(ShaiDetailActivity.this,"获取评论失败");
                 }
+                if(mGetCommentAsyncTask!= null){
+                    mGetCommentAsyncTask = null;
+                }
             }
         });
         mGetCommentAsyncTask.execute(shaiPkId,1);
@@ -143,6 +151,8 @@ public class ShaiDetailActivity extends AppCompatActivity implements View.OnClic
         if (result >0){//改变了，需要刷新列表
             mCommentTotal.setText("评论("+result+")");
             commentTotal = result;
+            mNoComment.setVisibility(View.GONE);
+            setVisibility();
             if(result>6){
                 mMore.setVisibility(View.VISIBLE);
             }else{
@@ -155,8 +165,22 @@ public class ShaiDetailActivity extends AppCompatActivity implements View.OnClic
             mCommentTotal.setText("评论(0)");
             mMore.setVisibility(View.GONE);
             mNoComment.setVisibility(View.VISIBLE);
+            mRecyclerView.setVisibility(View.GONE);
         }
     }
+
+
+    /**
+     * 设置可见性
+     */
+    private void setVisibility(){
+        int visibility = mRecyclerView.getVisibility();
+        if(visibility == View.GONE){
+            mRecyclerView.setVisibility(View.VISIBLE);
+            mNoComment.setVisibility(View.GONE);
+        }
+    }
+
 
     /**
      * 初始化晒详情
@@ -188,7 +212,6 @@ public class ShaiDetailActivity extends AppCompatActivity implements View.OnClic
                 }else{
                     mDelete.setVisibility(View.GONE);
                 }
-
                 //更新浏览次数
                 if(mUpdateLookTotalAsyncTask!=null){
                     return;
@@ -238,6 +261,7 @@ public class ShaiDetailActivity extends AppCompatActivity implements View.OnClic
         mLookTotal = (TextView) findViewById(R.id.id_tv_look);
         mDelete = (TextView) findViewById(R.id.id_tv_delete);
         mNoComment = (TextView) findViewById(R.id.id_tv_no_comment);
+        mCommentLayout = (LinearLayout) findViewById(R.id.id_ll_comment);
     }
 
     /**
@@ -246,24 +270,21 @@ public class ShaiDetailActivity extends AppCompatActivity implements View.OnClic
     private void setListener(){
         mMore.setOnClickListener(this);
         mDelete.setOnClickListener(this);
+        mCommentLayout.setOnClickListener(this);
         mCustomToolbar.setBtnOnBackOnClickListener(new CustomToolbar.BtnOnBackOnClickListener() {
             @Override
             public void onClick() {
                 finish();
             }
         });
+
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.id_ll_more:
-
-                Intent intent = new Intent(this,CommentListActivity.class);
-                intent.putExtra("flag","shai");
-                intent.putExtra("shaiPkId",shaiPkId);
-                intent.putExtra("commentTotal",commentTotal);
-                startActivity(intent);
+                jumpActivity();
                 //ToastUtils.toast(ShaiDetailActivity.this,"查看更多");
                 break;
             case R.id.id_tv_delete://删除当前晒晒
@@ -287,7 +308,19 @@ public class ShaiDetailActivity extends AppCompatActivity implements View.OnClic
                 });
                 mDeleteShaiAsyncTask.execute(shaiPkId);
                 break;
+            case R.id.id_ll_comment:
+                jumpActivity();
+                break;
         }
+    }
+
+    //跳转到评论列表界面
+    private void jumpActivity(){
+        Intent intent = new Intent(this,CommentListActivity.class);
+        intent.putExtra("flag","shai");
+        intent.putExtra("shaiPkId",shaiPkId);
+        intent.putExtra("commentTotal",commentTotal);
+        startActivity(intent);
     }
 
     private int flag = 1;//删除的数量
@@ -307,8 +340,10 @@ public class ShaiDetailActivity extends AppCompatActivity implements View.OnClic
 
         if(comments.size() == 0){
             mNoComment.setVisibility(View.VISIBLE);
+            mRecyclerView.setVisibility(View.GONE);
         }else{
             mNoComment.setVisibility(View.GONE);
+            mRecyclerView.setVisibility(View.VISIBLE);
         }
 
         //删除评论

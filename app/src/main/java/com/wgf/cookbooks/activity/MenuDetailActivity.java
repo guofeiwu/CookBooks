@@ -327,6 +327,9 @@ public class MenuDetailActivity extends AppCompatActivity implements MenuDetailA
         } else {
             ToastUtils.toast(this, "获取评论失败");
         }
+        if (mGetCommentAsyncTask != null) {
+            mGetCommentAsyncTask = null;
+        }
     }
 
     @Override
@@ -363,8 +366,10 @@ public class MenuDetailActivity extends AppCompatActivity implements MenuDetailA
         //无评论
         if (comments.size() == 0) {
             noComment.setVisibility(View.VISIBLE);
+            mRecyclerViewComment.setVisibility(View.GONE);
         } else {
             noComment.setVisibility(View.GONE);
+            mRecyclerViewComment.setVisibility(View.VISIBLE);
         }
 
         //删除评论
@@ -463,7 +468,16 @@ public class MenuDetailActivity extends AppCompatActivity implements MenuDetailA
         startActivity(intent);
     }
 
-
+    /**
+     * 设置可见性
+     */
+    private void setVisibility(){
+        int visibility = mRecyclerViewComment.getVisibility();
+        if(visibility == View.GONE){
+            mRecyclerViewComment.setVisibility(View.VISIBLE);
+            noComment.setVisibility(View.GONE);
+        }
+    }
     @Override
     protected void onResume() {
         super.onResume();
@@ -472,6 +486,8 @@ public class MenuDetailActivity extends AppCompatActivity implements MenuDetailA
         if (result >0){//改变了，需要刷新列表
             commentTotal.setText("评论("+result+")");
             commentSize = result;
+            noComment.setVisibility(View.GONE);
+            setVisibility();
             if(result>6){
                 readMoreComment.setVisibility(View.VISIBLE);
             }else{
@@ -484,6 +500,7 @@ public class MenuDetailActivity extends AppCompatActivity implements MenuDetailA
             commentTotal.setText("评论(0)");
             readMoreComment.setVisibility(View.GONE);
             noComment.setVisibility(View.VISIBLE);
+            mRecyclerViewComment.setVisibility(View.GONE);
         }
 
         //登录之后恢复显示界面
@@ -569,8 +586,5 @@ public class MenuDetailActivity extends AppCompatActivity implements MenuDetailA
             ToastUtils.toast(this,getString(R.string.text_operate_failed));
         }
     }
-
-
-
 
 }

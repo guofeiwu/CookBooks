@@ -166,6 +166,7 @@ public class ShaiDetailActivity extends AppCompatActivity implements View.OnClic
             mMore.setVisibility(View.GONE);
             mNoComment.setVisibility(View.VISIBLE);
             mRecyclerView.setVisibility(View.GONE);
+            SpUtils.getEditor(this).putInt("shaiCommentChange",-1).commit();
         }
     }
 

@@ -49,4 +49,5 @@ dependencies {
     compile files('libs/MobTools-2017.0607.1736.jar')
     compile name:'SMSSDK-3.0.0',ext:'aar'
     compile 'com.yanzhenjie:permission:1.1.0'
+    compile 'com.youth.banner:banner:1.4.10'
 }

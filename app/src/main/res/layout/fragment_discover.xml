@@ -1,54 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<LinearLayout
+    android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize">
+
+        <ImageView
+            android:id="@+id/iv_search"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:background="@color/view_white_gray"
+            android:src="@drawable/search_32" />
+
+        <EditText
+            android:padding="3dp"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/iv_search"
+            android:background="@color/view_white_gray"
+            android:hint="菜谱、食材、类别"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:cursorVisible="false"
+            android:textSize="@dimen/text_small_content_size" />
+    </RelativeLayout>
+
+
+<ScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize">
-
-            <ImageView
-                android:id="@+id/iv_search"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="20dp"
-                android:background="@color/view_white_gray"
-                android:src="@drawable/search_32" />
-
-            <EditText
-                android:padding="3dp"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="10dp"
-                android:layout_toRightOf="@+id/iv_search"
-                android:background="@color/view_white_gray"
-                android:hint="菜谱、晒一晒"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:cursorVisible="false"
-                android:textSize="@dimen/text_content_size" />
-        </RelativeLayout>
-
         <View
             android:id="@+id/view"
             android:layout_width="match_parent"
             android:layout_height="15dp"
             android:layout_alignParentBottom="true"
             android:background="@color/view_white_gray" />
-
         <RelativeLayout
             android:background="?attr/selectableItemBackground"
             android:id="@+id/rl_shai_yi_shai"
             android:layout_width="match_parent"
             android:layout_height="30dp">
-
             <TextView
                 android:id="@+id/tv_shaiyishai"
                 android:layout_width="wrap_content"
@@ -200,4 +204,4 @@
             />
     </LinearLayout>
 </ScrollView>
-
+</LinearLayout>

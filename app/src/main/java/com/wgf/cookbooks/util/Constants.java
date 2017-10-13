@@ -3,6 +3,7 @@ package com.wgf.cookbooks.util;
 /**
  * author guofei_wu
  * email guofei_wu@163.com
+ * 一些常量
  */
 public class Constants {
       /**住宿的**/

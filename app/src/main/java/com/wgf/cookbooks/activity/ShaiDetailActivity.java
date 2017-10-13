@@ -6,6 +6,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,6 +23,8 @@ import com.wgf.cookbooks.clazz.DeleteCommentAsyncTask;
 import com.wgf.cookbooks.clazz.GetCommentAsyncTask;
 import com.wgf.cookbooks.clazz.GetShaiDetailAsyncTask;
 import com.wgf.cookbooks.clazz.UpdateLookTotalAsyncTask;
+import com.wgf.cookbooks.util.GetAuthorizationUtil;
+import com.wgf.cookbooks.util.IntentUtils;
 import com.wgf.cookbooks.util.RecycleDivider;
 import com.wgf.cookbooks.util.SpUtils;
 import com.wgf.cookbooks.util.ToastUtils;
@@ -119,13 +123,18 @@ public class ShaiDetailActivity extends AppCompatActivity implements View.OnClic
 
             @Override
             public void success(List<Comment> commentList) {
+
+                if(mAdapter !=null){
+                    mAdapter = null;//之前的adapter置为空
+                }
+                //成功了就是有数据，没数据的一律回调 fail() 方法
                 comments.addAll(commentList);
-                mAdapter = new CommentRecycleViewAdapter(ShaiDetailActivity.this,commentList);
-                mRecyclerView.setAdapter(mAdapter);
-
+                mAdapter = new CommentRecycleViewAdapter(ShaiDetailActivity.this, commentList);
                 mAdapter.setmListener(ShaiDetailActivity.this);
-
-                if(mGetCommentAsyncTask!= null){
+                mRecyclerView.setAdapter(mAdapter);
+//                mRecyclerView.setVisibility(View.VISIBLE);
+                setVisibility();
+                if (mGetCommentAsyncTask != null) {
                     mGetCommentAsyncTask = null;
                 }
             }
@@ -310,7 +319,12 @@ public class ShaiDetailActivity extends AppCompatActivity implements View.OnClic
                 mDeleteShaiAsyncTask.execute(shaiPkId);
                 break;
             case R.id.id_ll_comment:
-                jumpActivity();
+                String token = GetAuthorizationUtil.getAuth(this);
+                if(TextUtils.isEmpty(token)){
+                    IntentUtils.jump(this, LoginActivity.class);
+                }else{
+                    jumpActivity();
+                }
                 break;
         }
     }

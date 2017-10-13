@@ -30,6 +30,7 @@ import com.wgf.cookbooks.clazz.LikeMenuAsyncTask;
 import com.wgf.cookbooks.clazz.MenuDetailAsyncTask;
 import com.wgf.cookbooks.util.GetAuthorizationUtil;
 import com.wgf.cookbooks.util.IntentUtils;
+import com.wgf.cookbooks.util.L;
 import com.wgf.cookbooks.util.RecycleDivider;
 import com.wgf.cookbooks.util.SpUtils;
 import com.wgf.cookbooks.util.ToastUtils;
@@ -314,6 +315,9 @@ public class MenuDetailActivity extends AppCompatActivity implements MenuDetailA
         mAdapter = new CommentRecycleViewAdapter(this, commentList);
         mAdapter.setmListener(this);
         mRecyclerViewComment.setAdapter(mAdapter);
+
+        setVisibility();
+
         if (mGetCommentAsyncTask != null) {
             mGetCommentAsyncTask = null;
         }
@@ -452,7 +456,12 @@ public class MenuDetailActivity extends AppCompatActivity implements MenuDetailA
                 mCollectMenuAsyncTask.execute(url);
                 break;
             case R.id.id_ll_comment://评论
-                intentCommnetList();
+                token = GetAuthorizationUtil.getAuth(this);
+                if(TextUtils.isEmpty(token)){
+                    IntentUtils.jump(this, LoginActivity.class);
+                }else{
+                    intentCommnetList();
+                }
                 break;
         }
     }

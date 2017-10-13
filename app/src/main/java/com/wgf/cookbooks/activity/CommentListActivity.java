@@ -58,8 +58,8 @@ public class CommentListActivity extends AppCompatActivity implements CommentLis
     private UpCommentAsyncTask mUpCommentAsyncTask;
     private LinearLayout mCommentLayout;
     private TextView mNoComment;
+    private boolean firstNoData = false;//第一次进有数据
 
-    // TODO: 2017/10/11  第一次进来没评论时候，进行评论闪退
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,6 +91,15 @@ public class CommentListActivity extends AppCompatActivity implements CommentLis
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
 
+                if(firstNoData){//没数据
+                    ToastUtils.toast(CommentListActivity.this, "暂无更多评论...");
+                    if (mGetCommentAsyncTask != null) {
+                        mGetCommentAsyncTask = null;
+                    }
+                    mAdapter.setLoadStatus(0);
+                    return;
+                }
+
                 if (isLoading && newState == RecyclerView.SCROLL_STATE_IDLE && lastVisiableItem + 1 == mAdapter.getItemCount()) {
                     mCommentLayout.setVisibility(View.VISIBLE);
                     mAdapter.setLoadStatus(1);
@@ -102,7 +111,8 @@ public class CommentListActivity extends AppCompatActivity implements CommentLis
                     mGetCommentAsyncTask = new GetCommentAsyncTask(CommentListActivity.this, new GetCommentAsyncTask.ICommentListener() {
                         @Override
                         public void success(List<Comment> commentList) {
-                            if (commentList != null) {
+
+                            if (commentList != null &&commentList.size()>0) {
                                 comments.addAll(commentList);
                                 mAdapter.addMoreItem(commentList);
                                 isLoading = true;
@@ -135,6 +145,7 @@ public class CommentListActivity extends AppCompatActivity implements CommentLis
 
                 } else if (!isLoading && havaData && newState == RecyclerView.SCROLL_STATE_IDLE && lastVisiableItem + 1 == mAdapter.getItemCount()) {
                     ToastUtils.toast(CommentListActivity.this, "加载评论中...");
+                    mAdapter.setLoadStatus(2);//正在加载更多数据
                 }else if(newState == RecyclerView.SCROLL_STATE_SETTLING || newState == RecyclerView.SCROLL_STATE_DRAGGING){
                     //滚动
                     mCommentLayout.setVisibility(View.GONE);
@@ -178,20 +189,24 @@ public class CommentListActivity extends AppCompatActivity implements CommentLis
                                 SoftInputUtils.hideSoftInput(CommentListActivity.this);
                                 ToastUtils.toast(CommentListActivity.this, getString(R.string.text_comment_success));
                                 mCommentContent.setText("");
-                                if (mUpCommentAsyncTask != null) {
-                                    mUpCommentAsyncTask = null;
-                                }
-                                comments.add(comment);
+                                comments.add(0,comment);
                                 //刷新
                                 if(mAdapter == null){
-                                    mAdapter = new CommentListRecycleViewAdapter(CommentListActivity.this, Arrays.asList(comment));
+                                    List<Comment> commentList = new ArrayList<>();
+                                    commentList.add(comment);
+                                    mAdapter = new CommentListRecycleViewAdapter(CommentListActivity.this, commentList);
+                                    mAdapter.setmListener(CommentListActivity.this);
                                     mRecyclerView.setAdapter(mAdapter);
                                 }else{
+                                    mAdapter.setmListener(CommentListActivity.this);
                                     mAdapter.insertFirstComment(comment);
                                 }
                                 SpUtils.getEditor(CommentListActivity.this).putInt("menuCommentChange", ++commentTotal).commit();
                                 mCustomToolbar.setToolbarTitle("评论(" + commentTotal + ")");
                                 mRecyclerView.scrollToPosition(0);
+                                if (mUpCommentAsyncTask != null) {
+                                    mUpCommentAsyncTask = null;
+                                }
                             }
 
                             @Override
@@ -226,20 +241,24 @@ public class CommentListActivity extends AppCompatActivity implements CommentLis
                                 SoftInputUtils.hideSoftInput(CommentListActivity.this);
                                 ToastUtils.toast(CommentListActivity.this, getString(R.string.text_comment_success));
                                 mCommentContent.setText("");
-                                if (mUpCommentAsyncTask != null) {
-                                    mUpCommentAsyncTask = null;
-                                }
-                                comments.add(comment);
+                                comments.add(0,comment);
                                 //刷新
                                 if(mAdapter == null){
-                                    mAdapter = new CommentListRecycleViewAdapter(CommentListActivity.this, Arrays.asList(comment));
+                                    List<Comment> commentList = new ArrayList<>();
+                                    commentList.add(comment);
+                                    mAdapter = new CommentListRecycleViewAdapter(CommentListActivity.this, commentList);
+                                    mAdapter.setmListener(CommentListActivity.this);
                                     mRecyclerView.setAdapter(mAdapter);
                                 }else{
+                                    mAdapter.setmListener(CommentListActivity.this);
                                     mAdapter.insertFirstComment(comment);
                                 }
                                 SpUtils.getEditor(CommentListActivity.this).putInt("shaiCommentChange", ++commentTotal).commit();
                                 mCustomToolbar.setToolbarTitle("评论(" + commentTotal + ")");
                                 mRecyclerView.scrollToPosition(0);
+                                if (mUpCommentAsyncTask != null) {
+                                    mUpCommentAsyncTask = null;
+                                }
                             }
 
                             @Override
@@ -308,8 +327,8 @@ public class CommentListActivity extends AppCompatActivity implements CommentLis
 
                 comments.addAll(commentList);
                 mAdapter = new CommentListRecycleViewAdapter(CommentListActivity.this, commentList);
-                mRecyclerView.setAdapter(mAdapter);
                 mAdapter.setmListener(CommentListActivity.this);
+                mRecyclerView.setAdapter(mAdapter);
                 pageNo++;//下一页
                 if (mGetCommentAsyncTask != null) {
                     mGetCommentAsyncTask = null;
@@ -318,8 +337,12 @@ public class CommentListActivity extends AppCompatActivity implements CommentLis
 
             @Override
             public void fail(int result) {
+                firstNoData = true;//第一次进来无数据
                 mNoComment.setVisibility(View.VISIBLE);
                 mRecyclerView.setVisibility(View.GONE);
+                if (mGetCommentAsyncTask != null) {
+                    mGetCommentAsyncTask = null;
+                }
             }
         });
 
@@ -341,6 +364,17 @@ public class CommentListActivity extends AppCompatActivity implements CommentLis
             mNoComment.setVisibility(View.GONE);
         }
     }
+
+
+
+    /**
+     * 开发过程中出现的bug
+     * 这些bug已经解决
+     * 1、第一次进入到晒晒或菜谱详情界面， 有评论，但是不显示，在评论列表，如果没有评论，第一次添加后删除，会出现异常
+     * 2、如果有评论，加到第一条，删除错乱问题，会把下一个删除
+     * 3、如果没有评论，插入第二条评论的时候出异常
+     * 4、第一次进来没评论时候，进行评论闪退
+     */
 
 
 

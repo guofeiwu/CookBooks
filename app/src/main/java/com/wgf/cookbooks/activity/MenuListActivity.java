@@ -26,15 +26,15 @@ import java.util.Map;
  * email guofei_wu@163.com
  * 一日三餐的界面
  */
-public class MenuListActivity extends AppCompatActivity implements MenuAsyncTask.IGetMenuListener,MenuRecycleViewAdapter.IMenuDetailListener{
+public class MenuListActivity extends AppCompatActivity implements MenuAsyncTask.IGetMenuListener, MenuRecycleViewAdapter.IMenuDetailListener {
     private CustomToolbar mCustomToolbar;
     private RecyclerView mThreeMealsRecyclerView;
     private MenuRecycleViewAdapter mAdapter;
     private RecycleDivider mRecycleDivider;
-    private int position;//位置，代表0-3 早 中 晚 夜
+    private int position;//位置
     private MenuAsyncTask mMenuAsyncTask;
     private List<Menu> menus;
-    private boolean isLoading = true;//正在加载数据
+    private boolean isLoading = true;//没在加载数据
     private int pageNo = 1;//第几页
     private Map map;//条件
     private boolean havaData = true;//有数据
@@ -45,14 +45,14 @@ public class MenuListActivity extends AppCompatActivity implements MenuAsyncTask
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_list);
         Intent intent = getIntent();
-        position = intent.getIntExtra("pos",0);
+        position = intent.getIntExtra("pos", 0);
         type = intent.getStringExtra("type");
 
         mCustomToolbar = (CustomToolbar) findViewById(R.id.id_ct_three_meal);
         mThreeMealsRecyclerView = (RecyclerView) findViewById(R.id.id_rv_three_meal);
 
         mThreeMealsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        mRecycleDivider = new RecycleDivider(this,RecycleDivider.VERITCAL_LIST);
+        mRecycleDivider = new RecycleDivider(this, RecycleDivider.VERITCAL_LIST);
         mThreeMealsRecyclerView.addItemDecoration(mRecycleDivider);
 
 
@@ -67,137 +67,137 @@ public class MenuListActivity extends AppCompatActivity implements MenuAsyncTask
      */
     private void initData() {
         menus = new ArrayList<>();
-        if(mMenuAsyncTask!=null){
+        if (mMenuAsyncTask != null) {
             return;
         }
 
-        if(type.equals(Constants.YIRISANCAN)){
-            map= new HashMap();
-            map.put("pageNo",pageNo);
-            map.put("pType",0);//一日三餐
-            switch (position){
+        if (type.equals(Constants.YIRISANCAN)) {
+            map = new HashMap();
+            map.put("pageNo", pageNo);
+            map.put("pType", 0);//一日三餐
+            switch (position) {
                 case 0://早餐
-                    map.put("sunType",0);
+                    map.put("sunType", 0);
                     mCustomToolbar.setToolbarTitle("早餐");
                     break;
                 case 1://中餐
-                    map.put("sunType",1);
+                    map.put("sunType", 1);
                     mCustomToolbar.setToolbarTitle("中餐");
                     break;
                 case 2://晚餐
-                    map.put("sunType",2);
+                    map.put("sunType", 2);
                     mCustomToolbar.setToolbarTitle("晚餐");
                     break;
                 case 3://夜宵
-                    map.put("sunType",2);
+                    map.put("sunType", 2);
                     mCustomToolbar.setToolbarTitle("夜宵");
                     break;
             }
-        }else if(type.equals(Constants.CAISHI)){
-            map= new HashMap();
-            map.put("pageNo",pageNo);
-            map.put("pType",1);//菜式
-            switch (position){
+        } else if (type.equals(Constants.CAISHI)) {
+            map = new HashMap();
+            map.put("pageNo", pageNo);
+            map.put("pType", 1);//菜式
+            switch (position) {
                 case 0://家常菜
-                    map.put("sunType",0);
+                    map.put("sunType", 0);
                     mCustomToolbar.setToolbarTitle("家常菜");
                     break;
                 case 1://素菜
-                    map.put("sunType",1);
+                    map.put("sunType", 1);
                     mCustomToolbar.setToolbarTitle("素菜");
                     break;
                 case 2://汤
-                    map.put("sunType",2);
+                    map.put("sunType", 2);
                     mCustomToolbar.setToolbarTitle("汤");
                     break;
                 case 3://凉菜
-                    map.put("sunType",3);
+                    map.put("sunType", 3);
                     mCustomToolbar.setToolbarTitle("凉菜");
                     break;
                 case 4://私房菜
-                    map.put("sunType",4);
+                    map.put("sunType", 4);
                     mCustomToolbar.setToolbarTitle("私房菜");
                     break;
                 case 5://荤菜
-                    map.put("sunType",5);
+                    map.put("sunType", 5);
                     mCustomToolbar.setToolbarTitle("荤菜");
                     break;
             }
-        }else if(type.equals(Constants.CAIXI)){
-            map= new HashMap();
-            map.put("pageNo",pageNo);
-            map.put("pType",2);//菜系
-            switch (position){
+        } else if (type.equals(Constants.CAIXI)) {
+            map = new HashMap();
+            map.put("pageNo", pageNo);
+            map.put("pType", 2);//菜系
+            switch (position) {
                 case 0://川菜
-                    map.put("sunType",0);
+                    map.put("sunType", 0);
                     mCustomToolbar.setToolbarTitle("川菜");
                     break;
                 case 1://粤菜
-                    map.put("sunType",1);
+                    map.put("sunType", 1);
                     mCustomToolbar.setToolbarTitle("粤菜");
                     break;
                 case 2://东北菜
-                    map.put("sunType",2);
+                    map.put("sunType", 2);
                     mCustomToolbar.setToolbarTitle("东北菜");
                     break;
                 case 3://湘菜
-                    map.put("sunType",3);
+                    map.put("sunType", 3);
                     mCustomToolbar.setToolbarTitle("湘菜");
                     break;
                 case 4://鲁菜
-                    map.put("sunType",4);
+                    map.put("sunType", 4);
                     mCustomToolbar.setToolbarTitle("鲁菜");
                     break;
                 case 5://清真
-                    map.put("sunType",5);
+                    map.put("sunType", 5);
                     mCustomToolbar.setToolbarTitle("清真");
                     break;
             }
-        }else if(type.equals(Constants.TIANDIAN)){
-            map= new HashMap();
-            map.put("pageNo",pageNo);
-            map.put("pType",3);//烘焙甜点
-            switch (position){
+        } else if (type.equals(Constants.TIANDIAN)) {
+            map = new HashMap();
+            map.put("pageNo", pageNo);
+            map.put("pType", 3);//烘焙甜点
+            switch (position) {
                 case 0://蛋糕
-                    map.put("sunType",0);
+                    map.put("sunType", 0);
                     mCustomToolbar.setToolbarTitle("蛋糕");
                     break;
                 case 1://饼干
-                    map.put("sunType",1);
+                    map.put("sunType", 1);
                     mCustomToolbar.setToolbarTitle("饼干");
                     break;
                 case 2://蛋挞
-                    map.put("sunType",2);
+                    map.put("sunType", 2);
                     mCustomToolbar.setToolbarTitle("蛋挞");
                     break;
                 case 3://饮品
-                    map.put("sunType",3);
+                    map.put("sunType", 3);
                     mCustomToolbar.setToolbarTitle("饮品");
                     break;
             }
-        }else if(type.equals(Constants.ZHUSHI)){
-            map= new HashMap();
-            map.put("pageNo",pageNo);
-            map.put("pType",4);//主食
-            switch (position){
+        } else if (type.equals(Constants.ZHUSHI)) {
+            map = new HashMap();
+            map.put("pageNo", pageNo);
+            map.put("pType", 4);//主食
+            switch (position) {
                 case 0://饭
-                    map.put("sunType",0);
+                    map.put("sunType", 0);
                     mCustomToolbar.setToolbarTitle("饭");
                     break;
                 case 1://面
-                    map.put("sunType",1);
+                    map.put("sunType", 1);
                     mCustomToolbar.setToolbarTitle("面");
                     break;
                 case 2://糕点
-                    map.put("sunType",2);
+                    map.put("sunType", 2);
                     mCustomToolbar.setToolbarTitle("糕点");
                     break;
                 case 3://粥
-                    map.put("sunType",3);
+                    map.put("sunType", 3);
                     mCustomToolbar.setToolbarTitle("粥");
                     break;
                 case 4://米粉
-                    map.put("sunType",4);
+                    map.put("sunType", 4);
                     mCustomToolbar.setToolbarTitle("米粉");
                     break;
             }
@@ -218,9 +218,10 @@ public class MenuListActivity extends AppCompatActivity implements MenuAsyncTask
             }
         });
 
-        //添加滑动时间
+        //添加滑动事件
         mThreeMealsRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             private int lastVisiableItem;
+
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
@@ -229,14 +230,14 @@ public class MenuListActivity extends AppCompatActivity implements MenuAsyncTask
                     mAdapter.setLoadStatus(1);
                     isLoading = false;
 
-                    if(mMenuAsyncTask!=null){
+                    if (mMenuAsyncTask != null) {
                         return;
                     }
                     mMenuAsyncTask = new MenuAsyncTask(MenuListActivity.this);
                     mMenuAsyncTask.setmListener(MenuListActivity.this);
-                    map.put("pageNo",++pageNo);
+                    map.put("pageNo", ++pageNo);
                     mMenuAsyncTask.execute(map);
-                }else if (!isLoading && havaData && newState == RecyclerView.SCROLL_STATE_IDLE && lastVisiableItem + 1 == mAdapter.getItemCount()) {
+                } else if (!isLoading && havaData && newState == RecyclerView.SCROLL_STATE_IDLE && lastVisiableItem + 1 == mAdapter.getItemCount()) {
                     ToastUtils.toast(MenuListActivity.this, "加载菜谱中...");
                 }
             }
@@ -251,33 +252,29 @@ public class MenuListActivity extends AppCompatActivity implements MenuAsyncTask
         });
 
 
-
-
-
-
     }
 
     @Override
     public void result(List<Menu> list) {
-        if(list!=null&&list.size()>0){
+        if (list != null && list.size() > 0) {
             menus.addAll(list);
-            if(mAdapter == null){
-                mAdapter = new MenuRecycleViewAdapter(this,list);
+            if (mAdapter == null) {
+                mAdapter = new MenuRecycleViewAdapter(this, list);
                 //设置点击事件的回调监听
                 mAdapter.setmListener(this);
                 mThreeMealsRecyclerView.setAdapter(mAdapter);
-            }else{
+            } else {
                 mAdapter.addMoreItem(list);
                 isLoading = true;
             }
-        }else{
+        } else {
             havaData = false;
-            if (mAdapter!=null){
+            if (mAdapter != null) {
                 mAdapter.setLoadStatus(0);
             }
-            ToastUtils.toast(this,"菜谱已全部加载完成...");
+            ToastUtils.toast(this, "菜谱已全部加载完成...");
         }
-        if(mMenuAsyncTask!=null){
+        if (mMenuAsyncTask != null) {
             mMenuAsyncTask = null;
         }
     }
@@ -285,11 +282,11 @@ public class MenuListActivity extends AppCompatActivity implements MenuAsyncTask
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(mMenuAsyncTask!=null){
+        if (mMenuAsyncTask != null) {
             mMenuAsyncTask = null;
         }
 
-        if(menus!=null){
+        if (menus != null) {
             menus = null;
         }
     }
@@ -298,8 +295,8 @@ public class MenuListActivity extends AppCompatActivity implements MenuAsyncTask
     public void detail(int position) {
         //ToastUtils.toast(this,"pos:"+position);
         //跳转界面，显示详情
-        Intent intent = new Intent(MenuListActivity.this,MenuDetailActivity.class);
-        intent.putExtra("menuPkId",menus.get(position).getMenuPkId());
+        Intent intent = new Intent(MenuListActivity.this, MenuDetailActivity.class);
+        intent.putExtra("menuPkId", menus.get(position).getMenuPkId());
         startActivity(intent);
     }
 }

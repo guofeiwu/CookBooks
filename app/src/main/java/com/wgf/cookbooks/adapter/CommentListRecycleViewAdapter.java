@@ -14,6 +14,7 @@ import com.wgf.cookbooks.bean.Comment;
 import com.wgf.cookbooks.bean.Shai;
 import com.wgf.cookbooks.view.CircleImageView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.wgf.cookbooks.util.Constants.BASE_URL_FILE_ICON;
@@ -55,7 +56,7 @@ public class CommentListRecycleViewAdapter extends RecyclerView.Adapter<Recycler
 
     private CommentViewHolder mHolder;
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
         if(holder instanceof CommentViewHolder){
             mHolder = (CommentViewHolder) holder;
             Comment comment = comments.get(position);
@@ -72,7 +73,7 @@ public class CommentListRecycleViewAdapter extends RecyclerView.Adapter<Recycler
             mHolder.mCommentDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mListener.delete(position);
+                    mListener.delete(mHolder.getLayoutPosition());
                 }
             });
         }else if(holder instanceof FooterViewHolder){
@@ -154,6 +155,7 @@ public class CommentListRecycleViewAdapter extends RecyclerView.Adapter<Recycler
      */
     public void deleteComment(int position){
         comments.remove(position);
+//        notifyItemRemoved(position);//使用这个位置出现错乱
         notifyDataSetChanged();
     }
 
@@ -162,7 +164,8 @@ public class CommentListRecycleViewAdapter extends RecyclerView.Adapter<Recycler
      */
     public void insertFirstComment(Comment comment){
         comments.add(0,comment);
-        notifyItemInserted(0);
+//        notifyItemInserted(0);//使用这个位置出现错乱
+        notifyDataSetChanged();
     }
 
 
@@ -184,9 +187,5 @@ public class CommentListRecycleViewAdapter extends RecyclerView.Adapter<Recycler
     public void setmListener(ICommentDeleteListener mListener) {
         this.mListener = mListener;
     }
-
-
-
-
 
 }

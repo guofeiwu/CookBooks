@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.wgf.cookbooks.R;
 import com.wgf.cookbooks.bean.Comment;
 import com.wgf.cookbooks.bean.Menu;
+import com.wgf.cookbooks.util.L;
 import com.wgf.cookbooks.view.CircleImageView;
 
 import java.util.List;
@@ -84,11 +85,11 @@ public class MenuRecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     fHolder.pb.setVisibility(View.GONE);
                     break;
                 case 1:
-                    fHolder.tv_foot.setText("上拉获取更多评论...");
+                    fHolder.tv_foot.setText("上拉获取更多数据..");
                     fHolder.pb.setVisibility(View.VISIBLE);
                     break;
                 case 2:
-                    fHolder.tv_foot.setText("正在加载更多评论...");
+                    fHolder.tv_foot.setText("正在加载更多数据...");
                     fHolder.pb.setVisibility(View.VISIBLE);
                     break;
             }

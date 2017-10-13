@@ -4,7 +4,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
     <RelativeLayout
-
+        android:background="@color/color_red"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize">
         <ImageView
@@ -14,17 +14,18 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:src="@drawable/add_red_32" />
+            android:src="@drawable/add_32" />
         <ImageView
             android:layout_toRightOf="@id/iv_add_menu"
             android:id="@+id/iv_search"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_centerVertical="true"
-            android:background="@color/view_white_gray"
+            android:background="@color/color_white"
             android:src="@drawable/search_32" />
 
         <EditText
+            android:id="@+id/id_et_search"
             android:padding="3dp"
             android:layout_width="match_parent"
             android:layout_height="30dp"
@@ -32,8 +33,8 @@
             android:layout_marginRight="20dp"
             android:layout_marginTop="10dp"
             android:layout_toRightOf="@+id/iv_search"
-            android:background="@color/view_white_gray"
-            android:hint="菜谱、食材、类别"
+            android:background="@color/color_white"
+            android:hint="菜谱、食材"
             android:maxLines="1"
             android:singleLine="true"
             android:cursorVisible="false"
@@ -41,6 +42,7 @@
     </RelativeLayout>
 
     <android.support.v4.widget.NestedScrollView
+        android:id="@+id/id_nsv_parent"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
@@ -164,10 +166,10 @@
                     android:textSize="@dimen/text_small_content_size" />
             </RelativeLayout>
             <android.support.v7.widget.RecyclerView
+                android:id="@+id/id_rv_menu_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
-
 
 </LinearLayout>

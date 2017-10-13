@@ -3,21 +3,21 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <RelativeLayout
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
         android:layout_width="match_parent"
-        android:layout_height="75dp">
+        android:layout_height="100dp">
         <ImageView
             android:id="@+id/id_iv_menu_icon"
             android:src="@drawable/food1"
             android:layout_width="150dp"
-            android:layout_height="75dp"/>
+            android:layout_height="100dp"/>
         <LinearLayout
-            android:layout_marginLeft="2dp"
+            android:layout_marginLeft="3dp"
             android:orientation="vertical"
             android:layout_toRightOf="@id/id_iv_menu_icon"
             android:layout_width="match_parent"
-            android:layout_height="75dp">
+            android:layout_height="100dp">
             <TextView
                 android:id="@+id/id_tv_menu_name"
                 android:layout_width="wrap_content"
@@ -25,6 +25,7 @@
                 android:text="菜谱名字"
                 android:textSize="@dimen/text_content_size"/>
             <TextView
+                android:layout_marginTop="10dp"
                 android:id="@+id/id_tv_menu_introduce"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -36,7 +37,7 @@
                 android:layout_marginTop="2dp"
                 android:gravity="center_vertical"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 >
                 <com.wgf.cookbooks.view.CircleImageView
                     android:id="@+id/id_iv_user_icon"
@@ -44,6 +45,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp" />
                 <TextView
+                    android:textSize="@dimen/text_small_content_size"
                     android:id="@+id/id_user_name"
                     android:layout_marginLeft="10dp"
                     android:maxLines="1"

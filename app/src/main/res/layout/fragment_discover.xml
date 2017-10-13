@@ -6,6 +6,7 @@
     android:layout_height="match_parent">
 
     <RelativeLayout
+        android:background="@color/color_red"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize">
 
@@ -15,7 +16,7 @@
             android:layout_height="30dp"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:background="@color/view_white_gray"
+            android:background="@color/color_white"
             android:src="@drawable/search_32" />
 
         <EditText
@@ -26,7 +27,7 @@
             android:layout_marginRight="20dp"
             android:layout_marginTop="10dp"
             android:layout_toRightOf="@+id/iv_search"
-            android:background="@color/view_white_gray"
+            android:background="@color/color_white"
             android:hint="菜谱、食材、类别"
             android:maxLines="1"
             android:singleLine="true"

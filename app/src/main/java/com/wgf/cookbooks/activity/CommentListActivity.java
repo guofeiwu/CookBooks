@@ -58,7 +58,7 @@ public class CommentListActivity extends AppCompatActivity implements CommentLis
     private UpCommentAsyncTask mUpCommentAsyncTask;
     private LinearLayout mCommentLayout;
     private TextView mNoComment;
-    private boolean firstNoData = false;//第一次进有数据
+    private boolean commentCurrentSize = false;//第一次进有数据
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -91,7 +91,7 @@ public class CommentListActivity extends AppCompatActivity implements CommentLis
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
 
-                if(firstNoData){//没数据
+                if(commentCurrentSize){//没数据
                     ToastUtils.toast(CommentListActivity.this, "暂无更多评论...");
                     if (mGetCommentAsyncTask != null) {
                         mGetCommentAsyncTask = null;
@@ -309,6 +309,13 @@ public class CommentListActivity extends AppCompatActivity implements CommentLis
         commentTotal = intent.getIntExtra("commentTotal", 0);
         mCustomToolbar.setToolbarTitle("评论(" + commentTotal + ")");//设置toolbar的标题
 
+        if(commentTotal==0){
+            commentCurrentSize = true;//无数据
+        }else{
+            commentCurrentSize = false;//有数据
+        }
+
+
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecycleDivider = new RecycleDivider(CommentListActivity.this, RecycleDivider.VERITCAL_LIST);
         mRecyclerView.addItemDecoration(mRecycleDivider);
@@ -337,7 +344,6 @@ public class CommentListActivity extends AppCompatActivity implements CommentLis
 
             @Override
             public void fail(int result) {
-                firstNoData = true;//第一次进来无数据
                 mNoComment.setVisibility(View.VISIBLE);
                 mRecyclerView.setVisibility(View.GONE);
                 if (mGetCommentAsyncTask != null) {

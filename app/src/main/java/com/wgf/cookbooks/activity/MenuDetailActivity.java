@@ -77,6 +77,14 @@ public class MenuDetailActivity extends AppCompatActivity implements MenuDetailA
     private DeleteCommentAsyncTask mDeleteCommentAsyncTask;
     private LikeMenuAsyncTask mLikeMenuAsyncTask;
     private CollectMenuAsyncTask mCollectMenuAsyncTask;
+    private int menuPkid = -1;//菜谱主键
+    private int currentLike = -1;//当前用户点赞
+    private int likeSize;//点赞总数
+    private int likePkId=-1;//点赞主键
+    private int collectPkId = -1;//收藏主键
+
+    private int currentCollect = -1;//当前用户收藏
+    private int collectSize;//收藏总数
 
 
     @Override
@@ -150,14 +158,6 @@ public class MenuDetailActivity extends AppCompatActivity implements MenuDetailA
     }
 
 
-    private int menuPkid = -1;//菜谱主键
-    private int currentLike = -1;//当前用户点赞
-    private int likeSize;//点赞总数
-    private int likePkId=-1;//点赞主键
-    private int collectPkId = -1;//收藏主键
-
-    private int currentCollect = -1;//当前用户收藏
-    private int collectSize;//收藏总数
 
     @Override
     public void result(Menu menu) {

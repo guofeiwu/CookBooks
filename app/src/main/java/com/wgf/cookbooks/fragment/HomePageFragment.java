@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ScrollingView;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,10 +14,10 @@ import android.widget.EditText;
 
 import com.wgf.cookbooks.R;
 import com.wgf.cookbooks.activity.MenuDetailActivity;
-import com.wgf.cookbooks.activity.MenuListActivity;
 import com.wgf.cookbooks.activity.SearchActivity;
 import com.wgf.cookbooks.adapter.MenuRecycleViewAdapter;
 import com.wgf.cookbooks.bean.Menu;
+import com.wgf.cookbooks.clazz.GetBannerAsyncTask;
 import com.wgf.cookbooks.clazz.GlideImageLoader;
 import com.wgf.cookbooks.clazz.MenuAsyncTask;
 import com.wgf.cookbooks.util.IntentUtils;
@@ -40,7 +39,7 @@ import static com.wgf.cookbooks.util.Constants.BASE_URL_FILE_MENUS;
  * author guofei_wu
  * email guofei_wu@163.com
  */
-public class HomePageFragment extends Fragment implements MenuAsyncTask.IGetMenuListener,MenuRecycleViewAdapter.IMenuDetailListener,View.OnClickListener{
+public class HomePageFragment extends Fragment implements MenuAsyncTask.IGetMenuListener,MenuRecycleViewAdapter.IMenuDetailListener,View.OnClickListener,GetBannerAsyncTask.IGetBannerListener{
     private NestedScrollView mNestedScrollView;
     private MenuAsyncTask mMenuAsyncTask;
     private Banner banner;
@@ -53,6 +52,7 @@ public class HomePageFragment extends Fragment implements MenuAsyncTask.IGetMenu
     private List<Menu> menus;
     private RecycleDivider mRecycleDivider;
     private EditText mEditTextSearch;
+    private GetBannerAsyncTask mGetBannerAsyncTask;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -129,25 +129,13 @@ public class HomePageFragment extends Fragment implements MenuAsyncTask.IGetMenu
         banner.setImageLoader(new GlideImageLoader());
         banner.setBannerStyle(BannerConfig.NUM_INDICATOR_TITLE);
 
-        List<String> images = new ArrayList<>();
-        images.add(BASE_URL_FILE_MENUS+"menu1/0.jpg");
-        images.add(BASE_URL_FILE_MENUS+"menu2/0.jpg");
-        images.add(BASE_URL_FILE_MENUS+"menu3/0.jpg");
-        //设置图片集合
-        banner.setImages(images);
-        List<String> titles = new ArrayList<>();
-        titles.add("秋凉至,来一晚泪流满面");
-        titles.add("给我一个土豆我就能玩转厨房");
-        titles.add("秋冬必吃肥牛菜,再来一碗");
-        banner.setBannerTitles(titles);
-        banner.setOnBannerListener(new OnBannerListener() {
-            @Override
-            public void OnBannerClick(int position) {
-                ToastUtils.toast(getActivity(),"position:"+position);
-            }
-        });
-        //banner设置方法全部调用完毕时最后调用
-        banner.start();
+        if (mGetBannerAsyncTask!=null){
+            return;
+        }
+
+        mGetBannerAsyncTask = new GetBannerAsyncTask();
+        mGetBannerAsyncTask.setmListener(this);
+        mGetBannerAsyncTask.execute();
     }
 
     /**
@@ -216,6 +204,38 @@ public class HomePageFragment extends Fragment implements MenuAsyncTask.IGetMenu
             case R.id.id_et_search://搜索
                 IntentUtils.jump(getActivity(), SearchActivity.class);
                 break;
+        }
+    }
+
+    //获取banner数据的回调
+    @Override
+    public void getBanner(List<com.wgf.cookbooks.bean.Banner> banners) {
+        if(banners!=null){
+            List<String> images = new ArrayList<>();
+            List<String> titles = new ArrayList<>();
+            final List<Integer> menuPkIds = new ArrayList<>();
+            for (com.wgf.cookbooks.bean.Banner banner1:banners){
+                images.add(BASE_URL_FILE_MENUS+banner1.getMainIcon());
+                titles.add(banner1.getMenuDesc());
+                menuPkIds.add(banner1.getMenuPkId());
+            }
+            //设置图片集合
+            banner.setImages(images);
+            banner.setBannerTitles(titles);
+            banner.setOnBannerListener(new OnBannerListener() {
+                @Override
+                public void OnBannerClick(int position) {
+                    //ToastUtils.toast(getActivity(),"position:"+position);
+                    //跳转界面，显示详情
+                    Intent intent = new Intent(getActivity(), MenuDetailActivity.class);
+                    intent.putExtra("menuPkId", menuPkIds.get(position));
+                    startActivity(intent);
+                }
+            });
+            //banner设置方法全部调用完毕时最后调用
+            banner.start();
+        }else{
+            ToastUtils.toast(getActivity(),"获取banner失败");
         }
     }
 }

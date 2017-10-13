@@ -9,10 +9,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.wgf.cookbooks.R;
+import com.wgf.cookbooks.activity.SearchActivity;
 import com.wgf.cookbooks.activity.ShaiActivity;
 import com.wgf.cookbooks.activity.ShaiDetailActivity;
 import com.wgf.cookbooks.adapter.ShaiDetailRecycleViewAdapter;
@@ -36,7 +38,7 @@ import static com.wgf.cookbooks.util.Constants.BASE_URL_FILE_SHAI;
  * email guofei_wu@163.com
  * 发现主页
  */
-public class DiscoverFragment extends Fragment{
+public class DiscoverFragment extends Fragment implements View.OnClickListener{
 
     private RecyclerView mRecyclerViewShai;
     private ShaiRecycleViewAdapter mShaiRecycleViewAdapter;
@@ -46,6 +48,7 @@ public class DiscoverFragment extends Fragment{
     private RelativeLayout mShaiYiShai;
 
     private List<Shai> shais;
+    private EditText mEditTextSearch;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,6 +72,7 @@ public class DiscoverFragment extends Fragment{
     private void initView(View view) {
         mRecyclerViewShai = (RecyclerView) view.findViewById(R.id.id_rv_shaiyishai);
         mShaiYiShai = (RelativeLayout) view.findViewById(R.id.rl_shai_yi_shai);
+        mEditTextSearch = (EditText) view.findViewById(R.id.id_et_search);
     }
 
 
@@ -76,13 +80,8 @@ public class DiscoverFragment extends Fragment{
      * 设置监听
      */
     private void setListener() {
-        mShaiYiShai.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //跳转，查看更多的晒一晒
-                IntentUtils.jump(getActivity(), ShaiActivity.class);
-            }
-        });
+        mShaiYiShai.setOnClickListener(this);
+
     }
 
 
@@ -137,6 +136,19 @@ public class DiscoverFragment extends Fragment{
             }
         });
         mGetShaiAsyncTask.execute(1);//开始加载第一页数据
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.rl_shai_yi_shai:
+                //跳转，查看更多的晒一晒
+                IntentUtils.jump(getActivity(), ShaiActivity.class);
+                break;
+            case R.id.id_et_search:
+                IntentUtils.jump(getActivity(), SearchActivity.class);
+                break;
+        }
     }
 
     /**

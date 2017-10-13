@@ -20,6 +20,7 @@
             android:src="@drawable/search_32" />
 
         <EditText
+            android:id="@+id/id_et_search"
             android:padding="3dp"
             android:layout_width="match_parent"
             android:layout_height="30dp"
@@ -28,7 +29,7 @@
             android:layout_marginTop="10dp"
             android:layout_toRightOf="@+id/iv_search"
             android:background="@color/color_white"
-            android:hint="菜谱、食材、类别"
+            android:hint="@string/text_search_hint"
             android:maxLines="1"
             android:singleLine="true"
             android:cursorVisible="false"
@@ -78,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@+id/iv_ppe"
-                android:text="更多"
+                android:text="@string/text_more"
                 android:textSize="@dimen/text_small_content_size" />
 
             <ImageView
@@ -87,7 +88,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/ppe" />
+                android:src="@drawable/right_narrow" />
         </RelativeLayout>
 
         <android.support.v7.widget.RecyclerView

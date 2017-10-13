@@ -34,7 +34,7 @@
             android:layout_marginTop="10dp"
             android:layout_toRightOf="@+id/iv_search"
             android:background="@color/color_white"
-            android:hint="菜谱、食材"
+            android:hint="@string/text_search_hint"
             android:maxLines="1"
             android:singleLine="true"
             android:cursorVisible="false"
@@ -81,7 +81,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="15dp"
-                        android:text="今日主题"
+                        android:text="@string/text_today_recommend"
                         android:textSize="@dimen/text_content_size" />
 
                     <TextView

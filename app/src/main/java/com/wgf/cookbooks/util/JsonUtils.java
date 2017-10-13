@@ -1,5 +1,6 @@
 package com.wgf.cookbooks.util;
 
+import com.wgf.cookbooks.bean.Banner;
 import com.wgf.cookbooks.bean.Comment;
 import com.wgf.cookbooks.bean.Materials;
 import com.wgf.cookbooks.bean.Menu;
@@ -415,5 +416,33 @@ public class JsonUtils {
 
 
 
+    /**
+     * 返回附加的内容 （Banner列表）
+     * @param response
+     * @return
+     */
+    public static List<Banner> getBanners(String response){
+        List<Banner> banners = null;
+
+        try {
+            JSONObject jsonObject  = new JSONObject(response);
+            JSONArray jo = jsonObject.getJSONObject("extend").getJSONArray("content");
+            banners = new ArrayList<>();
+            for (int i = 0;i<jo.length();i++){
+                Banner banner = new Banner();
+                JSONObject j = jo.getJSONObject(i);
+                int menuPkId = j.getInt("menuPkId");
+                String menuDesc = j.getString("menuDesc");
+                String mainIcon = j.getString("mainIcon");
+                banner.setMenuPkId(menuPkId);
+                banner.setMenuDesc(menuDesc);
+                banner.setMainIcon(mainIcon);
+                banners.add(banner);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return banners;
+    }
 
 }

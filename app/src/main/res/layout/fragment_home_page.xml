@@ -71,7 +71,6 @@
                     android:scaleType="fitXY"
                     />-->
                 <RelativeLayout
-                    android:id="@+id/rl_rank"
                     android:layout_width="match_parent"
                     android:layout_height="30dp">
 

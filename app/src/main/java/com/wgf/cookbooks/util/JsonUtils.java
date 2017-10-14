@@ -415,7 +415,6 @@ public class JsonUtils {
     }
 
 
-
     /**
      * 返回附加的内容 （Banner列表）
      * @param response
@@ -445,4 +444,21 @@ public class JsonUtils {
         return banners;
     }
 
+
+    /**
+     * 返回附加的内容 （菜谱主图的名称）
+     * @param response
+     * @return
+     */
+    public static String getMenuMainIcon(String response){
+        String mainIcon = null;
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            JSONObject jo = jsonObject.getJSONObject("extend").getJSONObject("content");
+            mainIcon = jo.getString("mainIcon");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return mainIcon;
+    }
 }

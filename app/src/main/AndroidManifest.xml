@@ -46,6 +46,9 @@
         <activity android:name=".activity.MenuListActivity"/>
         <activity android:name=".activity.MenuDetailActivity"/>
         <activity android:name=".activity.SearchActivity"/>
+        <activity android:name=".activity.AddMenuActivity"/>
+        <activity android:name=".activity.AddMenuMaterialActivity"/>
+        <activity android:name=".activity.AddMenuCookMethodActivity"/>
 
 
 

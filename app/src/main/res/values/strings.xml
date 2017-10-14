@@ -131,6 +131,11 @@
     <string name="text_search_hint">菜谱、食材</string>
     <string name="text_today_recommend">今日推荐</string>
     <string name="text_more">更多</string>
+    <string name="text_menu_cover">请选择菜谱封面图片</string>
+    <string name="text_menu_name">请输入菜谱名称</string>
+    <string name="text_menu_type">请选择菜谱所属类别</string>
+    <string name="text_menu_desc">说出美食的特色及故事</string>
+    <string name="text_menu_cove_failed">上传菜谱封面失败</string>
 
     <integer name="actionId">1</integer>
 

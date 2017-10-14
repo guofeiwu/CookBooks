@@ -7,12 +7,16 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.wgf.cookbooks.R;
+import com.wgf.cookbooks.activity.AddMenuActivity;
+import com.wgf.cookbooks.activity.LoginActivity;
 import com.wgf.cookbooks.activity.MenuDetailActivity;
 import com.wgf.cookbooks.activity.SearchActivity;
 import com.wgf.cookbooks.adapter.MenuRecycleViewAdapter;
@@ -20,6 +24,7 @@ import com.wgf.cookbooks.bean.Menu;
 import com.wgf.cookbooks.clazz.GetBannerAsyncTask;
 import com.wgf.cookbooks.clazz.GlideImageLoader;
 import com.wgf.cookbooks.clazz.MenuAsyncTask;
+import com.wgf.cookbooks.util.GetAuthorizationUtil;
 import com.wgf.cookbooks.util.IntentUtils;
 import com.wgf.cookbooks.util.L;
 import com.wgf.cookbooks.util.RecycleDivider;
@@ -53,6 +58,7 @@ public class HomePageFragment extends Fragment implements MenuAsyncTask.IGetMenu
     private RecycleDivider mRecycleDivider;
     private EditText mEditTextSearch;
     private GetBannerAsyncTask mGetBannerAsyncTask;
+    private ImageView mImageViewAddMenu;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -105,7 +111,7 @@ public class HomePageFragment extends Fragment implements MenuAsyncTask.IGetMenu
         });
 
         mEditTextSearch.setOnClickListener(this);
-
+        mImageViewAddMenu.setOnClickListener(this);
     }
 
     /**
@@ -117,6 +123,7 @@ public class HomePageFragment extends Fragment implements MenuAsyncTask.IGetMenu
         mRecyclerView = (RecyclerView) view.findViewById(R.id.id_rv_menu_list);
         mNestedScrollView = (NestedScrollView) view.findViewById(R.id.id_nsv_parent);
         mEditTextSearch = (EditText) view.findViewById(R.id.id_et_search);
+        mImageViewAddMenu = (ImageView) view.findViewById(R.id.iv_add_menu);
     }
 
 
@@ -203,6 +210,16 @@ public class HomePageFragment extends Fragment implements MenuAsyncTask.IGetMenu
         switch (v.getId()){
             case R.id.id_et_search://搜索
                 IntentUtils.jump(getActivity(), SearchActivity.class);
+                break;
+            case R.id.iv_add_menu:
+                //添加菜谱
+                String token = GetAuthorizationUtil.getAuth(getActivity());
+                token = "dddd";
+                if(TextUtils.isEmpty(token)){
+                    IntentUtils.jump(getActivity(), LoginActivity.class);
+                }else{
+                    IntentUtils.jump(getActivity(),AddMenuActivity.class);
+                }
                 break;
         }
     }

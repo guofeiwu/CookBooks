@@ -39,6 +39,6 @@
             android:layout_alignParentRight="true"
             android:layout_centerInParent="true"
             android:layout_marginRight="10dp"
-            android:src="@drawable/ppe" />
+            android:src="@drawable/right_narrow" />
     </RelativeLayout>
 </LinearLayout>

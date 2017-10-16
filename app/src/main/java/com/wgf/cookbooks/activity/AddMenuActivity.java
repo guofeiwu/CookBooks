@@ -1,11 +1,15 @@
 package com.wgf.cookbooks.activity;
 
 import android.app.Dialog;
+import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
@@ -28,28 +32,39 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.wgf.cookbooks.R;
+import com.wgf.cookbooks.bean.InsertMenu;
 import com.wgf.cookbooks.clazz.UpMenuCoverAsyncTask;
+import com.wgf.cookbooks.db.SqliteDao;
 import com.wgf.cookbooks.util.IntentUtils;
 import com.wgf.cookbooks.util.L;
 import com.wgf.cookbooks.util.ToastUtils;
+import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.Permission;
+import com.yanzhenjie.permission.PermissionListener;
+import com.yanzhenjie.permission.Rationale;
+import com.yanzhenjie.permission.RationaleListener;
 
 import org.json.JSONObject;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import top.zibin.luban.Luban;
 import top.zibin.luban.OnCompressListener;
 
 import static com.wgf.cookbooks.util.Constants.REQUEST_CODE_ALBUM;
+import static com.wgf.cookbooks.util.Constants.REQUEST_CODE_CAMERA;
 
 /**
  * author guofei_wu
  * email guofei_wu@163.com
  * 添加菜谱界面
  */
-public class AddMenuActivity extends AppCompatActivity implements View.OnClickListener,UpMenuCoverAsyncTask.IUpMenuCoverListener {
+public class AddMenuActivity extends AppCompatActivity implements View.OnClickListener, UpMenuCoverAsyncTask.IUpMenuCoverListener {
     private ImageView mImageViewCover;
     private TextView mNextStep;
     private RelativeLayout mCoverLayout;
@@ -63,6 +78,7 @@ public class AddMenuActivity extends AppCompatActivity implements View.OnClickLi
     private PopupWindow pw2;
     private TextView menuSunType;
     private UpMenuCoverAsyncTask mUpMenuCoverAsyncTask;
+    private SqliteDao dao;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -73,6 +89,7 @@ public class AddMenuActivity extends AppCompatActivity implements View.OnClickLi
 
         addWatch();
 
+        dao = new SqliteDao(this);
 
     }
 
@@ -141,6 +158,81 @@ public class AddMenuActivity extends AppCompatActivity implements View.OnClickLi
     }
 
 
+
+    /**
+     * 请求权限
+     * @param permission
+     */
+    private void  requestPermission(String [][] permission,int requestCode){
+
+        AndPermission.with(AddMenuActivity.this)
+                .requestCode(requestCode)
+                .permission(permission)
+                .callback(listener)
+                // rationale作用是：用户拒绝一次权限，再次申请时先征求用户同意，再打开授权对话框；
+                // 这样避免用户勾选不再提示，导致以后无法申请权限。
+                // 你也可以不设置。
+                .rationale(new RationaleListener() {
+                    @Override
+                    public void showRequestPermissionRationale(int requestCode, final Rationale rationale) {
+                        // 这里的对话框可以自定义，只要调用rationale.resume()就可以继续申请。
+                        new AlertDialog.Builder(AddMenuActivity.this)
+                                .setTitle("友好提醒")
+                                .setMessage("为了更换您满意的封面，请把读写权限赐给我吧！")
+                                .setPositiveButton("好，给你", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.cancel();
+                                        rationale.resume();// 用户同意继续申请。
+                                    }
+                                })
+                                .setNegativeButton("我拒绝", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.cancel();
+                                        rationale.cancel(); // 用户拒绝申请。
+                                    }
+                                }).show();
+                    }
+                })
+                .start();
+    }
+
+    /**
+     * 读写权限回调
+     */
+    private PermissionListener listener = new PermissionListener() {
+        @Override
+        public void onSucceed(int requestCode, List<String> grantedPermissions) {
+            // Successfully.
+            if(requestCode == REQUEST_CODE_ALBUM){
+                //从相册获取图片
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, REQUEST_CODE_ALBUM);
+            }
+        }
+
+        @Override
+        public void onFailed(int requestCode, List<String> deniedPermissions) {
+            // Failure.
+            if(requestCode == REQUEST_CODE_CAMERA || requestCode == REQUEST_CODE_ALBUM) {
+                if(AndPermission.hasAlwaysDeniedPermission(AddMenuActivity.this, deniedPermissions)){
+                    AndPermission.defaultSettingDialog(AddMenuActivity.this, REQUEST_CODE_CAMERA)
+                            .setTitle("权限申请失败")
+                            .setMessage("我们需要的一些权限被您拒绝或者系统发生错误申请失败，请您到设置页面手动授权，否则功能无法正常使用！")
+                            .setPositiveButton("好，去设置")
+                            .show();
+//                    ToastUtils.toast(UserInfoActivity.this,getString(R.string.text_permission_failed));
+//                    SettingService settingService = AndPermission.defineSettingDialog(UserInfoActivity.this, REQUEST_CODE_CAMERA);
+////                    你的dialog点击了确定调用：
+//                    settingService.execute();
+////                    你的dialog点击了取消调用：
+//                    settingService.cancel();
+                }
+            }
+        }
+    };
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -180,7 +272,7 @@ public class AddMenuActivity extends AppCompatActivity implements View.OnClickLi
                                 .load(file)
                                 .fitCenter()
                                 .into(mImageViewCover);
-                        if(mUpMenuCoverAsyncTask!=null){
+                        if (mUpMenuCoverAsyncTask != null) {
                             return;
                         }
                         mUpMenuCoverAsyncTask = new UpMenuCoverAsyncTask(AddMenuActivity.this);
@@ -202,9 +294,11 @@ public class AddMenuActivity extends AppCompatActivity implements View.OnClickLi
                 nextStep();
                 break;
             case R.id.id_rl_cover:
+                String [][] permission = new String[][]{Permission.STORAGE};
+                requestPermission(permission,REQUEST_CODE_ALBUM);
                 //从相册获取图片
-                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intent, REQUEST_CODE_ALBUM);
+//                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                startActivityForResult(intent, REQUEST_CODE_ALBUM);
                 break;
             case R.id.id_tv_type:
                 choseType();
@@ -242,26 +336,25 @@ public class AddMenuActivity extends AppCompatActivity implements View.OnClickLi
 
 
         int menuType = choosePType(menuT);
-        int menuSunType = chooseSType(menuT,menuST);
+        int menuSunType = chooseSType(menuT, menuST);
 
-        L.e("content:"+ coverPath+","+menuName+","+menuT+","+desc+","+menuType+","+menuSunType);
+        L.e("content:" + coverPath + "," + menuName + "," + menuT + "," + desc + "," + menuType + "," + menuSunType);
 
-//        Map<String,Object> map = new HashMap<>();
-//        map.put("menuName",menuName);
-//        map.put("menuDesc",desc);
-//        map.put("menuType",menuType);
-//        map.put("menuTypeSun",menuSunType);
-//        JSONObject jsonObject = new JSONObject(map);
-
-        if(mUpMenuCoverAsyncTask!=null){
-            return;
+        dao.deleteMenuInfo();//清空表
+        InsertMenu insertMenu = new InsertMenu(1,mainIcon,menuName, desc, menuType, menuSunType);
+        int result = dao.insertMenuInfo(insertMenu);
+        if (result == 1) {
+            InsertMenu menu = dao.queryMenuInfo();
+            L.e("menu:" + menu.getMenuName());
+            IntentUtils.jump(AddMenuActivity.this, AddMenuMaterialActivity.class);
         }
-        //IntentUtils.jump(AddMenuActivity.this, AddMenuMaterialActivity.class);
     }
 
+
     private Dialog dialog;
+
     //上传对话框
-    private void uploadDialog(){
+    private void uploadDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setView(R.layout.upload_dialog);
         dialog = builder.create();
@@ -273,13 +366,14 @@ public class AddMenuActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onPause() {
         super.onPause();
-        if(dialog!=null && dialog.isShowing()){
+        if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
         }
     }
 
     /**
      * 选择父类
+     *
      * @param type
      * @return
      */
@@ -301,6 +395,7 @@ public class AddMenuActivity extends AppCompatActivity implements View.OnClickLi
 
     /**
      * 选择子类
+     *
      * @param type
      * @param sunType
      * @return
@@ -393,7 +488,7 @@ public class AddMenuActivity extends AppCompatActivity implements View.OnClickLi
                     @Override
                     public void onClick(View v) {
                         String text = textView.getText().toString();
-                        ToastUtils.toast(AddMenuActivity.this, text);
+                        //ToastUtils.toast(AddMenuActivity.this, text);
                         sunTypePopupWindow(text);
                         pw.dismiss();
                     }
@@ -411,6 +506,7 @@ public class AddMenuActivity extends AppCompatActivity implements View.OnClickLi
 
     /**
      * 子类选择
+     *
      * @param type
      */
     private void sunTypePopupWindow(String type) {
@@ -438,6 +534,7 @@ public class AddMenuActivity extends AppCompatActivity implements View.OnClickLi
 
     /**
      * 生成子类项
+     *
      * @param types
      */
     public void generateItem(final String[] types) {
@@ -460,22 +557,24 @@ public class AddMenuActivity extends AppCompatActivity implements View.OnClickLi
         });
     }
 
+    private String mainIcon;
     @Override
-    public void result(String  mainIcon) {
-        if(dialog.isShowing()&& dialog!=null){
+    public void result(String mainIconUrl) {
+        if (dialog.isShowing() && dialog != null) {
             dialog.dismiss();
         }
-        if(mainIcon!=null){
+        if (mainIconUrl != null) {
+            mainIcon = mainIconUrl;
 //            Intent intent = new Intent(AddMenuActivity.this, AddMenuMaterialActivity.class);
 //            intent.putExtra("menuPkId",mainIcon);
 //            startActivity(intent);
             //IntentUtils.jump(AddMenuActivity.this, AddMenuMaterialActivity.class);
-            ToastUtils.toast(this,mainIcon);
-        }else {
-            ToastUtils.toast(this,getString(R.string.text_failed_msg));
+            ToastUtils.toast(this, mainIconUrl);
+        } else {
+            ToastUtils.toast(this, getString(R.string.text_failed_msg));
         }
 
-        if(mUpMenuCoverAsyncTask!=null){
+        if (mUpMenuCoverAsyncTask != null) {
             mUpMenuCoverAsyncTask = null;
         }
     }

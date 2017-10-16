@@ -461,4 +461,28 @@ public class JsonUtils {
         }
         return mainIcon;
     }
+
+    /**
+     * 返回附加的内容 （菜谱步骤的图片的集合）
+     * @param response
+     * @return
+     */
+    public static List<String> getMenuStepUrl(String response){
+        List<String> urls =null;
+        try {
+            urls = new ArrayList<>();
+            JSONObject jsonObject = new JSONObject(response);
+            JSONArray ja = jsonObject.getJSONObject("extend").getJSONArray("content");
+            for(int i = 0;i<ja.length();i++){
+                JSONObject jo = ja.getJSONObject(i);
+                String url  = jo.getString("url");
+                urls.add(url);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return urls;
+    }
+
+
 }

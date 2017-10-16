@@ -2,4 +2,5 @@
 <resources>
     <item name="visible" type="id"/>
     <item name="masked" type="id"/>
+    <item name="imageTag" type="id"/>
 </resources>

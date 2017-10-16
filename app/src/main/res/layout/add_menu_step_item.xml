@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="100dp">
         <TextView
-            android:id="@+id/id_tv_step"
+            android:id="@+id/id_tv_step_cover"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="1"
@@ -16,9 +16,9 @@
             android:layout_centerVertical="true"
             />
         <ImageView
-            android:layout_toRightOf="@id/id_tv_cover"
+            android:layout_toRightOf="@id/id_tv_step_cover"
             android:layout_gravity="center"
-            android:id="@+id/id_iv_cover"
+            android:id="@+id/id_iv_step_cover"
             android:layout_width="128dp"
             android:layout_height="128dp"
             android:layout_centerVertical="true"

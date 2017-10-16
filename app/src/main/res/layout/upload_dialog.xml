@@ -14,6 +14,6 @@
         android:layout_height="100dp"
         android:gravity="center"
         android:textSize="@dimen/text_small_content_size"
-        android:text="正在上传菜谱封面..."
+        android:text="正在上传图片..."
         />
 </LinearLayout>

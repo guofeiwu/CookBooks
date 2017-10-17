@@ -36,6 +36,7 @@ import com.wgf.cookbooks.util.IntentUtils;
 import com.wgf.cookbooks.util.L;
 import com.wgf.cookbooks.util.SoftInputUtils;
 import com.wgf.cookbooks.util.ToastUtils;
+import com.wgf.cookbooks.view.CustomToolbar;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.Permission;
 import com.yanzhenjie.permission.PermissionListener;
@@ -71,6 +72,7 @@ public class AddMenuActivity extends AppCompatActivity implements View.OnClickLi
     private TextView menuSunType;
     private UpMenuCoverAsyncTask mUpMenuCoverAsyncTask;
     private SqliteDao dao;
+    private CustomToolbar mCustomToolbar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -137,6 +139,7 @@ public class AddMenuActivity extends AppCompatActivity implements View.OnClickLi
         menuDescLength = (TextView) findViewById(R.id.id_tv_menu_desc_length);
         menuType = (TextView) findViewById(R.id.id_tv_type);
         menuSunType = (TextView) findViewById(R.id.id_tv_sun_type);
+        mCustomToolbar = (CustomToolbar) findViewById(R.id.id_ct_back);
     }
 
 
@@ -147,6 +150,15 @@ public class AddMenuActivity extends AppCompatActivity implements View.OnClickLi
         mNextStep.setOnClickListener(this);
         mCoverLayout.setOnClickListener(this);
         menuType.setOnClickListener(this);
+
+        mCustomToolbar.setBtnOnBackOnClickListener(new CustomToolbar.BtnOnBackOnClickListener() {
+            @Override
+            public void onClick() {
+//                if(!TextUtils.isEmpty(coverPath) || )
+                finish();
+            }
+        });
+
     }
 
 

@@ -10,7 +10,9 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -74,16 +76,16 @@ public class AddMenuCookMethodActivity extends AppCompatActivity implements UpMe
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_menu_cook_method);
+        dao = new SqliteDao(this);
         initView();
         mInflater = LayoutInflater.from(this);
-        addStepItem();//显示第一个
+        //显示第一个
+        addStepItem();
 
         setListener();
-        dao = new SqliteDao(this);
+
+
     }
-
-
-
 
 
     /**
@@ -140,6 +142,26 @@ public class AddMenuCookMethodActivity extends AppCompatActivity implements UpMe
         StepNumber.setText(""+position);
         imageView = (ImageView) view.findViewById(R.id.id_iv_step_cover);
         initDelete();
+
+        final TextView textViewLen = (TextView) view.findViewById(R.id.id_tv_step_desc);
+        EditText descEditText = (EditText) view.findViewById(R.id.id_et_step_desc);
+        descEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                int len = s.length();
+                textViewLen.setText(len+"/2000");
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         view.findViewById(R.id.id_iv_step_delete).setOnClickListener(new View.OnClickListener() {
             @Override

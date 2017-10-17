@@ -81,7 +81,7 @@ public class DiscoverFragment extends Fragment implements View.OnClickListener{
      */
     private void setListener() {
         mShaiYiShai.setOnClickListener(this);
-
+        mEditTextSearch.setOnClickListener(this);
     }
 
 

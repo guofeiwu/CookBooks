@@ -13,22 +13,22 @@
             android:id="@+id/toolbar_back"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:toolbarTitle="@string/text_action_sign_in"
             android:background="@color/colorPrimary"
+            app:toolbarTitle="@string/text_action_sign_in"
             />
         <TextView
             android:id="@+id/tv_register"
-            android:clickable="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:textSize="15sp"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginRight="5dp"
+            android:clickable="true"
+            android:focusable="true"
             android:padding="5dp"
             android:text="@string/text_action_tv_register"
-            android:focusable="true"
-            android:layout_gravity="right|center_vertical"
             android:textColor="@color/color_white"
-            android:layout_marginRight="5dp"
+            android:textSize="15sp"
             />
     </FrameLayout>
 
@@ -39,32 +39,29 @@
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:padding="@dimen/activity_horizontal_margin"
             android:id="@+id/email_login_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                >
-
-                <AutoCompleteTextView
-                    android:id="@+id/number"
-                    android:maxLength="11"
+            android:orientation="vertical"
+            android:padding="@dimen/activity_horizontal_margin">
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:hintTextAppearance="@color/color_red"
-                    android:hint="@string/text_phone_number"
-                    android:inputType="number"
-                    android:maxLines="1"
-                    android:theme="@style/MyEditText"
-                    android:textSize="15sp"
-                    android:singleLine="true"
-                    />
-            </android.support.design.widget.TextInputLayout>
-
+                    >
+                    <AutoCompleteTextView
+                        android:id="@+id/number"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/text_phone_number"
+                        android:inputType="number"
+                        android:maxLength="11"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:textSize="15sp"
+                        android:theme="@style/MyEditText"
+                        app:hintTextAppearance="@color/color_red"
+                        />
+                </android.support.design.widget.TextInputLayout>
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -72,7 +69,6 @@
                 >
                 <EditText
                     android:id="@+id/password"
-                    android:maxLength="16"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/text_input_password"
@@ -80,13 +76,13 @@
                     android:imeActionLabel="@string/action_sign_in_short"
                     android:imeOptions="actionUnspecified"
                     android:inputType="textPassword"
+                    android:maxLength="16"
                     android:maxLines="1"
-                    android:theme="@style/MyEditText"
+                    android:singleLine="true"
                     android:textSize="15sp"
-                    android:singleLine="true" />
+                    android:theme="@style/MyEditText" />
 
             </android.support.design.widget.TextInputLayout>
-
             <Button
                 android:id="@+id/number_sign_in_button"
                 style="?android:textAppearanceSmall"
@@ -100,37 +96,37 @@
                  />
 
             <LinearLayout
-                android:layout_marginTop="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:layout_marginTop="15dp"
                 android:gravity="center"
+                android:orientation="horizontal"
                 >
                 <TextView
-                    android:textSize="13sp"
-                    android:padding="5dp"
                     android:id="@+id/tv_sms_login"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/text_sms_login"
                     android:background="?attr/selectableItemBackground"
                     android:focusable="true"
+                    android:padding="5dp"
+                    android:text="@string/text_sms_login"
+                    android:textSize="13sp"
                      />
                 <View
-                    android:background="@color/color_btn_read"
                     android:layout_width="1dp"
-                    android:layout_height="10dp"/>
+                    android:layout_height="10dp"
+                    android:background="@color/color_btn_read"/>
                 <TextView
-                    android:background="?attr/selectableItemBackground"
                     android:id="@+id/tv_forget_password"
-                    android:clickable="true"
-                    android:gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="13sp"
+                    android:background="?attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:gravity="center"
                     android:padding="5dp"
                     android:text="@string/text_action_tv_lost_password"
-                    android:focusable="true"
+                    android:textSize="13sp"
                     />
             </LinearLayout>
         </LinearLayout>

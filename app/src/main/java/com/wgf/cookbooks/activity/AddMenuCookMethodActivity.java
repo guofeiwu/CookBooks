@@ -352,7 +352,7 @@ public class AddMenuCookMethodActivity extends AppCompatActivity implements UpMe
     public void result(List<String> urls) {
 
         if(mUpMenuStepPictureAsyncTask!=null){
-            L.e("mUpMenuStepPictureAsyncTask null");
+            //L.e("mUpMenuStepPictureAsyncTask null");
             mUpMenuStepPictureAsyncTask = null;
         }
 
@@ -411,11 +411,16 @@ public class AddMenuCookMethodActivity extends AppCompatActivity implements UpMe
     @Override
     public void success(int code) {
         if(mUpMenuContentAsyncTask!=null){
-            L.e("mUpMenuContentAsyncTask null");
+            //L.e("mUpMenuContentAsyncTask null");
             mUpMenuContentAsyncTask = null;
         }
         if(code == SUCCESS){
-            ToastUtils.toast(this,"上传成功");
+            ToastUtils.toast(this,"上传成功,快去查看我的菜谱吧");
+            Intent intent = new Intent(AddMenuCookMethodActivity.this,MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+        }else{
+            ToastUtils.toast(this,"上传失败");
         }
     }
 }

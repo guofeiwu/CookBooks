@@ -17,6 +17,7 @@ import com.wgf.cookbooks.bean.InsertMaterials;
 import com.wgf.cookbooks.db.SqliteDao;
 import com.wgf.cookbooks.util.IntentUtils;
 import com.wgf.cookbooks.util.L;
+import com.wgf.cookbooks.util.SoftInputUtils;
 import com.wgf.cookbooks.util.ToastUtils;
 import com.wgf.cookbooks.view.CustomToolbar;
 
@@ -39,6 +40,7 @@ public class AddMenuMaterialActivity extends AppCompatActivity implements View.O
     private LayoutInflater mInflater;
     private boolean isEmpty = false;//不为空
     private SqliteDao dao;
+    private int position = 1;//View的下标
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -106,11 +108,11 @@ public class AddMenuMaterialActivity extends AppCompatActivity implements View.O
             if (result != -1) {
                 //跳转到上传步骤界面
                 IntentUtils.jump(this, AddMenuCookMethodActivity.class);
+                //如果输入法显示则隐藏
+                SoftInputUtils.hideSoftInput(this);
             }
         }
     }
-
-    private int position = 1;//View的下标
 
     //动态的添加view
     private void addMaterialItem() {
@@ -153,7 +155,7 @@ public class AddMenuMaterialActivity extends AppCompatActivity implements View.O
     private List<InsertMaterials> getMaterialsContent() {
         int childCount = mMaterialsLayout.getChildCount();
         List<InsertMaterials> list = new ArrayList<>();
-        for (int i = 0; i <childCount; i++) {
+        for (int i = 0; i < childCount; i++) {
             View view = mMaterialsLayout.getChildAt(i);
             EditText materialName = (EditText) view.findViewById(R.id.id_et_material_name);
             EditText materialDose = (EditText) view.findViewById(R.id.id_et_material_dose);
@@ -167,7 +169,7 @@ public class AddMenuMaterialActivity extends AppCompatActivity implements View.O
                 break;
             }
             InsertMaterials materials = new InsertMaterials();
-            materials.setId(i+1);
+            materials.setId(i + 1);
             materials.setMaterialsName(name);
             materials.setMaterialsDose(dose);
             list.add(materials);

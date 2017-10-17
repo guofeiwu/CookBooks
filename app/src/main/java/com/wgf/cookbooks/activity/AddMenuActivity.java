@@ -1,15 +1,12 @@
 package com.wgf.cookbooks.activity;
 
 import android.app.Dialog;
-import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
@@ -37,6 +34,7 @@ import com.wgf.cookbooks.clazz.UpMenuCoverAsyncTask;
 import com.wgf.cookbooks.db.SqliteDao;
 import com.wgf.cookbooks.util.IntentUtils;
 import com.wgf.cookbooks.util.L;
+import com.wgf.cookbooks.util.SoftInputUtils;
 import com.wgf.cookbooks.util.ToastUtils;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.Permission;
@@ -44,14 +42,8 @@ import com.yanzhenjie.permission.PermissionListener;
 import com.yanzhenjie.permission.Rationale;
 import com.yanzhenjie.permission.RationaleListener;
 
-import org.json.JSONObject;
-
 import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import top.zibin.luban.Luban;
 import top.zibin.luban.OnCompressListener;
@@ -338,15 +330,17 @@ public class AddMenuActivity extends AppCompatActivity implements View.OnClickLi
         int menuType = choosePType(menuT);
         int menuSunType = chooseSType(menuT, menuST);
 
-        L.e("content:" + coverPath + "," + menuName + "," + menuT + "," + desc + "," + menuType + "," + menuSunType);
+        //L.e("content:" + coverPath + "," + menuName + "," + menuT + "," + desc + "," + menuType + "," + menuSunType);
 
         dao.deleteMenuInfo();//清空表
         InsertMenu insertMenu = new InsertMenu(1,mainIcon,menuName, desc, menuType, menuSunType);
         int result = dao.insertMenuInfo(insertMenu);
         if (result == 1) {
             InsertMenu menu = dao.queryMenuInfo();
-            L.e("menu:" + menu.getMenuName());
+            //L.e("menu:" + menu.getMenuName());
             IntentUtils.jump(AddMenuActivity.this, AddMenuMaterialActivity.class);
+            //如果输入法显示则隐藏
+            SoftInputUtils.hideSoftInput(this);
         }
     }
 
@@ -502,6 +496,8 @@ public class AddMenuActivity extends AppCompatActivity implements View.OnClickLi
             pw.showAtLocation(findViewById(R.id.layout), Gravity.BOTTOM, 0, 0);
         }
 
+        //如果输入法存在则隐藏输入法
+        SoftInputUtils.hideSoftInput(this);
     }
 
     /**
@@ -529,6 +525,7 @@ public class AddMenuActivity extends AppCompatActivity implements View.OnClickLi
         menuType.setText(type);
         menuSunType.setVisibility(View.VISIBLE);
         menuSunType.setText("请选择");
+
     }
 
 
@@ -555,6 +552,20 @@ public class AddMenuActivity extends AppCompatActivity implements View.OnClickLi
                 pw2.dismiss();
             }
         });
+
+        //消失的监听事件
+        pw2.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                String sunType = menuSunType.getText().toString();
+                if(pw2!=null && !pw2.isShowing() && sunType.equals("请选择")){
+                    //存在且隐藏，没有选择子类
+                    menuType.setText("请选择");
+                    menuSunType.setVisibility(View.GONE);
+                    menuSunType.setText("请选择");
+                }
+            }
+        });
     }
 
     private String mainIcon;
@@ -565,11 +576,7 @@ public class AddMenuActivity extends AppCompatActivity implements View.OnClickLi
         }
         if (mainIconUrl != null) {
             mainIcon = mainIconUrl;
-//            Intent intent = new Intent(AddMenuActivity.this, AddMenuMaterialActivity.class);
-//            intent.putExtra("menuPkId",mainIcon);
-//            startActivity(intent);
-            //IntentUtils.jump(AddMenuActivity.this, AddMenuMaterialActivity.class);
-            ToastUtils.toast(this, mainIconUrl);
+            ToastUtils.toast(this,getString(R.string.text_menu_cover_success));
         } else {
             ToastUtils.toast(this, getString(R.string.text_failed_msg));
         }

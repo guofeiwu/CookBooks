@@ -41,15 +41,9 @@ public class UpMenuContentAsyncTask extends AsyncTask<String,Void,Void> {
                     @Override
                     public void onSuccess(Response<String> response) {
                         String resJson = response.body().toString();
-                        //int code = JsonUtils.getCode(resJson);
+                        int code = JsonUtils.getCode(resJson);
                         L.e("resJosn:"+resJson);
-                        mListener.success(200);
-                    }
-
-                    @Override
-                    public void onError(Response<String> response) {
-                        super.onError(response);
-                        L.e("error"+response.body().toString());
+                        mListener.success(code);
                     }
                 });
         return null;

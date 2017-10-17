@@ -130,7 +130,6 @@ public class HomePageFragment extends Fragment implements MenuAsyncTask.IGetMenu
     /**
      * 初始化banner数据
      */
-    // TODO: 2017/10/12  这里有时间多余可以修改
     private void initBanner(){
         //设置图片加载器
         banner.setImageLoader(new GlideImageLoader());
@@ -214,7 +213,6 @@ public class HomePageFragment extends Fragment implements MenuAsyncTask.IGetMenu
             case R.id.iv_add_menu:
                 //添加菜谱
                 String token = GetAuthorizationUtil.getAuth(getActivity());
-                token = "dddd";
                 if(TextUtils.isEmpty(token)){
                     IntentUtils.jump(getActivity(), LoginActivity.class);
                 }else{

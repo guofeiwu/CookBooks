@@ -136,6 +136,7 @@
     <string name="text_menu_type">请选择菜谱所属类别</string>
     <string name="text_menu_desc">说出美食的特色及故事</string>
     <string name="text_menu_cove_failed">上传菜谱封面失败</string>
+    <string name="text_menu_cover_success">上传菜谱封面图片成功</string>
 
     <integer name="actionId">1</integer>
 

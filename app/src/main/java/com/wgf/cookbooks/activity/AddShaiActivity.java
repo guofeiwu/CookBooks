@@ -390,7 +390,7 @@ public class AddShaiActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+//        super.onBackPressed();
         confirmDialog();
     }
 

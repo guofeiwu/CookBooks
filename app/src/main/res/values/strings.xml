@@ -137,6 +137,11 @@
     <string name="text_menu_desc">说出美食的特色及故事</string>
     <string name="text_menu_cove_failed">上传菜谱封面失败</string>
     <string name="text_menu_cover_success">上传菜谱封面图片成功</string>
+    <string name="text_please_feedback_content">请输入您要反馈的内容</string>
+    <string name="text_confirm_msg">还有建议或意见未提交，是否确定离开呢？</string>
+    <string name="text_commit_success">提交成功</string>
+    <string name="text_commit_failed">提交失败</string>
+    <string name="text_committing">正在提交中,请稍后再次提交</string>
 
     <integer name="actionId">1</integer>
 

@@ -1,5 +1,6 @@
 package com.wgf.cookbooks.activity;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -32,7 +33,8 @@ import static com.wgf.cookbooks.util.Constants.SHOW_DATA;
  * 系统相关的设置
  */
 public class SystemSettingActivity  extends AppCompatActivity implements View.OnClickListener{
-    private RelativeLayout mLogout,mUserInfo,mChangePhone,mModifyPassword,mShareApp;
+    private RelativeLayout mLogout,mUserInfo,mChangePhone,mModifyPassword,mShareApp,
+            mFeedback;
     private LinearLayout mLayoutAccount;
     private SharedPreferences mSharedPreferences;
     private String token;
@@ -78,6 +80,7 @@ public class SystemSettingActivity  extends AppCompatActivity implements View.On
         mChangePhone.setOnClickListener(this);
         mModifyPassword.setOnClickListener(this);
         mShareApp.setOnClickListener(this);
+        mFeedback.setOnClickListener(this);
 
         //toolbar 的返回
         mCustomToolbar.setBtnOnBackOnClickListener(new CustomToolbar.BtnOnBackOnClickListener() {
@@ -99,6 +102,7 @@ public class SystemSettingActivity  extends AppCompatActivity implements View.On
         mChangePhone = (RelativeLayout) findViewById(R.id.rl_change_phone);
         mModifyPassword = (RelativeLayout) findViewById(R.id.rl_modify_password);
         mShareApp = (RelativeLayout) findViewById(R.id.id_rl_share);
+        mFeedback = (RelativeLayout) findViewById(R.id.id_rl_feedback);
     }
 
     @Override
@@ -124,6 +128,10 @@ public class SystemSettingActivity  extends AppCompatActivity implements View.On
             //分享app
             case R.id.id_rl_share:
                 wxShare();
+                break;
+            //意见反馈
+            case R.id.id_rl_feedback:
+                IntentUtils.jump(this,FeedbackActivity.class);
                 break;
 
         }

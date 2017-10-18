@@ -41,6 +41,23 @@ public class JsonUtils {
     }
 
     /**
+     * 获取子code
+     * @param response
+     * @return
+     */
+    public static int getSonCode(String response){
+        int sonCode = -1;
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            sonCode = jsonObject.getJSONObject("extend").getJSONObject("content").getInt("sonCode");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return sonCode;
+    }
+
+
+    /**
      * 返回附加的内容（单个JsonObject）
      * @param response
      * @return

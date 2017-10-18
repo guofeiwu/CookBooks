@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.wgf.cookbooks.view.CustomToolbar
+        android:id="@+id/id_ct_alter_phone_back"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:toolbarTitle="@string/text_system_change_phone"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="16dp"
+        android:text="验证旧手机"
+        android:textSize="@dimen/text_content_size"
+        android:textColor="@color/item_gray"
+        />
+    <LinearLayout
+        android:padding="@dimen/activity_horizontal_margin"
+        android:id="@+id/email_login_form"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <AutoCompleteTextView
+                android:enabled="false"
+                android:id="@+id/id_user_old_phone"
+                android:maxLength="11"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:hintTextAppearance="@color/color_red"
+                android:inputType="number"
+                android:maxLines="1"
+                android:theme="@style/MyEditText"
+                android:textSize="15sp"
+                android:singleLine="true" />
+        </android.support.design.widget.TextInputLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/til_code"
+                >
+                <EditText
+                    android:id="@+id/id_verification_code"
+                    android:maxLength="4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:hintTextAppearance="@color/color_red"
+                    android:hint="@string/text_verify_code"
+                    android:inputType="number"
+                    android:maxLines="1"
+                    android:theme="@style/MyEditText"
+                    android:textSize="15sp"
+                    android:singleLine="true" />
+
+            </android.support.design.widget.TextInputLayout>
+            <TextView
+                android:id="@+id/id_get_verify_code"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="获取验证码"
+                android:background="@color/color_white"
+                android:textColor="@color/text_gray"
+                android:layout_marginRight="15dp"
+                android:layout_toRightOf="@id/til_code"
+                android:layout_centerVertical="true"
+                android:textSize="15sp"
+                />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/id_btn_next_step"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/btn_login_selector"
+        android:text="下一步"
+        android:textColor="@color/color_white"
+        android:textSize="15sp"
+        />
+</LinearLayout>

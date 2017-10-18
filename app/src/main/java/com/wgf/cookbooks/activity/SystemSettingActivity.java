@@ -1,10 +1,13 @@
 package com.wgf.cookbooks.activity;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
@@ -13,16 +16,20 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.wgf.cookbooks.R;
+import com.wgf.cookbooks.util.GlideCacheUtils;
 import com.wgf.cookbooks.util.IntentUtils;
 import com.wgf.cookbooks.util.SpUtils;
 import com.wgf.cookbooks.util.SwitchAnimationUtils;
 import com.wgf.cookbooks.util.WxUtils;
 import com.wgf.cookbooks.view.CustomToolbar;
+
+import org.w3c.dom.Text;
 
 import static com.wgf.cookbooks.util.Constants.AUTHORIZATION;
 import static com.wgf.cookbooks.util.Constants.SHOW_DATA;
@@ -34,13 +41,14 @@ import static com.wgf.cookbooks.util.Constants.SHOW_DATA;
  */
 public class SystemSettingActivity  extends AppCompatActivity implements View.OnClickListener{
     private RelativeLayout mLogout,mUserInfo,mChangePhone,mModifyPassword,mShareApp,
-            mFeedback;
+            mFeedback,mCleanCache,mAboutUs;
     private LinearLayout mLayoutAccount;
     private SharedPreferences mSharedPreferences;
     private String token;
     private CustomToolbar mCustomToolbar;
     private IWXAPI api;
     private PopupWindow pw;
+    private TextView mCacheSize;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,20 +63,24 @@ public class SystemSettingActivity  extends AppCompatActivity implements View.On
 
         initListener();
 
-        initLayout();
+        initData();
 
     }
 
     /**
-     * 初始化布局，若用户未登录则不显示账号栏和退出登录栏
+     * 初始化布局和数据，若用户未登录则不显示账号栏和退出登录栏
      */
-    private void initLayout() {
+    private void initData() {
         mSharedPreferences= SpUtils.getSharedPreferences(this);
         token = mSharedPreferences.getString(AUTHORIZATION,null);
         if(token == null){
             mLayoutAccount.setVisibility(View.GONE);
             mLogout.setVisibility(View.GONE);
         }
+
+        //设置缓存大小
+        String cacheSize = GlideCacheUtils.getCacheSize(this);
+        mCacheSize.setText(cacheSize);
     }
 
     /**
@@ -81,7 +93,8 @@ public class SystemSettingActivity  extends AppCompatActivity implements View.On
         mModifyPassword.setOnClickListener(this);
         mShareApp.setOnClickListener(this);
         mFeedback.setOnClickListener(this);
-
+        mCleanCache.setOnClickListener(this);
+        mAboutUs.setOnClickListener(this);
         //toolbar 的返回
         mCustomToolbar.setBtnOnBackOnClickListener(new CustomToolbar.BtnOnBackOnClickListener() {
             @Override
@@ -103,24 +116,22 @@ public class SystemSettingActivity  extends AppCompatActivity implements View.On
         mModifyPassword = (RelativeLayout) findViewById(R.id.rl_modify_password);
         mShareApp = (RelativeLayout) findViewById(R.id.id_rl_share);
         mFeedback = (RelativeLayout) findViewById(R.id.id_rl_feedback);
+        mCleanCache = (RelativeLayout) findViewById(R.id.id_rl_clean_cache);
+        mCacheSize = (TextView) findViewById(R.id.id_tv_cache_size);
+        mAboutUs = (RelativeLayout) findViewById(R.id.id_rl_about);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.rl_logout:
-                SharedPreferences.Editor editor = SpUtils.getEditor(this);
-                editor.putString(AUTHORIZATION,null);
-                editor.putBoolean(SHOW_DATA,false);
-                editor.commit();
-                //返回到上一个界面
-                finish();
+                confirmDialog();
                 break;
             case R.id.rl_user_info:
                 IntentUtils.jump(SystemSettingActivity.this,UserInfoActivity.class);
                 break;
             case R.id.rl_change_phone:
-
+                IntentUtils.jump(SystemSettingActivity.this,CheckOldPhoneActivity.class);
                 break;
             case R.id.rl_modify_password:
                 IntentUtils.jump(SystemSettingActivity.this,ModifyPasswordActivity.class);
@@ -132,6 +143,16 @@ public class SystemSettingActivity  extends AppCompatActivity implements View.On
             //意见反馈
             case R.id.id_rl_feedback:
                 IntentUtils.jump(this,FeedbackActivity.class);
+                break;
+            //清除缓存
+            case R.id.id_rl_clean_cache:
+                mCacheSize.setText("正在清除...");
+                GlideCacheUtils.clearImageAllCache(this);
+                mCacheSize.setText("0.0KB");
+                break;
+            //关于我们
+            case R.id.id_rl_about:
+                IntentUtils.jump(this,AboutActivity.class);
                 break;
 
         }
@@ -193,6 +214,41 @@ public class SystemSettingActivity  extends AppCompatActivity implements View.On
         }
     }
 
+
+
+    private Dialog dialog;
+
+    /**
+     * 退出发布意见反馈提示框
+     */
+    private void confirmDialog() {
+        //弹出是否要退出的对话框
+        AlertDialog.Builder builder = new AlertDialog.Builder(SystemSettingActivity.this);
+        builder.setTitle("提示");
+        builder.setMessage(R.string.text_confirm_logout);
+
+        builder.setNegativeButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                SharedPreferences.Editor editor = SpUtils.getEditor(SystemSettingActivity.this);
+                editor.putString(AUTHORIZATION,null);
+                editor.putBoolean(SHOW_DATA,false);
+                editor.commit();
+                //返回到上一个界面
+                dialog.dismiss();
+                finish();
+            }
+        });
+
+        builder.setPositiveButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        dialog = builder.create();
+        dialog.show();
+    }
 
 
 }

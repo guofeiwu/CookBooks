@@ -11,12 +11,15 @@ import com.bumptech.glide.load.engine.cache.InternalCacheDiskCacheFactory;
 import java.io.File;
 import java.math.BigDecimal;
 
-public class GlideCacheUtil {
-    private static GlideCacheUtil inst;
+/**
+ * glide关于缓存的工具类
+ */
+public class GlideCacheUtils {
+    private static GlideCacheUtils inst;
 
-    public static GlideCacheUtil getInstance() {
+    public static GlideCacheUtils getInstance() {
         if (inst == null) {
-            inst = new GlideCacheUtil();
+            inst = new GlideCacheUtils();
         }
         return inst;
     }
@@ -24,7 +27,7 @@ public class GlideCacheUtil {
     /**
      * 清除图片磁盘缓存
      */
-    public void clearImageDiskCache(final Context context) {
+    public static void clearImageDiskCache(final Context context) {
         try {
             if (Looper.myLooper() == Looper.getMainLooper()) {//在非UI线程中
                 new Thread(new Runnable() {
@@ -44,7 +47,7 @@ public class GlideCacheUtil {
     /**
      * 清除图片内存缓存
      */
-    public void clearImageMemoryCache(Context context) {
+    public static void clearImageMemoryCache(Context context) {
         try {
             if (Looper.myLooper() == Looper.getMainLooper()) { //只能在主线程执行
                 Glide.get(context).clearMemory();
@@ -57,7 +60,7 @@ public class GlideCacheUtil {
     /**
      * 清除图片所有缓存
      */
-    public void clearImageAllCache(Context context) {
+    public static void clearImageAllCache(Context context) {
         clearImageDiskCache(context);
         clearImageMemoryCache(context);
         String ImageExternalCatchDir = context.getExternalCacheDir() + ExternalCacheDiskCacheFactory.DEFAULT_DISK_CACHE_DIR;
@@ -69,7 +72,7 @@ public class GlideCacheUtil {
      *
      * @return CacheSize
      */
-    public String getCacheSize(Context context) {
+    public static String getCacheSize(Context context) {
         try {
             return getFormatSize(getFolderSize(new File(context.getCacheDir() + "/" + InternalCacheDiskCacheFactory.DEFAULT_DISK_CACHE_DIR)));
         } catch (Exception e) {
@@ -85,7 +88,7 @@ public class GlideCacheUtil {
      * @return size
      * @throws Exception
      */
-    private long getFolderSize(File file) throws Exception {
+    private static long getFolderSize(File file) throws Exception {
         long size = 0;
         try {
             File[] fileList = file.listFiles();
@@ -108,7 +111,7 @@ public class GlideCacheUtil {
      * @param filePath       filePath
      * @param deleteThisPath deleteThisPath
      */
-    private void deleteFolderFile(String filePath, boolean deleteThisPath) {
+    private static void deleteFolderFile(String filePath, boolean deleteThisPath) {
         if (!TextUtils.isEmpty(filePath)) {
             try {
                 File file = new File(filePath);

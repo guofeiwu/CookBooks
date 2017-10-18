@@ -146,6 +146,63 @@ public class SqliteDao {
     }
 
 
+    /**
+     * 插入用户信息
+     * @return
+     */
+    public int  insertUserInfo(String userName,String phone){
+        SQLiteDatabase db = helper.getWritableDatabase();
+        int result = 0;
+        db.beginTransaction();
+        ContentValues values = new ContentValues();
+        values.put("Id",1);
+        values.put("userName",userName);
+        values.put("phone",phone);
+        result = (int) db.insert(helper.USER_INFO,null,values);
+        db.setTransactionSuccessful();
+        db.endTransaction();
+        db.close();
+        return result;
+    }
+
+    /**
+     * 更新用户信息
+     * @return
+     */
+    public int  updateUserInfo(String phone){
+        SQLiteDatabase db = helper.getReadableDatabase();
+        int result = 0;
+        db.beginTransaction();
+        ContentValues values = new ContentValues();
+        values.put("phone",phone);
+        result = db.update(helper.USER_INFO,values,"id = ?",new String[]{"1"});
+        db.setTransactionSuccessful();
+        db.endTransaction();
+        db.close();
+        return result;
+    }
+
+
+    /**
+     * 获取用户信息
+     * @return
+     */
+    public String queryUserInfo(){
+        SQLiteDatabase db = helper.getReadableDatabase();
+        String phone = "";
+        db.beginTransaction();
+        Cursor cursor = db.query(helper.USER_INFO,null,"id = ?",new String[]{"1"},null,null,null);
+        if(cursor.moveToNext()){
+            phone = cursor.getString(cursor.getColumnIndex("phone"));
+        }
+        db.setTransactionSuccessful();
+        db.endTransaction();
+        cursor.close();
+        db.close();
+        return phone;
+    }
+
+
 
     /**
      * 清空表
@@ -163,6 +220,12 @@ public class SqliteDao {
     public void deleteMenuStep(){
         SQLiteDatabase db = helper.getWritableDatabase();
         db.execSQL("delete from " +helper.MENU_STEP);
+        db.close();
+    }
+
+    public void deleteUserInfo() {
+        SQLiteDatabase db = helper.getWritableDatabase();
+        db.execSQL("delete from " +helper.USER_INFO);
         db.close();
     }
 }

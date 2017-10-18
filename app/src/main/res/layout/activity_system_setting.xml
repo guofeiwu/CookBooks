@@ -68,7 +68,7 @@
                         android:layout_marginRight="10dp"
                         android:clickable="false"
                         android:focusable="false"
-                        android:src="@drawable/ppe" />
+                        android:src="@drawable/right_narrow" />
 
                     <View
                         android:layout_width="match_parent"
@@ -100,7 +100,7 @@
                         android:layout_marginRight="10dp"
                         android:clickable="false"
                         android:focusable="false"
-                        android:src="@drawable/ppe" />
+                        android:src="@drawable/right_narrow" />
 
                     <View
                         android:layout_width="match_parent"
@@ -132,7 +132,7 @@
                         android:layout_marginRight="10dp"
                         android:clickable="false"
                         android:focusable="false"
-                        android:src="@drawable/ppe" />
+                        android:src="@drawable/right_narrow" />
 
                     <View
                         android:layout_width="match_parent"
@@ -163,6 +163,7 @@
                 </LinearLayout>
 
                 <RelativeLayout
+                    android:id="@+id/id_rl_clean_cache"
                     android:background="?attr/selectableItemBackground"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/system_layout_height">
@@ -174,8 +175,8 @@
                         android:gravity="center"
                         android:text="@string/text_system_clean_cache"
                         android:textSize="@dimen/mine_text_size" />
-
                     <ImageView
+                        android:id="@+id/id_iv_left"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_alignParentRight="true"
@@ -184,8 +185,16 @@
                         android:layout_marginRight="10dp"
                         android:clickable="false"
                         android:focusable="false"
-                        android:src="@drawable/ppe" />
-
+                        android:src="@drawable/right_narrow" />
+                    <TextView
+                        android:id="@+id/id_tv_cache_size"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="15dp"
+                        android:gravity="center"
+                        android:layout_toLeftOf="@id/id_iv_left"
+                        android:text="0.0kB"
+                        android:textSize="@dimen/mine_text_size" />
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
@@ -194,6 +203,7 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/id_rl_about"
                     android:background="?attr/selectableItemBackground"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/system_layout_height">
@@ -215,7 +225,7 @@
                         android:layout_marginRight="10dp"
                         android:clickable="false"
                         android:focusable="false"
-                        android:src="@drawable/ppe" />
+                        android:src="@drawable/right_narrow" />
 
                     <View
                         android:layout_width="match_parent"
@@ -268,7 +278,7 @@
                         android:layout_marginRight="10dp"
                         android:clickable="false"
                         android:focusable="false"
-                        android:src="@drawable/ppe" />
+                        android:src="@drawable/right_narrow" />
 
                     <View
                         android:layout_width="match_parent"
@@ -299,7 +309,7 @@
                         android:layout_marginRight="10dp"
                         android:clickable="false"
                         android:focusable="false"
-                        android:src="@drawable/ppe" />
+                        android:src="@drawable/right_narrow" />
 
                     <View
                         android:layout_width="match_parent"
@@ -323,7 +333,7 @@
                         android:layout_marginRight="10dp"
                         android:clickable="false"
                         android:focusable="false"
-                        android:src="@drawable/ppe" />
+                        android:src="@drawable/right_narrow" />
 
                     <View
                         android:layout_width="match_parent"

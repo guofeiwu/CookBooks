@@ -24,7 +24,7 @@
             android:id="@+id/id_iv_setting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/setting_32"
+            android:src="@drawable/settings_48"
             android:layout_gravity="center_vertical|right"
             android:layout_marginRight="20dp"
             />
@@ -44,7 +44,7 @@
                     android:id="@+id/civ_user_icon"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:src="@drawable/icon"
+                    android:src="@drawable/icon_108"
                     android:layout_alignParentLeft="true"
                     android:layout_centerInParent="true"
                     android:layout_marginLeft="20dp"

@@ -16,6 +16,7 @@ public class MySqliteHelper extends SQLiteOpenHelper {
     public static final String MENU_INFO = "menuInfo";
     public static final String MENU_MATERIALS = "menuMaterials";
     public static final String MENU_STEP = "menuStep";
+    public static final String USER_INFO="userInfo";
 
 
     private static MySqliteHelper helper;
@@ -36,13 +37,16 @@ public class MySqliteHelper extends SQLiteOpenHelper {
         String sql1 = "create table if not exists " + MENU_INFO + " (Id integer primary key, mainIcon text ,menuName text,menuDesc text, menuType integer, menuTypeSun integer)";
         String sql2= "create table if not exists " + MENU_MATERIALS + " (Id integer primary key, materialsName text,materialsDose text)";
         String sql3 = "create table if not exists " + MENU_STEP + " (Id integer primary key, stepUrl text,stepDesc text)";
+        String sql4 = "create table if not exists "+USER_INFO+" (Id integer primary key, userName text,phone text)";
         db.execSQL(sql1);
         db.execSQL(sql2);
         db.execSQL(sql3);
+        db.execSQL(sql4);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
     }
 
 }

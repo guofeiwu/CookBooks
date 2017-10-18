@@ -18,6 +18,7 @@ import com.wgf.cookbooks.R;
 import com.wgf.cookbooks.activity.LoginActivity;
 import com.wgf.cookbooks.activity.SystemSettingActivity;
 import com.wgf.cookbooks.activity.UserInfoActivity;
+import com.wgf.cookbooks.db.SqliteDao;
 import com.wgf.cookbooks.util.IntentUtils;
 import com.wgf.cookbooks.util.JsonUtils;
 import com.wgf.cookbooks.util.L;
@@ -60,7 +61,13 @@ public class MineFragment extends Fragment implements View.OnClickListener{
 
     private JSONObject userInfo = null;//存放用户信息
     private String userName,phone,icon,birthday,level,sex,sign;
+    private SqliteDao dao;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        dao = new SqliteDao(getActivity());
+    }
 
     @Nullable
     @Override
@@ -207,7 +214,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
             mLoginOrRegister.setText(getString(R.string.text_click_login_register));
             mSign.setVisibility(View.GONE);
             mInfo.setVisibility(View.GONE);
-            mCircleImageView.setImageDrawable(getResources().getDrawable(R.drawable.icon));//设置默认头像
+            mCircleImageView.setImageDrawable(getResources().getDrawable(R.drawable.icon_108));//设置默认头像
         }
     }
 
@@ -247,7 +254,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
                 //设置用户信息
                 try {
                     userName = userInfo.getString("name");
-                   // phone = userInfo.getString("phone");
+                     phone = userInfo.getString("phone");
                    // sex = userInfo.getInt("sex") == 0 ? "男":"女";
                     icon = userInfo.getString("icon");
                     // birthday = userInfo.getString("birthday");
@@ -258,7 +265,8 @@ public class MineFragment extends Fragment implements View.OnClickListener{
                     mSign.setText(sign);
                     //加载用户头像
                     Glide.with(MineFragment.this).load(BASE_URL_FILE_ICON+icon).into(mCircleImageView);
-
+                    dao.deleteUserInfo();
+                    dao.insertUserInfo(userName,phone);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

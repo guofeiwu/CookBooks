@@ -56,7 +56,6 @@ public class ModifyPasswordActivity extends AppCompatActivity implements View.On
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             if (msg.what == Constants.SUCCESS) {
-                // TODO: 2017/9/28 调用注册接口
                 if(modifyPasswordAsyncTask != null){
                     return;
                 }
@@ -191,7 +190,7 @@ public class ModifyPasswordActivity extends AppCompatActivity implements View.On
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                mModify.setEnabled(true);//注册按钮可见
+                                mModify.setEnabled(true);//确认按钮可用
                                 ToastUtils.toast(ModifyPasswordActivity.this, finalResultDesc);
                             }
                         });

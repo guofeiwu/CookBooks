@@ -41,7 +41,7 @@
                 >
                 <com.wgf.cookbooks.view.CircleImageView
                     android:id="@+id/id_iv_user_icon"
-                    android:src="@drawable/icon"
+                    android:src="@drawable/icon_108"
                     android:layout_width="20dp"
                     android:layout_height="20dp" />
                 <TextView

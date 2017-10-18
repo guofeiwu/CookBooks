@@ -1,4 +1,4 @@
-package com.wgf.cookbooks.clazz;
+package com.wgf.cookbooks.clazz.asynctask;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -6,47 +6,59 @@ import android.os.AsyncTask;
 import com.lzy.okgo.OkGo;
 import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
+import com.wgf.cookbooks.bean.Shai;
 import com.wgf.cookbooks.util.GetAuthorizationUtil;
 import com.wgf.cookbooks.util.JsonUtils;
-import com.wgf.cookbooks.util.L;
+
+import java.io.File;
 
 import static com.wgf.cookbooks.util.Constants.AUTHORIZATION;
 import static com.wgf.cookbooks.util.Constants.BASE_URL;
-import static com.wgf.cookbooks.util.Constants.FAILED;
 import static com.wgf.cookbooks.util.Constants.SUCCESS;
 
 /**
  * author guofei_wu
  * email guofei_wu@163.com
- * 删除晒一晒
+ * 上传晒晒
  */
-public class DeleteShaiAsyncTask extends AsyncTask<Integer,Void,Void> {
-
-    private IDeleteShaiListener mListener;
+public class UploadShaiAsyncTask extends AsyncTask<File,Void,Void> {
+    private String desc;
     private Context context;
-    public DeleteShaiAsyncTask(Context context,IDeleteShaiListener mListener){
+    private IUploadShaiListener mListener;
+    public UploadShaiAsyncTask(Context context,String desc){
         this.context = context;
-        this.mListener = mListener;
+        this.desc = desc;
     }
     @Override
-    protected Void doInBackground(Integer... params) {
-        Integer shaiPkId = params[0];
-        String url = BASE_URL+"/app/shai/"+shaiPkId;
-
-        OkGo.<String>delete(url)
+    protected Void doInBackground(File... params) {
+        String url = BASE_URL+"/app/shai/upload";
+        OkGo.<String>post(url)
                 .headers(AUTHORIZATION, GetAuthorizationUtil.getAuth(context))
+                .params("desc",desc)
+                .params("shaiPicture",params[0])
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
                         String resJson = response.body().toString();
                         int code = JsonUtils.getCode(resJson);
+//                        if(code == SUCCESS){
+//                            mListener.result(shai);
+//                        }else{
+//                            mListener.result(null);
+//                        }
                         mListener.result(code);
                     }
                 });
+
         return null;
     }
 
-    public interface IDeleteShaiListener{
+
+    public interface IUploadShaiListener{
         void result(int code);
+    }
+
+    public void setmListener(IUploadShaiListener mListener) {
+        this.mListener = mListener;
     }
 }

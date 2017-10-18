@@ -41,7 +41,7 @@ import static com.wgf.cookbooks.util.Constants.SHOW_DATA;
  */
 public class SystemSettingActivity  extends AppCompatActivity implements View.OnClickListener{
     private RelativeLayout mLogout,mUserInfo,mChangePhone,mModifyPassword,mShareApp,
-            mFeedback,mCleanCache,mAboutUs;
+            mFeedback,mCleanCache,mAboutUs,mAppUpdate;
     private LinearLayout mLayoutAccount;
     private SharedPreferences mSharedPreferences;
     private String token;
@@ -95,6 +95,8 @@ public class SystemSettingActivity  extends AppCompatActivity implements View.On
         mFeedback.setOnClickListener(this);
         mCleanCache.setOnClickListener(this);
         mAboutUs.setOnClickListener(this);
+        mAppUpdate.setOnClickListener(this);
+
         //toolbar 的返回
         mCustomToolbar.setBtnOnBackOnClickListener(new CustomToolbar.BtnOnBackOnClickListener() {
             @Override
@@ -119,6 +121,7 @@ public class SystemSettingActivity  extends AppCompatActivity implements View.On
         mCleanCache = (RelativeLayout) findViewById(R.id.id_rl_clean_cache);
         mCacheSize = (TextView) findViewById(R.id.id_tv_cache_size);
         mAboutUs = (RelativeLayout) findViewById(R.id.id_rl_about);
+        mAppUpdate = (RelativeLayout) findViewById(R.id.id_rl_app_update);
     }
 
     @Override
@@ -153,6 +156,8 @@ public class SystemSettingActivity  extends AppCompatActivity implements View.On
             //关于我们
             case R.id.id_rl_about:
                 IntentUtils.jump(this,AboutActivity.class);
+                break;
+            case R.id.id_rl_app_update:
                 break;
 
         }

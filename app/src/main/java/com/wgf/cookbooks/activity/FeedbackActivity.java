@@ -14,7 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.wgf.cookbooks.R;
-import com.wgf.cookbooks.clazz.CommitFeedbackAsynctask;
+import com.wgf.cookbooks.clazz.asynctask.CommitFeedbackAsynctask;
 import com.wgf.cookbooks.util.ToastUtils;
 import com.wgf.cookbooks.view.CustomToolbar;
 
@@ -22,7 +22,6 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 import static com.wgf.cookbooks.util.Constants.SUCCESS;
 

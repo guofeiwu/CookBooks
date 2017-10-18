@@ -33,7 +33,7 @@ import com.lzy.okgo.model.Progress;
 import com.wgf.cookbooks.R;
 import com.wgf.cookbooks.bean.UserInfo;
 import com.wgf.cookbooks.util.GetAuthorizationUtil;
-import com.wgf.cookbooks.clazz.GetUserInfoAsyncTask;
+import com.wgf.cookbooks.clazz.asynctask.GetUserInfoAsyncTask;
 import com.wgf.cookbooks.util.JsonUtils;
 import com.wgf.cookbooks.util.L;
 import com.wgf.cookbooks.util.SpUtils;
@@ -47,7 +47,6 @@ import com.yanzhenjie.permission.PermissionListener;
 import com.yanzhenjie.permission.Rationale;
 import com.yanzhenjie.permission.RationaleListener;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -65,7 +64,6 @@ import top.zibin.luban.OnCompressListener;
 
 import static com.wgf.cookbooks.util.Constants.AUTHORIZATION;
 import static com.wgf.cookbooks.util.Constants.BASE_URL;
-import static com.wgf.cookbooks.util.Constants.BASE_URL_FILE_ICON;
 import static com.wgf.cookbooks.util.Constants.FAILED;
 import static com.wgf.cookbooks.util.Constants.REQUEST_CODE_ALBUM;
 import static com.wgf.cookbooks.util.Constants.REQUEST_CODE_CAMERA;

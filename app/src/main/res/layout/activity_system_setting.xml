@@ -288,6 +288,7 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/id_rl_app_update"
                     android:background="?attr/selectableItemBackground"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/system_layout_height">

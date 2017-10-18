@@ -3,7 +3,6 @@ package com.wgf.cookbooks.activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -18,7 +17,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -26,26 +24,21 @@ import com.wgf.cookbooks.R;
 import com.wgf.cookbooks.bean.InsertMaterials;
 import com.wgf.cookbooks.bean.InsertMenu;
 import com.wgf.cookbooks.bean.InsertStep;
-import com.wgf.cookbooks.clazz.UpMenuContentAsyncTask;
-import com.wgf.cookbooks.clazz.UpMenuCoverAsyncTask;
-import com.wgf.cookbooks.clazz.UpMenuStepPictureAsyncTask;
+import com.wgf.cookbooks.clazz.asynctask.UpMenuContentAsyncTask;
+import com.wgf.cookbooks.clazz.asynctask.UpMenuStepPictureAsyncTask;
 import com.wgf.cookbooks.db.SqliteDao;
 import com.wgf.cookbooks.util.L;
 import com.wgf.cookbooks.util.ToastUtils;
 import com.wgf.cookbooks.view.CustomToolbar;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
-import okhttp3.MultipartBody;
 import top.zibin.luban.Luban;
 import top.zibin.luban.OnCompressListener;
 

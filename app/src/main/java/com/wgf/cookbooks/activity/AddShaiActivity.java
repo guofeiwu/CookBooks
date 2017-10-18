@@ -24,8 +24,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.wgf.cookbooks.R;
-import com.wgf.cookbooks.bean.Shai;
-import com.wgf.cookbooks.clazz.UploadShaiAsyncTask;
+import com.wgf.cookbooks.clazz.asynctask.UploadShaiAsyncTask;
 import com.wgf.cookbooks.util.L;
 import com.wgf.cookbooks.util.SoftInputUtils;
 import com.wgf.cookbooks.util.SpUtils;

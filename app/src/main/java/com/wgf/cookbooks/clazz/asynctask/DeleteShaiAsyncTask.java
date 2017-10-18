@@ -1,4 +1,4 @@
-package com.wgf.cookbooks.clazz;
+package com.wgf.cookbooks.clazz.asynctask;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -12,35 +12,41 @@ import com.wgf.cookbooks.util.L;
 
 import static com.wgf.cookbooks.util.Constants.AUTHORIZATION;
 import static com.wgf.cookbooks.util.Constants.BASE_URL;
+import static com.wgf.cookbooks.util.Constants.FAILED;
+import static com.wgf.cookbooks.util.Constants.SUCCESS;
 
 /**
  * author guofei_wu
  * email guofei_wu@163.com
+ * 删除晒一晒
  */
-public class UpdateLookTotalAsyncTask extends AsyncTask<Integer,Void,Void> {
+public class DeleteShaiAsyncTask extends AsyncTask<Integer,Void,Void> {
 
-    private IUpdateLookListener mListener;
-    public UpdateLookTotalAsyncTask(){
+    private IDeleteShaiListener mListener;
+    private Context context;
+    public DeleteShaiAsyncTask(Context context,IDeleteShaiListener mListener){
+        this.context = context;
+        this.mListener = mListener;
     }
     @Override
     protected Void doInBackground(Integer... params) {
         Integer shaiPkId = params[0];
-        Integer lookTotal = params[1];
-        String url = BASE_URL+"/app/shai/look/"+lookTotal+"/shai/"+shaiPkId;
+        String url = BASE_URL+"/app/shai/"+shaiPkId;
 
-        OkGo.<String>get(url)
+        OkGo.<String>delete(url)
+                .headers(AUTHORIZATION, GetAuthorizationUtil.getAuth(context))
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
                         String resJson = response.body().toString();
                         int code = JsonUtils.getCode(resJson);
-                        L.e("code:"+code);
+                        mListener.result(code);
                     }
                 });
         return null;
     }
 
-    public interface IUpdateLookListener{
+    public interface IDeleteShaiListener{
         void result(int code);
     }
 }

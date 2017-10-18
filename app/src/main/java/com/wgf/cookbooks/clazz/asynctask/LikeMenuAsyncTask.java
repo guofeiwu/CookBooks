@@ -1,4 +1,4 @@
-package com.wgf.cookbooks.clazz;
+package com.wgf.cookbooks.clazz.asynctask;
 
 
 import android.content.Context;
@@ -17,45 +17,49 @@ import static com.wgf.cookbooks.util.Constants.SUCCESS;
 /**
  * author guofei_wu
  * email guofei_wu@163.com
- * 上传菜谱
+ * 菜谱点赞，取消点赞的异步任务
  */
-public class UpMenuStringAsyncTask extends AsyncTask<String,Void,Void> {
-    private IUpMenuListener mListener;
+public class LikeMenuAsyncTask extends AsyncTask<String,Void,Void> {
+    private ILikeMenuListener mListener;
     private Context context;
-    public UpMenuStringAsyncTask(Context context){
+    public LikeMenuAsyncTask(Context context){
         this.context = context;
     }
     @Override
     protected Void doInBackground(String... params) {
-        String url = "";
-        OkGo.<String>post(url)
+        String url = params[0];
+        OkGo.<String>get(url)
                 .headers(AUTHORIZATION, GetAuthorizationUtil.getAuth(context))
-                .upJson(params[0])
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
                         String resJosn = response.body().toString();
                         int code = JsonUtils.getCode(resJosn);
                         if(code == SUCCESS){
-                            mListener.result(SUCCESS);
+                            int pkId = JsonUtils.getPkId(resJosn);
+                            mListener.onSuccess(code,pkId);
                         }else{
-                            mListener.result(FAILED);
+                            mListener.onSuccess(code,-1);
                         }
                     }
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
-                        mListener.result(FAILED);
+                        mListener.onSuccess(FAILED,-1);
                     }
                 });
         return null;
     }
 
-    public interface IUpMenuListener{
-        void result(int code);
+    public interface ILikeMenuListener{
+        /**
+         * @param code 总code
+         * @param pkId 点赞成功后返回的主键
+         */
+        void onSuccess(int code,int pkId);
     }
 
-    public void setmListener(IUpMenuListener mListener) {
+    public void setmListener(ILikeMenuListener mListener) {
         this.mListener = mListener;
     }
 }

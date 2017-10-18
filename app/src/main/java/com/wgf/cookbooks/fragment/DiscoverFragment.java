@@ -17,16 +17,13 @@ import com.wgf.cookbooks.R;
 import com.wgf.cookbooks.activity.SearchActivity;
 import com.wgf.cookbooks.activity.ShaiActivity;
 import com.wgf.cookbooks.activity.ShaiDetailActivity;
-import com.wgf.cookbooks.adapter.ShaiDetailRecycleViewAdapter;
 import com.wgf.cookbooks.adapter.ShaiRecycleViewAdapter;
 import com.wgf.cookbooks.bean.Shai;
-import com.wgf.cookbooks.clazz.GetShaiAsyncTask;
+import com.wgf.cookbooks.clazz.asynctask.GetShaiAsyncTask;
 import com.wgf.cookbooks.util.IntentUtils;
 import com.wgf.cookbooks.util.L;
 import com.wgf.cookbooks.util.RecycleDivider;
 
-
-import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.List;

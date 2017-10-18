@@ -10,7 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import com.wgf.cookbooks.R;
 import com.wgf.cookbooks.adapter.MenuRecycleViewAdapter;
 import com.wgf.cookbooks.bean.Menu;
-import com.wgf.cookbooks.clazz.MenuAsyncTask;
+import com.wgf.cookbooks.clazz.asynctask.MenuAsyncTask;
 import com.wgf.cookbooks.util.Constants;
 import com.wgf.cookbooks.util.RecycleDivider;
 import com.wgf.cookbooks.util.ToastUtils;

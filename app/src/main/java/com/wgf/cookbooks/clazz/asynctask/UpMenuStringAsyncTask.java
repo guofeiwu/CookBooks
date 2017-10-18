@@ -1,4 +1,4 @@
-package com.wgf.cookbooks.clazz;
+package com.wgf.cookbooks.clazz.asynctask;
 
 
 import android.content.Context;
@@ -17,49 +17,45 @@ import static com.wgf.cookbooks.util.Constants.SUCCESS;
 /**
  * author guofei_wu
  * email guofei_wu@163.com
- * 菜谱收藏，取消收藏的异步任务
+ * 上传菜谱
  */
-public class CollectMenuAsyncTask extends AsyncTask<String,Void,Void> {
-    private ICollectMenuListener mListener;
+public class UpMenuStringAsyncTask extends AsyncTask<String,Void,Void> {
+    private IUpMenuListener mListener;
     private Context context;
-    public CollectMenuAsyncTask(Context context){
+    public UpMenuStringAsyncTask(Context context){
         this.context = context;
     }
     @Override
     protected Void doInBackground(String... params) {
-        String url = params[0];
-        OkGo.<String>get(url)
+        String url = "";
+        OkGo.<String>post(url)
                 .headers(AUTHORIZATION, GetAuthorizationUtil.getAuth(context))
+                .upJson(params[0])
                 .execute(new StringCallback() {
                     @Override
                     public void onSuccess(Response<String> response) {
                         String resJosn = response.body().toString();
                         int code = JsonUtils.getCode(resJosn);
                         if(code == SUCCESS){
-                            int pkId = JsonUtils.getPkId(resJosn);
-                            mListener.collectResult(code,pkId);
+                            mListener.result(SUCCESS);
                         }else{
-                            mListener.collectResult(code,-1);
+                            mListener.result(FAILED);
                         }
                     }
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
-                        mListener.collectResult(FAILED,-1);
+                        mListener.result(FAILED);
                     }
                 });
         return null;
     }
 
-    public interface ICollectMenuListener{
-        /**
-         * @param code 总code
-         * @param pkId 收藏成功后返回的主键
-         */
-        void collectResult(int code, int pkId);
+    public interface IUpMenuListener{
+        void result(int code);
     }
 
-    public void setmListener(ICollectMenuListener mListener) {
+    public void setmListener(IUpMenuListener mListener) {
         this.mListener = mListener;
     }
 }

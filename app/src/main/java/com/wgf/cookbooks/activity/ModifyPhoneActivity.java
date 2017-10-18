@@ -15,7 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.wgf.cookbooks.R;
-import com.wgf.cookbooks.clazz.ModifyPhoneAsyncTask;
+import com.wgf.cookbooks.clazz.asynctask.ModifyPhoneAsyncTask;
 import com.wgf.cookbooks.db.SqliteDao;
 import com.wgf.cookbooks.util.Constants;
 import com.wgf.cookbooks.util.L;

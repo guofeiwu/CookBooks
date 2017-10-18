@@ -1,13 +1,9 @@
 package com.wgf.cookbooks.activity;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.annotation.XmlRes;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,14 +18,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.lzy.okgo.OkGo;
-import com.lzy.okgo.callback.AbsCallback;
-import com.lzy.okgo.callback.BitmapCallback;
-import com.lzy.okgo.model.Response;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
-import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
-import com.tencent.mm.opensdk.modelmsg.WXTextObject;
-import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.wgf.cookbooks.R;
 import com.wgf.cookbooks.adapter.CommentRecycleViewAdapter;
@@ -37,14 +26,13 @@ import com.wgf.cookbooks.adapter.MenuStepAdapter;
 import com.wgf.cookbooks.bean.Comment;
 import com.wgf.cookbooks.bean.Materials;
 import com.wgf.cookbooks.bean.Menu;
-import com.wgf.cookbooks.clazz.CollectMenuAsyncTask;
-import com.wgf.cookbooks.clazz.DeleteCommentAsyncTask;
-import com.wgf.cookbooks.clazz.GetCommentAsyncTask;
-import com.wgf.cookbooks.clazz.LikeMenuAsyncTask;
-import com.wgf.cookbooks.clazz.MenuDetailAsyncTask;
+import com.wgf.cookbooks.clazz.asynctask.CollectMenuAsyncTask;
+import com.wgf.cookbooks.clazz.asynctask.DeleteCommentAsyncTask;
+import com.wgf.cookbooks.clazz.asynctask.GetCommentAsyncTask;
+import com.wgf.cookbooks.clazz.asynctask.LikeMenuAsyncTask;
+import com.wgf.cookbooks.clazz.asynctask.MenuDetailAsyncTask;
 import com.wgf.cookbooks.util.GetAuthorizationUtil;
 import com.wgf.cookbooks.util.IntentUtils;
-import com.wgf.cookbooks.util.L;
 import com.wgf.cookbooks.util.RecycleDivider;
 import com.wgf.cookbooks.util.SpUtils;
 import com.wgf.cookbooks.util.ToastUtils;
@@ -52,7 +40,6 @@ import com.wgf.cookbooks.util.WxUtils;
 import com.wgf.cookbooks.view.CircleImageView;
 import com.wgf.cookbooks.view.CustomToolbar;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.wgf.cookbooks.clazz;
+package com.wgf.cookbooks.clazz.asynctask;
 
 
 import android.content.Context;
@@ -17,12 +17,12 @@ import static com.wgf.cookbooks.util.Constants.SUCCESS;
 /**
  * author guofei_wu
  * email guofei_wu@163.com
- * 菜谱点赞，取消点赞的异步任务
+ * 菜谱收藏，取消收藏的异步任务
  */
-public class LikeMenuAsyncTask extends AsyncTask<String,Void,Void> {
-    private ILikeMenuListener mListener;
+public class CollectMenuAsyncTask extends AsyncTask<String,Void,Void> {
+    private ICollectMenuListener mListener;
     private Context context;
-    public LikeMenuAsyncTask(Context context){
+    public CollectMenuAsyncTask(Context context){
         this.context = context;
     }
     @Override
@@ -37,29 +37,29 @@ public class LikeMenuAsyncTask extends AsyncTask<String,Void,Void> {
                         int code = JsonUtils.getCode(resJosn);
                         if(code == SUCCESS){
                             int pkId = JsonUtils.getPkId(resJosn);
-                            mListener.onSuccess(code,pkId);
+                            mListener.collectResult(code,pkId);
                         }else{
-                            mListener.onSuccess(code,-1);
+                            mListener.collectResult(code,-1);
                         }
                     }
                     @Override
                     public void onError(Response<String> response) {
                         super.onError(response);
-                        mListener.onSuccess(FAILED,-1);
+                        mListener.collectResult(FAILED,-1);
                     }
                 });
         return null;
     }
 
-    public interface ILikeMenuListener{
+    public interface ICollectMenuListener{
         /**
          * @param code 总code
-         * @param pkId 点赞成功后返回的主键
+         * @param pkId 收藏成功后返回的主键
          */
-        void onSuccess(int code,int pkId);
+        void collectResult(int code, int pkId);
     }
 
-    public void setmListener(ILikeMenuListener mListener) {
+    public void setmListener(ICollectMenuListener mListener) {
         this.mListener = mListener;
     }
 }

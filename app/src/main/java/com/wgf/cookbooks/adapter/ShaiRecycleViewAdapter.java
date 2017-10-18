@@ -9,7 +9,6 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.wgf.cookbooks.R;
-import com.wgf.cookbooks.clazz.GetShaiAsyncTask;
 
 import java.util.List;
 

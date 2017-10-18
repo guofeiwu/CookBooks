@@ -30,7 +30,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.wgf.cookbooks.R;
 import com.wgf.cookbooks.bean.InsertMenu;
-import com.wgf.cookbooks.clazz.UpMenuCoverAsyncTask;
+import com.wgf.cookbooks.clazz.asynctask.UpMenuCoverAsyncTask;
 import com.wgf.cookbooks.db.SqliteDao;
 import com.wgf.cookbooks.util.IntentUtils;
 import com.wgf.cookbooks.util.L;

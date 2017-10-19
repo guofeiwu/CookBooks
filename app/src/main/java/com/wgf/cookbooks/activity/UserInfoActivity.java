@@ -438,8 +438,11 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 String nMonth = null;
                 month += 1;
+                //一位数，补全成为两位数
                 if (String.valueOf(month).length() == 1) {
                     nMonth = "0" + String.valueOf(month);
+                }else{
+                    nMonth = String.valueOf(month);
                 }
                 L.e("fromYear:" + fromYear + ",fromMonth:" + fromMonth + ",fromDay:" + fromDay);
                 L.e("year:" + year + ",month:" + nMonth + ",day:" + dayOfMonth);
@@ -450,8 +453,11 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
                 }
 
                 String nDayOfMonth = null;
-                if(dayOfMonth<10){//一位数，补全成为两位数
+                //一位数，补全成为两位数
+                if(dayOfMonth<10){
                     nDayOfMonth = "0"+String.valueOf(dayOfMonth);
+                }else{
+                    nDayOfMonth = String.valueOf(dayOfMonth);
                 }
                 String birth = year + "-" + nMonth + "-" + nDayOfMonth;
                 mUserBirthday.setContent(birth);

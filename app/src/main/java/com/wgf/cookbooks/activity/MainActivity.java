@@ -33,8 +33,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-       // SwitchAnimationUtils.enterActivitySlideRight(this);
-        //SwitchAnimationUtils.exitActivitySlideLeft(this);
+        SwitchAnimationUtils.enterActivitySlideRight(this);
+        SwitchAnimationUtils.exitActivitySlideLeft(this);
 
 
         setContentView(R.layout.activity_main);

@@ -66,15 +66,16 @@ public class MineFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
+//        SwitchAnimationUtils.enterActivitySlideRight(getActivity());
+//        SwitchAnimationUtils.exitActivitySlideLeft(getActivity());
         super.onCreate(savedInstanceState);
-        SwitchAnimationUtils.enterActivitySlideRight(getActivity());
-        SwitchAnimationUtils.exitActivitySlideLeft(getActivity());
         dao = new SqliteDao(getActivity());
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_mine, container, false);
 
         SpUtils.getEditor(getActivity()).putBoolean(SHOW_DATA,false).commit();//第一次加载数据

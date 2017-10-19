@@ -32,7 +32,7 @@
             android:id="@+id/iv_narrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ppe"
+            android:src="@drawable/right_narrow"
             android:layout_centerInParent="true"
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/ppe_margin"

@@ -119,8 +119,7 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
                         mUserLevel.setContent(userInfo.getLevel());
                         Glide.with(UserInfoActivity.this)
                                 .load(userInfo.getIcon())
-//                                .skipMemoryCache(true)
-//                                .diskCacheStrategy(DiskCacheStrategy.NONE )
+                                .placeholder(R.drawable.icon_108)
                                 .into(mCircleImageView);
                     } catch (Exception e) {
                         e.printStackTrace();

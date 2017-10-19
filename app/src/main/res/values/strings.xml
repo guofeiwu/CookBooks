@@ -146,6 +146,7 @@
     <string name="text_confirm_logout">是否确定退出？</string>
     <string name="text_need_new_phone">请输入新的手机号码</string>
     <string name="text_phone_not_same">该手机号和获取验证码的的手机号不一致</string>
+    <string name="text_update_name">修改昵称</string>
 
 
     <integer name="actionId">1</integer>

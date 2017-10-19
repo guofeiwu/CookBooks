@@ -7,8 +7,8 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="请输入昵称"
-        android:layout_marginLeft="30dp"
+        android:text="@string/text_update_name"
+        android:layout_marginLeft="15dp"
         android:textSize="@dimen/text_title_size"
         android:layout_marginTop="30dp"
         />
@@ -44,21 +44,26 @@
         android:layout_marginBottom="20dp"
         >
         <Button
-            android:id="@+id/btn_cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/text_cancel"
-            android:layout_marginRight="30dp"
-            android:background="@drawable/btn_login_selector"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_weight="1"
             android:textColor="@color/color_white"
-            />
-        <Button
-            android:textColor="@color/color_white"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@string/text_affirm"
             android:background="@drawable/btn_login_selector"
             android:id="@+id/btn_sure" />
+        <Button
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_weight="1"
+            android:id="@+id/btn_cancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/text_cancel"
+            android:background="@drawable/btn_login_selector"
+            android:textColor="@color/color_white"
+            />
     </LinearLayout>
 
 </LinearLayout>

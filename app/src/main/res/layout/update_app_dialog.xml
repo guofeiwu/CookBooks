@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
+    android:background="@color/view_white_gray"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="提示"
+        android:text="版本更新提示"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="15dp"
         android:textSize="@dimen/text_content_size"
@@ -26,14 +27,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/item_gray"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        />
     <LinearLayout
         android:gravity="center"
         android:orientation="horizontal"
         android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <Button
+            android:textColor="@color/white"
+            android:background="@drawable/btn_login_selector"
             android:id="@+id/id_download_ok"
             android:text="确定"
             android:layout_weight="1"
@@ -43,6 +53,7 @@
             android:layout_marginRight="20dp"
             android:layout_height="wrap_content" />
         <Button
+            android:background="@drawable/btn_login_selector"
             android:id="@+id/id_download_cancel"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
@@ -50,6 +61,7 @@
             android:layout_weight="1"
             android:layout_gravity="left"
             android:layout_width="0dp"
+            android:textColor="@color/white"
             android:layout_height="wrap_content" />
     </LinearLayout>
 </LinearLayout>

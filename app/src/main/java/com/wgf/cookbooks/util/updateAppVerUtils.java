@@ -48,8 +48,6 @@ public class UpdateAppVerUtils {
     private static void confirmDialog(final Context context, final String downloadUrl, String updateDesc, final float versionCode){
             //弹出是否要退出的对话框
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-//            builder.setTitle("提示");
-//            builder.setMessage(R.string.text_confirm_msg);
         View view = View.inflate(context,R.layout.update_app_dialog,null);
         TextView updateMsg = (TextView) view.findViewById(R.id.id_tv_update_msg);
         Button downloadOk = (Button) view.findViewById(R.id.id_download_ok);
@@ -72,6 +70,7 @@ public class UpdateAppVerUtils {
             }
         });
         dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(false);
         dialog.show();
     }
 

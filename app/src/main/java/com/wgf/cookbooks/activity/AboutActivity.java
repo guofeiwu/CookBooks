@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
 import com.wgf.cookbooks.R;
+import com.wgf.cookbooks.util.L;
 import com.wgf.cookbooks.view.CustomToolbar;
 
 /**
@@ -25,5 +26,11 @@ public class AboutActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        L.e("AboutActivity  onDestroy ");
     }
 }

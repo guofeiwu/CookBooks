@@ -1,5 +1,6 @@
 package com.wgf.cookbooks.util;
 
+import com.wgf.cookbooks.bean.AppVer;
 import com.wgf.cookbooks.bean.Banner;
 import com.wgf.cookbooks.bean.Comment;
 import com.wgf.cookbooks.bean.Materials;
@@ -502,4 +503,28 @@ public class JsonUtils {
     }
 
 
+    /**
+     * 返回版本信息
+     * @param response
+     * @return
+     */
+    public static AppVer getAppVer(String response) {
+        AppVer appVer = null;
+
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            JSONObject jo = jsonObject.getJSONObject("extend").getJSONObject("content");
+            double appVer1 = jo.getDouble("versionCode");
+            String downloadUrl = jo.getString("downloadUrl");
+            String verDesc = jo.getString("verDesc");
+
+            appVer = new AppVer();
+            appVer.setVer((float) appVer1);
+            appVer.setDownloadUrl(downloadUrl);
+            appVer.setVerDesc(verDesc);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return appVer;
+    }
 }

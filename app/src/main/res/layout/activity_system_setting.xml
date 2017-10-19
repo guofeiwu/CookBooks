@@ -186,6 +186,7 @@
                         android:clickable="false"
                         android:focusable="false"
                         android:src="@drawable/right_narrow" />
+
                     <TextView
                         android:id="@+id/id_tv_cache_size"
                         android:layout_width="wrap_content"
@@ -194,7 +195,7 @@
                         android:gravity="center"
                         android:layout_toLeftOf="@id/id_iv_left"
                         android:text="0.0kB"
-                        android:textSize="@dimen/mine_text_size" />
+                        android:textSize="@dimen/text_small_content_size" />
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
@@ -300,8 +301,8 @@
                         android:gravity="center"
                         android:text="@string/text_system_update_version"
                         android:textSize="@dimen/mine_text_size" />
-
                     <ImageView
+                        android:id="@+id/id_iv_left_version"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_alignParentRight="true"
@@ -311,7 +312,23 @@
                         android:clickable="false"
                         android:focusable="false"
                         android:src="@drawable/right_narrow" />
-
+                    <TextView
+                        android:id="@+id/id_tv_version_code"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:layout_marginLeft="5dp"
+                        android:layout_toLeftOf="@id/id_iv_left_version"
+                        android:text="版本1.0"
+                        android:textSize="@dimen/text_small_content_size" />
+                    <View
+                        android:visibility="gone"
+                        android:id="@+id/id_v_point"
+                        android:layout_width="5dp"
+                        android:layout_height="5dp"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@id/id_tv_version_code"
+                        android:background="@drawable/update_point_bg" />
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"

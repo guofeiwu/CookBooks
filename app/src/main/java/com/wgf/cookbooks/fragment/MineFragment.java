@@ -24,6 +24,7 @@ import com.wgf.cookbooks.util.JsonUtils;
 import com.wgf.cookbooks.util.L;
 import com.wgf.cookbooks.util.SoftInputUtils;
 import com.wgf.cookbooks.util.SpUtils;
+import com.wgf.cookbooks.util.SwitchAnimationUtils;
 import com.wgf.cookbooks.util.ToastUtils;
 import com.wgf.cookbooks.view.CircleImageView;
 import com.wgf.cookbooks.view.MineLayout;
@@ -66,6 +67,8 @@ public class MineFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SwitchAnimationUtils.enterActivitySlideRight(getActivity());
+        SwitchAnimationUtils.exitActivitySlideLeft(getActivity());
         dao = new SqliteDao(getActivity());
     }
 

@@ -9,23 +9,22 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.support.v4.content.FileProvider;
 import android.webkit.MimeTypeMap;
 
 import java.io.File;
 
-/**
- * author WuGuofei on 2017/4/18.
- * e-mail：guofei_wu@163.com
- */
+import static com.wgf.cookbooks.util.Constants.BASE_URL_FILE_APP;
+
 
 public class DownloadApp {
     private String url;
     private Context context;
     private DownloadManager dm;
-    private int id;
+    private int downloadId;//下载的标识,通过下载标识可以拿到一些下载信息
     private DownloadFinishReceiver receiver;
 
-    //private String testUrl = "http://192.168.56.1:8080/E-Magazine/base.apk";
+    //private String testUrl = "http://192.168.56.1:8080/cate1.0.apk";
     public DownloadApp(Context context, String url) {
         this.context = context;
         this.url = url;
@@ -35,24 +34,24 @@ public class DownloadApp {
         context.registerReceiver(receiver, filter);
     }
 
-    public int downloadApp() {
-        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
-        //设置在什么网络情况下进行下载
-        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE);
-        //设置通知栏标题
-        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-        request.setTitle("下载");
-        request.setDescription("E-Magazine正在下载");
-        //设置是否允许漫游网络 建立请求 默认true
-        request.setAllowedOverRoaming(true);
+    public int downloadApp(float versionCode) {
+            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(BASE_URL_FILE_APP + url));
+            //设置在什么网络情况下进行下载
+            request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE);
+            //设置通知栏标题
+            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+            request.setTitle("下载");
+            request.setDescription("美食菜谱正在下载");
+            //设置是否允许漫游网络 建立请求 默认true
+            request.setAllowedOverRoaming(true);
 
-        MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
-        //设置请求的Mime
-        request.setMimeType(mimeTypeMap.getMimeTypeFromExtension(url));
-        //设置文件存放目录
-        request.setDestinationInExternalFilesDir(context, Environment.DIRECTORY_DOWNLOADS, File.separator+"e-magazine.apk");
-        id = (int) dm.enqueue(request);
-        return id;
+            MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
+            //设置请求的Mime
+            request.setMimeType(mimeTypeMap.getMimeTypeFromExtension(url));
+            //设置文件存放目录
+            request.setDestinationInExternalFilesDir(context, Environment.DIRECTORY_DOWNLOADS, File.separator + "cate" + versionCode + ".apk");
+            downloadId = (int) dm.enqueue(request);
+        return downloadId;
     }
 
 
@@ -79,26 +78,23 @@ public class DownloadApp {
         @Override
         public void onReceive(Context context, Intent intent) {
 
+
+
             if (intent.getAction().equals(DownloadManager.ACTION_DOWNLOAD_COMPLETE) |
                     intent.getAction().equals(DownloadManager.ACTION_NOTIFICATION_CLICKED)) {
-                Uri uri = dm.getUriForDownloadedFile(id);
-                if(Build.VERSION.SDK_INT < 23){
-                    L.e("sdk<23");
-                    Intent intents = new Intent();
-                    intents.setAction("android.intent.action.VIEW");
-                    intents.addCategory("android.intent.category.DEFAULT");
-//                    intents.setType("application/vnd.android.package-archive");
-//                    intents.setData(uri);
-                    intents.setDataAndType(uri, "application/vnd.android.package-archive");
-                    intents.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    context.startActivity(intents);
-                }else{
-                    //TODO 这里如果取消安装的情况
-                    Intent install = new Intent(Intent.ACTION_VIEW);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    intent.setDataAndType(uri, "application/vnd.android.package-archive");
-                    context.startActivity(install);
+                Uri uri = dm.getUriForDownloadedFile(downloadId);
+                Intent install = new Intent();
+                if (Build.VERSION.SDK_INT >= 24) {
+                    install.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 }
+                install.addCategory("android.intent.category.DEFAULT");
+                install.setAction(Intent.ACTION_VIEW);
+                install.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                install.setDataAndType(uri, "application/vnd.android.package-archive");
+                context.startActivity(install);
+                Constants.DOWNLOADING = false;
+                //取消广播
+                cancelRecevier();
             }
         }
     }

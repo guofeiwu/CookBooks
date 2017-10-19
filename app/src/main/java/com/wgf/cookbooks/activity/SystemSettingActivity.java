@@ -2,8 +2,9 @@ package com.wgf.cookbooks.activity;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -20,18 +21,20 @@ import android.widget.TextView;
 
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
-import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.wgf.cookbooks.R;
+import com.wgf.cookbooks.bean.AppVer;
+import com.wgf.cookbooks.clazz.asynctask.GetAppVerAsyncTask;
 import com.wgf.cookbooks.util.GlideCacheUtils;
 import com.wgf.cookbooks.util.IntentUtils;
 import com.wgf.cookbooks.util.SpUtils;
 import com.wgf.cookbooks.util.SwitchAnimationUtils;
+import com.wgf.cookbooks.util.ToastUtils;
+import com.wgf.cookbooks.util.UpdateAppVerUtils;
 import com.wgf.cookbooks.util.WxUtils;
 import com.wgf.cookbooks.view.CustomToolbar;
 
-import org.w3c.dom.Text;
-
 import static com.wgf.cookbooks.util.Constants.AUTHORIZATION;
+import static com.wgf.cookbooks.util.Constants.DOWNLOADING;
 import static com.wgf.cookbooks.util.Constants.SHOW_DATA;
 
 /**
@@ -39,7 +42,7 @@ import static com.wgf.cookbooks.util.Constants.SHOW_DATA;
  * email guofei_wu@163.com
  * 系统相关的设置
  */
-public class SystemSettingActivity  extends AppCompatActivity implements View.OnClickListener{
+public class SystemSettingActivity  extends AppCompatActivity implements View.OnClickListener,GetAppVerAsyncTask.IGetAppVerListener{
     private RelativeLayout mLogout,mUserInfo,mChangePhone,mModifyPassword,mShareApp,
             mFeedback,mCleanCache,mAboutUs,mAppUpdate;
     private LinearLayout mLayoutAccount;
@@ -49,12 +52,17 @@ public class SystemSettingActivity  extends AppCompatActivity implements View.On
     private IWXAPI api;
     private PopupWindow pw;
     private TextView mCacheSize;
+    private GetAppVerAsyncTask mGetAppVerAsyncTask;
+    private int currentVersion = 0;
+    private View mPoint;
+    private boolean click = false;//表示 点击更新
+    private TextView mVersion;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //SwitchAnimationUtils.enterActivitySlideRight(this);
+        SwitchAnimationUtils.enterActivitySlideRight(this);
         SwitchAnimationUtils.exitActivitySlideLeft(this);
         api = WxUtils.register(this);
         setContentView(R.layout.activity_system_setting);
@@ -81,6 +89,22 @@ public class SystemSettingActivity  extends AppCompatActivity implements View.On
         //设置缓存大小
         String cacheSize = GlideCacheUtils.getCacheSize(this);
         mCacheSize.setText(cacheSize);
+
+        //判断是否要进行更新、设置版本号
+        PackageManager pm = getPackageManager();
+        try {
+            PackageInfo pi = pm.getPackageInfo(getPackageName(),0);
+            currentVersion = pi.versionCode;
+            mVersion.setText("版本 "+pi.versionName);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        if(mGetAppVerAsyncTask!=null){
+            return;
+        }
+        mGetAppVerAsyncTask = new GetAppVerAsyncTask();
+        mGetAppVerAsyncTask.setmListener(this);
+        mGetAppVerAsyncTask.execute();
     }
 
     /**
@@ -122,6 +146,8 @@ public class SystemSettingActivity  extends AppCompatActivity implements View.On
         mCacheSize = (TextView) findViewById(R.id.id_tv_cache_size);
         mAboutUs = (RelativeLayout) findViewById(R.id.id_rl_about);
         mAppUpdate = (RelativeLayout) findViewById(R.id.id_rl_app_update);
+        mPoint = findViewById(R.id.id_v_point);
+        mVersion = (TextView) findViewById(R.id.id_tv_version_code);
     }
 
     @Override
@@ -158,6 +184,7 @@ public class SystemSettingActivity  extends AppCompatActivity implements View.On
                 IntentUtils.jump(this,AboutActivity.class);
                 break;
             case R.id.id_rl_app_update:
+                needUpdateVer();
                 break;
 
         }
@@ -255,5 +282,42 @@ public class SystemSettingActivity  extends AppCompatActivity implements View.On
         dialog.show();
     }
 
+    /**
+     * 判断是否需要更新
+     */
+    private void needUpdateVer(){
+        if(DOWNLOADING){
+            ToastUtils.toast(this,"正在下载中,请稍后 ...");
+            return;
+        }
+        if(mGetAppVerAsyncTask!=null){
+            return;
+        }
+        mGetAppVerAsyncTask = new GetAppVerAsyncTask();
+        mGetAppVerAsyncTask.setmListener(this);
+        mGetAppVerAsyncTask.execute();
+        click = true;
 
+    }
+
+    @Override
+    public void appVer(AppVer appVer) {
+        if(mGetAppVerAsyncTask!=null){
+            mGetAppVerAsyncTask = null;
+        }
+        //回调成功
+        if(appVer!=null){
+            //设置红点
+            if(appVer.getVer()>currentVersion){
+                mPoint.setVisibility(View.VISIBLE);
+            }else{
+                mPoint.setVisibility(View.GONE);
+            }
+            if(click){
+                UpdateAppVerUtils.updateApp(this,appVer);
+            }
+        }else{
+            ToastUtils.toast(this,"检查更新失败");
+        }
+    }
 }

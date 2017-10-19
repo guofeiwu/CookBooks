@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 
 
@@ -31,7 +33,9 @@ public class IntentUtils {
      */
     public static void jump(Activity activity, Class<?> cla){
         Intent intent = new Intent(activity,cla);
-        activity.startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(activity).toBundle());
+        //用这个动画返回会白屏
+//        activity.startActivity(intent, ActivityOptionsCompat.makeSceneTransitionAnimation(activity).toBundle());
+        activity.startActivity(intent);
     }
 
     /**

@@ -170,5 +170,7 @@ public class FeedbackActivity extends AppCompatActivity implements CommitFeedbac
             dialog = null;
         }
         super.onDestroy();
+        finish();
     }
+
 }

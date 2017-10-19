@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.wgf.cookbooks.R;
 import com.wgf.cookbooks.adapter.MenuRecycleViewAdapter;
@@ -39,6 +40,7 @@ public class MenuListActivity extends AppCompatActivity implements MenuAsyncTask
     private Map map;//条件
     private boolean havaData = true;//有数据
     private String type;//分类的类型
+    private boolean firstLoad = false;//是否是第一次加载数据
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -205,6 +207,7 @@ public class MenuListActivity extends AppCompatActivity implements MenuAsyncTask
         mMenuAsyncTask = new MenuAsyncTask(this);
         mMenuAsyncTask.setmListener(this);
         mMenuAsyncTask.execute(map);
+        firstLoad = true;
     }
 
     /**
@@ -257,6 +260,7 @@ public class MenuListActivity extends AppCompatActivity implements MenuAsyncTask
     @Override
     public void result(List<Menu> list) {
         if (list != null && list.size() > 0) {
+            firstLoad = false;
             menus.addAll(list);
             if (mAdapter == null) {
                 mAdapter = new MenuRecycleViewAdapter(this, list);
@@ -268,6 +272,11 @@ public class MenuListActivity extends AppCompatActivity implements MenuAsyncTask
                 isLoading = true;
             }
         } else {
+            //第一次加载
+            if(firstLoad){
+                mThreeMealsRecyclerView.setVisibility(View.GONE);
+                firstLoad = false;
+            }
             havaData = false;
             if (mAdapter != null) {
                 mAdapter.setLoadStatus(0);

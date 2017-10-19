@@ -1,5 +1,6 @@
 package com.wgf.cookbooks.activity;
 
+import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -138,11 +139,39 @@ public class AddShaiActivity extends AppCompatActivity implements View.OnClickLi
                 if(mUploadShaiAsyncTask!=null){
                     return;
                 }
+
+                //显示上传对话框
+                uploadDialog();
+
+
                 File file = new File(iconPath);
                 mUploadShaiAsyncTask = new UploadShaiAsyncTask(AddShaiActivity.this,introduce);
                 mUploadShaiAsyncTask.setmListener(AddShaiActivity.this);
                 mUploadShaiAsyncTask.execute(file);
+
                 break;
+        }
+    }
+
+
+
+    private Dialog dialog;
+
+    //上传对话框
+    private void uploadDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(R.layout.upload_dialog);
+        dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
         }
     }
 
@@ -363,6 +392,9 @@ public class AddShaiActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void result(int code) {
+        if(dialog!=null && dialog.isShowing()){
+            dialog.dismiss();
+        }
         if(code == SUCCESS){
             ToastUtils.toast(AddShaiActivity.this,getString(R.string.text_release_success));
             mEditTextIntroduce.setText("");

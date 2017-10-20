@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,13 +19,16 @@ import com.wgf.cookbooks.R;
 import com.wgf.cookbooks.activity.LoginActivity;
 import com.wgf.cookbooks.activity.SystemSettingActivity;
 import com.wgf.cookbooks.activity.UserInfoActivity;
+import com.wgf.cookbooks.activity.UserMenuActivity;
+import com.wgf.cookbooks.activity.UserShaiActivity;
+import com.wgf.cookbooks.clazz.asynctask.GetUserMenuAsyncTask;
 import com.wgf.cookbooks.db.SqliteDao;
+import com.wgf.cookbooks.util.GetAuthorizationUtil;
 import com.wgf.cookbooks.util.IntentUtils;
 import com.wgf.cookbooks.util.JsonUtils;
 import com.wgf.cookbooks.util.L;
 import com.wgf.cookbooks.util.SoftInputUtils;
 import com.wgf.cookbooks.util.SpUtils;
-import com.wgf.cookbooks.util.SwitchAnimationUtils;
 import com.wgf.cookbooks.util.ToastUtils;
 import com.wgf.cookbooks.view.CircleImageView;
 import com.wgf.cookbooks.view.MineLayout;
@@ -58,6 +62,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
     private GetUserInfoAsyncTask mGetUserInfoAsyncTask;
     private CircleImageView mCircleImageView;
     private UserSignAsyncTask mUserSignAsyncTask;
+    private GetUserMenuAsyncTask mGetUserMenuAsyncTask;
 
 
     private JSONObject userInfo = null;//存放用户信息
@@ -133,9 +138,10 @@ public class MineFragment extends Fragment implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
+        String token = null;
         switch (v.getId()){
             case R.id.id_tv_login_or_register:
-                String token = SpUtils.getSharedPreferences(getActivity()).getString(AUTHORIZATION,null);
+                token =  GetAuthorizationUtil.getAuth(getActivity());
                 if(token == null){//未登录，跳转到登录界面
                     IntentUtils.jump(this.getActivity(), LoginActivity.class);
                 }else{//用户信息显示界面
@@ -156,10 +162,22 @@ public class MineFragment extends Fragment implements View.OnClickListener{
                 }
                 break;
             case R.id.id_ll_menu:
+                token = GetAuthorizationUtil.getAuth(getActivity());
+                if(TextUtils.isEmpty(token)){
+                    IntentUtils.jump(this.getActivity(), LoginActivity.class);
+                }else{
+                    IntentUtils.jump(this.getActivity(), UserMenuActivity.class);
+                }
                 break;
             case R.id.id_ll_collect:
                 break;
             case R.id.id_ll_album:
+                token = GetAuthorizationUtil.getAuth(getActivity());
+                if(TextUtils.isEmpty(token)){
+                    IntentUtils.jump(this.getActivity(), LoginActivity.class);
+                }else{
+                    IntentUtils.jump(this.getActivity(), UserShaiActivity.class);
+                }
                 break;
             case R.id.ml_info://我的资料
                 IntentUtils.jump(this.getActivity(), UserInfoActivity.class);
@@ -258,7 +276,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
                 //设置用户信息
                 try {
                     userName = userInfo.getString("name");
-                     phone = userInfo.getString("phone");
+                    phone = userInfo.getString("phone");
                    // sex = userInfo.getInt("sex") == 0 ? "男":"女";
                     icon = userInfo.getString("icon");
                     // birthday = userInfo.getString("birthday");

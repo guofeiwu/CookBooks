@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.wgf.cookbooks.view.CustomToolbar
+        android:id="@+id/id_ct_user_menus_back"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:toolbarTitle="我的菜谱"
+        />
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/id_nsv_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <RelativeLayout
+                android:background="@color/view_white_gray"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize">
+
+                <ImageView
+                    android:id="@+id/iv_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:background="@color/color_white"
+                    android:src="@drawable/search_32" />
+
+                <EditText
+                    android:id="@+id/id_et_search"
+                    android:padding="3dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_toRightOf="@+id/iv_search"
+                    android:background="@color/color_white"
+                    android:hint="@string/text_search_hint"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:cursorVisible="false"
+                    android:textSize="@dimen/text_small_content_size" />
+            </RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/id_tv_menus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="15dp"
+                    android:text="全部菜谱(0)"
+                    android:textSize="@dimen/text_content_size" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/view_white_gray" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <RelativeLayout
+                    android:id="@+id/id_rl_add_menu"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp">
+                    <ImageView
+                        android:layout_gravity="center"
+                        android:id="@+id/id_iv_add_menu"
+                        android:layout_width="128dp"
+                        android:layout_height="128dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/add1_red_128"
+                        android:layout_marginLeft="10dp"
+                        />
+                    <TextView
+                        android:id="@+id/id_tv_cover"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="添加菜谱"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="10dp"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@id/id_iv_add_menu"
+                        />
+                </RelativeLayout>
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/id_rv_user_menu"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+</LinearLayout>

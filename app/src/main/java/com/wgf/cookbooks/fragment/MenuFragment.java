@@ -28,7 +28,7 @@ import java.util.Map;
 public class MenuFragment extends Fragment {
     private GridView mThreeMeals,mCaiShi,mCaiXi,mTianDian,mZhuShi;
 
-    private int[] threeMealsImageId = {R.drawable.type_menu,R.drawable.type_menu,R.drawable.type_menu,R.drawable.type_menu};
+    private int[] threeMealsImageId = {R.drawable.np,R.drawable.type_menu,R.drawable.type_menu,R.drawable.type_menu};
     private String[] threeMealsTitles = {"早餐","中餐","晚餐","夜宵"};
 
     private int[] caiShiImageId = {R.drawable.type_menu,R.drawable.type_menu,R.drawable.type_menu,R.drawable.type_menu,R.drawable.type_menu,R.drawable.type_menu};

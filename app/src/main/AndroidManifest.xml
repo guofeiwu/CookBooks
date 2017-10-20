@@ -53,6 +53,7 @@
         <activity android:name=".activity.AboutActivity"/>
         <activity android:name=".activity.ModifyPhoneActivity"/>
         <activity android:name=".activity.CheckOldPhoneActivity"/>
+        <activity android:name=".activity.UserMenuActivity"  android:windowSoftInputMode="adjustPan|stateHidden"/>
 
 
 

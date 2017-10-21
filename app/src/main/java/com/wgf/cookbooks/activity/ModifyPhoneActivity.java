@@ -25,6 +25,8 @@ import com.wgf.cookbooks.view.CustomToolbar;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
+
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
 
@@ -239,8 +241,11 @@ public class ModifyPhoneActivity extends AppCompatActivity implements ModifyPhon
             ToastUtils.toast(this,"不能重复绑定旧手机号");
         }else if(code == 2){
             ToastUtils.toast(this,"更改成功，下次登录请记得用新手机号");
+            List<String> userInfo = dao.queryUserInfo();
+            String userName = userInfo.get(0);
+            String iconUrl = userInfo.get(1);
             dao.deleteUserInfo();
-            dao.insertUserInfo(null,newPhone);
+            dao.insertUserInfo(userName,iconUrl,newPhone);
             Intent intent = new Intent(ModifyPhoneActivity.this,SystemSettingActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);

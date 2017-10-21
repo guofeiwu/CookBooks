@@ -119,7 +119,7 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
                         mUserLevel.setContent(userInfo.getLevel());
                         Glide.with(UserInfoActivity.this)
                                 .load(userInfo.getIcon())
-                                .placeholder(R.drawable.icon_108)
+                                //.placeholder(R.drawable.icon_108)
                                 .into(mCircleImageView);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -133,6 +133,7 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
                 }
             });
             mGetUserInfoAsyncTask.execute();
+
     }
 
 

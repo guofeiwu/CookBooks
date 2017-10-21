@@ -37,7 +37,7 @@ public class MySqliteHelper extends SQLiteOpenHelper {
         String sql1 = "create table if not exists " + MENU_INFO + " (Id integer primary key, mainIcon text ,menuName text,menuDesc text, menuType integer, menuTypeSun integer)";
         String sql2= "create table if not exists " + MENU_MATERIALS + " (Id integer primary key, materialsName text,materialsDose text)";
         String sql3 = "create table if not exists " + MENU_STEP + " (Id integer primary key, stepUrl text,stepDesc text)";
-        String sql4 = "create table if not exists "+USER_INFO+" (Id integer primary key, userName text,phone text)";
+        String sql4 = "create table if not exists "+USER_INFO+" (Id integer primary key, userName text,iconUrl text,phone text)";
         db.execSQL(sql1);
         db.execSQL(sql2);
         db.execSQL(sql3);

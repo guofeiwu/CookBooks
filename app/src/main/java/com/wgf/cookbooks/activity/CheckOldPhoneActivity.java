@@ -67,7 +67,7 @@ public class CheckOldPhoneActivity extends AppCompatActivity {
         initInstance();
         setListener();
 
-        oldPhone = dao.queryUserInfo();
+        oldPhone = dao.queryUserInfo().get(0);
         String p = oldPhone.substring(0,3)+"****"+oldPhone.substring(7,11);
         mOldPhone.setText(p);
     }

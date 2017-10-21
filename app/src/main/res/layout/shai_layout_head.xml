@@ -10,12 +10,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <com.wgf.cookbooks.view.CircleImageView
+            android:id="@+id/id_civ_shai_cover"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="@drawable/rank"
+            android:src="@drawable/icon_108"
             android:layout_marginTop="20dp"
             />
         <TextView
+            android:id="@+id/id_tv_shai_desc"
             android:layout_marginTop="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

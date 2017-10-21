@@ -150,13 +150,14 @@ public class SqliteDao {
      * 插入用户信息
      * @return
      */
-    public int  insertUserInfo(String userName,String phone){
+    public int  insertUserInfo(String userName,String iconUrl,String phone){
         SQLiteDatabase db = helper.getWritableDatabase();
         int result = 0;
         db.beginTransaction();
         ContentValues values = new ContentValues();
         values.put("Id",1);
         values.put("userName",userName);
+        values.put("iconUrl",iconUrl);
         values.put("phone",phone);
         result = (int) db.insert(helper.USER_INFO,null,values);
         db.setTransactionSuccessful();
@@ -166,41 +167,31 @@ public class SqliteDao {
     }
 
     /**
-     * 更新用户信息
-     * @return
-     */
-    public int  updateUserInfo(String phone){
-        SQLiteDatabase db = helper.getReadableDatabase();
-        int result = 0;
-        db.beginTransaction();
-        ContentValues values = new ContentValues();
-        values.put("phone",phone);
-        result = db.update(helper.USER_INFO,values,"id = ?",new String[]{"1"});
-        db.setTransactionSuccessful();
-        db.endTransaction();
-        db.close();
-        return result;
-    }
-
-
-    /**
      * 获取用户信息
      * @return
      */
-    public String queryUserInfo(){
+    public List<String> queryUserInfo(){
         SQLiteDatabase db = helper.getReadableDatabase();
-        String phone = "";
+        List<String> userInfo = new ArrayList<>();
         db.beginTransaction();
         Cursor cursor = db.query(helper.USER_INFO,null,"id = ?",new String[]{"1"},null,null,null);
-        if(cursor.moveToNext()){
-            phone = cursor.getString(cursor.getColumnIndex("phone"));
+        while (cursor.moveToNext()){
+            String phone = cursor.getString(cursor.getColumnIndex("phone"));
+            String iconUrl = cursor.getString(cursor.getColumnIndex("iconUrl"));
+            userInfo.add(phone);
+            userInfo.add(iconUrl);
         }
         db.setTransactionSuccessful();
         db.endTransaction();
         cursor.close();
         db.close();
-        return phone;
+        return userInfo;
     }
+
+
+
+
+
 
 
 

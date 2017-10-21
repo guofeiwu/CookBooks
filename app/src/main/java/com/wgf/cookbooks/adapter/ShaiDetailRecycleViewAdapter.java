@@ -23,6 +23,7 @@ import com.wgf.cookbooks.util.JsonUtils;
 import com.wgf.cookbooks.util.L;
 import com.wgf.cookbooks.util.SpUtils;
 import com.wgf.cookbooks.util.ToastUtils;
+import com.wgf.cookbooks.view.CircleImageView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -60,10 +61,12 @@ public class ShaiDetailRecycleViewAdapter extends RecyclerView.Adapter<RecyclerV
     private String token;
     private JSONObject likeContent;
     private LikeAsyncTask mLikeAsyncTask;
+    private List<String> head;
 
-    public ShaiDetailRecycleViewAdapter(Context context, List<Shai> shaiLists) {
+    public ShaiDetailRecycleViewAdapter(Context context, List<Shai> shaiLists,List<String> head) {
         this.context = context;
         this.shaiLists = shaiLists;
+        this.head = head;
         mInflater = LayoutInflater.from(context);
         getLikes();
     }
@@ -114,11 +117,20 @@ public class ShaiDetailRecycleViewAdapter extends RecyclerView.Adapter<RecyclerV
 
     private ShaiDetailViewHolder holder;
     private FooterViewHolder fholder;
+    private HeadViewHolder hHolder;
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
-
-        if (viewHolder instanceof FooterViewHolder) {
+        if (viewHolder instanceof HeadViewHolder){
+            hHolder = (HeadViewHolder) viewHolder;
+            //设置图片
+            Glide.with(context)
+                    .load(BASE_URL_FILE_ICON+head.get(0))
+                    .placeholder(R.drawable.icon_108)
+                    .into(hHolder.mCover);
+            //设置标题
+            hHolder.mTitle.setText(head.get(1)+"");
+        }else if (viewHolder instanceof FooterViewHolder) {
             fholder = (FooterViewHolder) viewHolder;
             switch (status) {
                 case 0:
@@ -224,8 +236,12 @@ public class ShaiDetailRecycleViewAdapter extends RecyclerView.Adapter<RecyclerV
     }
 
     protected class HeadViewHolder extends RecyclerView.ViewHolder {
+        private CircleImageView mCover;
+        private TextView mTitle;
         public HeadViewHolder(View itemView) {
             super(itemView);
+            mCover = (CircleImageView) itemView.findViewById(R.id.id_civ_shai_cover);
+            mTitle = (TextView) itemView.findViewById(R.id.id_tv_shai_desc);
         }
     }
 

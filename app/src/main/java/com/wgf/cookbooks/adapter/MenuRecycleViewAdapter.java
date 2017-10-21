@@ -63,7 +63,9 @@ public class MenuRecycleViewAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         if(holder instanceof MenuViewHolder){
             mHolder = (MenuViewHolder) holder;
             Menu menu = menus.get(position);
-            Glide.with(context).load(BASE_URL_FILE_MENUS+menu.getMainIcon()).into(mHolder.mMenuIcon);
+            Glide.with(context)
+                    .load(BASE_URL_FILE_MENUS+menu.getMainIcon())
+                    .into(mHolder.mMenuIcon);
             mHolder.mMenuTitle.setText(menu.getMenuName());
             mHolder.mMenuIntroduce.setText("简介:"+menu.getIntroduce());
             Glide.with(context).load(BASE_URL_FILE_ICON+menu.getUserIconUrl()).into(mHolder.mUserIcon);

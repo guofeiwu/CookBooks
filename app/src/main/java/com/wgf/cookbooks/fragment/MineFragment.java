@@ -288,7 +288,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
                     //加载用户头像
                     Glide.with(MineFragment.this).load(BASE_URL_FILE_ICON+icon).into(mCircleImageView);
                     dao.deleteUserInfo();
-                    dao.insertUserInfo(userName,phone);
+                    dao.insertUserInfo(userName,icon,phone);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

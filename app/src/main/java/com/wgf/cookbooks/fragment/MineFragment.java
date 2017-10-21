@@ -18,6 +18,7 @@ import com.lzy.okgo.OkGo;
 import com.wgf.cookbooks.R;
 import com.wgf.cookbooks.activity.LoginActivity;
 import com.wgf.cookbooks.activity.SystemSettingActivity;
+import com.wgf.cookbooks.activity.UserCollectMenuActivity;
 import com.wgf.cookbooks.activity.UserInfoActivity;
 import com.wgf.cookbooks.activity.UserMenuActivity;
 import com.wgf.cookbooks.activity.UserShaiActivity;
@@ -26,7 +27,6 @@ import com.wgf.cookbooks.db.SqliteDao;
 import com.wgf.cookbooks.util.GetAuthorizationUtil;
 import com.wgf.cookbooks.util.IntentUtils;
 import com.wgf.cookbooks.util.JsonUtils;
-import com.wgf.cookbooks.util.L;
 import com.wgf.cookbooks.util.SoftInputUtils;
 import com.wgf.cookbooks.util.SpUtils;
 import com.wgf.cookbooks.util.ToastUtils;
@@ -169,7 +169,14 @@ public class MineFragment extends Fragment implements View.OnClickListener{
                     IntentUtils.jump(this.getActivity(), UserMenuActivity.class);
                 }
                 break;
+            //收藏
             case R.id.id_ll_collect:
+                token = GetAuthorizationUtil.getAuth(getActivity());
+                if(TextUtils.isEmpty(token)){
+                    IntentUtils.jump(this.getActivity(), LoginActivity.class);
+                }else{
+                    IntentUtils.jump(this.getActivity(), UserCollectMenuActivity.class);
+                }
                 break;
             case R.id.id_ll_album:
                 token = GetAuthorizationUtil.getAuth(getActivity());
@@ -179,7 +186,8 @@ public class MineFragment extends Fragment implements View.OnClickListener{
                     IntentUtils.jump(this.getActivity(), UserShaiActivity.class);
                 }
                 break;
-            case R.id.ml_info://我的资料
+            //我的资料
+            case R.id.ml_info:
                 IntentUtils.jump(this.getActivity(), UserInfoActivity.class);
                 break;
             case R.id.ml_comment:
@@ -188,7 +196,8 @@ public class MineFragment extends Fragment implements View.OnClickListener{
                 break;
             case R.id.ml_record:
                 break;
-            case R.id.id_iv_setting://系统设置
+            //系统设置
+            case R.id.id_iv_setting:
                 IntentUtils.jump(this.getActivity(),SystemSettingActivity.class);
                 break;
         }
@@ -205,8 +214,6 @@ public class MineFragment extends Fragment implements View.OnClickListener{
     public void onResume() {
         super.onResume();
         SoftInputUtils.hideSoftInput(getActivity());
-
-    L.e("onResume...");
         getUserInfo();
     }
 

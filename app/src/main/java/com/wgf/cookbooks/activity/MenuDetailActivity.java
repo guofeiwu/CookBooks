@@ -94,6 +94,9 @@ public class MenuDetailActivity extends AppCompatActivity implements MenuDetailA
     // IWXAPI 是第三方app和微信通信的openapi接口
     private IWXAPI api;
 
+    //菜谱在列表中的位置
+    private int pos = -1;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -101,8 +104,9 @@ public class MenuDetailActivity extends AppCompatActivity implements MenuDetailA
         setContentView(R.layout.activity_menu_detail);
 
         api = WxUtils.register(this);
-
-        menuPkId = getIntent().getIntExtra("menuPkId", 0);
+        Intent intent = getIntent();
+        menuPkId = intent.getIntExtra("menuPkId", 0);
+        pos = intent.getIntExtra("menuPos", -1);
         initView();
         initData();
         setListener();
@@ -629,6 +633,10 @@ public class MenuDetailActivity extends AppCompatActivity implements MenuDetailA
                 } else {
                     collectNumber.setText(collectSize + "");
                 }
+                //取消收藏，返回到用户收藏列表
+                SpUtils.getEditor(this).putInt("cancelCollectPosition",pos).commit();
+
+
             } else {
                 colloectImageView.setImageResource(R.drawable.collect_red_32);
                 ++collectSize;

@@ -99,10 +99,29 @@
                         android:layout_toRightOf="@id/id_iv_add_menu"
                         />
                 </RelativeLayout>
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/id_rv_user_menu"
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/view_white_gray" />
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/id_rv_user_menu"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+                    <TextView
+                        android:id="@+id/id_tv_no_menu"
+                        android:visibility="gone"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="还没有发布菜谱呢~"
+                        android:gravity="center"
+                        android:textSize="@dimen/text_small_content_size"
+                        />
+                </FrameLayout>
             </LinearLayout>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

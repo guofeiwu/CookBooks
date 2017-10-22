@@ -3,12 +3,24 @@
     android:orientation="vertical" android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent">
-    <com.wgf.cookbooks.view.CustomToolbar
-        android:id="@+id/id_ct_user_album_back"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        app:toolbarTitle="我的相册"
-        />
+        android:layout_height="?attr/actionBarSize">
+        <com.wgf.cookbooks.view.CustomToolbar
+            android:id="@+id/id_ct_user_album_back"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:toolbarTitle="我的相册"
+            />
+        <ImageView
+            android:id="@+id/id_iv_shai"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/add_32"
+            android:layout_gravity="right|center_vertical"
+            android:layout_marginRight="15dp"
+            />
+    </FrameLayout>
     <FrameLayout
         android:clickable="true"
         android:focusable="true"
@@ -49,5 +61,15 @@
                 android:layout_marginLeft="15dp"
                 />
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/id_tv_no_shai"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:textSize="@dimen/text_small_content_size"
+            android:text="赶紧去说说你和美食的故事吧~"
+            android:gravity="center"
+            />
     </FrameLayout>
 </LinearLayout>

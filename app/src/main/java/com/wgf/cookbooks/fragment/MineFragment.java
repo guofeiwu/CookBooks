@@ -19,6 +19,7 @@ import com.wgf.cookbooks.R;
 import com.wgf.cookbooks.activity.LoginActivity;
 import com.wgf.cookbooks.activity.SystemSettingActivity;
 import com.wgf.cookbooks.activity.UserCollectMenuActivity;
+import com.wgf.cookbooks.activity.UserCommentMenuShaiActivity;
 import com.wgf.cookbooks.activity.UserInfoActivity;
 import com.wgf.cookbooks.activity.UserMenuActivity;
 import com.wgf.cookbooks.activity.UserShaiActivity;
@@ -191,6 +192,12 @@ public class MineFragment extends Fragment implements View.OnClickListener{
                 IntentUtils.jump(this.getActivity(), UserInfoActivity.class);
                 break;
             case R.id.ml_comment:
+                token = GetAuthorizationUtil.getAuth(getActivity());
+                if(TextUtils.isEmpty(token)){
+                    IntentUtils.jump(this.getActivity(), LoginActivity.class);
+                }else{
+                    IntentUtils.jump(this.getActivity(), UserCommentMenuShaiActivity.class);
+                }
                 break;
             case R.id.ml_point:
                 break;

@@ -110,7 +110,7 @@ public class UserMenuRecycleViewAdapter extends RecyclerView.Adapter<RecyclerVie
     public void removeItem(int index) {
         menus.remove(index);
         //notifyItemRemoved(index);
-        notifyDataSetChanged();
+        //notifyDataSetChanged();
     }
 
 

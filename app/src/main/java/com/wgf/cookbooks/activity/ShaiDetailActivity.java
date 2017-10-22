@@ -21,6 +21,7 @@ import com.wgf.cookbooks.clazz.asynctask.DeleteShaiAsyncTask;
 import com.wgf.cookbooks.clazz.asynctask.DeleteCommentAsyncTask;
 import com.wgf.cookbooks.clazz.asynctask.GetCommentAsyncTask;
 import com.wgf.cookbooks.clazz.asynctask.GetShaiDetailAsyncTask;
+import com.wgf.cookbooks.clazz.asynctask.JudgeUserHaveShaiCommentAsyncTask;
 import com.wgf.cookbooks.clazz.asynctask.UpdateLookTotalAsyncTask;
 import com.wgf.cookbooks.util.GetAuthorizationUtil;
 import com.wgf.cookbooks.util.IntentUtils;
@@ -42,7 +43,8 @@ import static com.wgf.cookbooks.util.Constants.SUCCESS;
  * email guofei_wu@163.com
  * 晒一晒详情
  */
-public class ShaiDetailActivity extends AppCompatActivity implements View.OnClickListener,CommentRecycleViewAdapter.ICommentDeleteListener {
+public class ShaiDetailActivity extends AppCompatActivity implements View.OnClickListener,CommentRecycleViewAdapter.ICommentDeleteListener
+,JudgeUserHaveShaiCommentAsyncTask.IJudgeUserHaveShaiCommentListener{
     private RecyclerView mRecyclerView;
     private CustomToolbar mCustomToolbar;
     private List<Comment> comments;
@@ -67,6 +69,7 @@ public class ShaiDetailActivity extends AppCompatActivity implements View.OnClic
     private DeleteCommentAsyncTask mDeleteCommentAsyncTask;
     private int commentTotal;//评论的总数
     private LinearLayout mCommentLayout;
+    private JudgeUserHaveShaiCommentAsyncTask mJudgeUserHaveShaiCommentAsyncTask;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -328,12 +331,39 @@ public class ShaiDetailActivity extends AppCompatActivity implements View.OnClic
         }
     }
 
+
+
+    //判断当前用户在此菜谱中是否还有评论
+    private void isCurrentUserHaveComment() {
+        if(mJudgeUserHaveShaiCommentAsyncTask!=null){
+            return;
+        }
+        mJudgeUserHaveShaiCommentAsyncTask = new JudgeUserHaveShaiCommentAsyncTask(this);
+        mJudgeUserHaveShaiCommentAsyncTask.setmListener(this);
+        mJudgeUserHaveShaiCommentAsyncTask.execute(shaiPkId);
+    }
+
+    @Override
+    public void hasComment(boolean has) {
+        //没有了，需要移除
+        if(!has){
+            SpUtils.getEditor(this).putInt("userShaiNoComment",position).commit();
+        }
+        if(mJudgeUserHaveShaiCommentAsyncTask !=null){
+            mJudgeUserHaveShaiCommentAsyncTask = null;
+        }
+    }
+
+
+
+
     //跳转到评论列表界面
     private void jumpActivity(){
         Intent intent = new Intent(this,CommentListActivity.class);
         intent.putExtra("flag","shai");
         intent.putExtra("shaiPkId",shaiPkId);
         intent.putExtra("commentTotal",commentTotal);
+        intent.putExtra("shaiPos",position);
         startActivity(intent);
     }
 
@@ -373,6 +403,7 @@ public class ShaiDetailActivity extends AppCompatActivity implements View.OnClic
             public void result(int code) {
                 if(code == SUCCESS){
                     ToastUtils.toast(ShaiDetailActivity.this,getString(R.string.text_delete_success));
+                    isCurrentUserHaveComment();
                     loadComments();//重新加载数据
                 }else{
                     ToastUtils.toast(ShaiDetailActivity.this,getString(R.string.text_delete_failed));

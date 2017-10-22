@@ -73,7 +73,7 @@ public class CommentListRecycleViewAdapter extends RecyclerView.Adapter<Recycler
             mHolder.mCommentDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mListener.delete(mHolder.getLayoutPosition());
+                    mListener.delete(position);
                 }
             });
         }else if(holder instanceof FooterViewHolder){

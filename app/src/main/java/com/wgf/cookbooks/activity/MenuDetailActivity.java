@@ -29,6 +29,7 @@ import com.wgf.cookbooks.bean.Menu;
 import com.wgf.cookbooks.clazz.asynctask.CollectMenuAsyncTask;
 import com.wgf.cookbooks.clazz.asynctask.DeleteCommentAsyncTask;
 import com.wgf.cookbooks.clazz.asynctask.GetCommentAsyncTask;
+import com.wgf.cookbooks.clazz.asynctask.JudgeUserHaveMenuCommentAsyncTask;
 import com.wgf.cookbooks.clazz.asynctask.LikeMenuAsyncTask;
 import com.wgf.cookbooks.clazz.asynctask.MenuDetailAsyncTask;
 import com.wgf.cookbooks.util.GetAuthorizationUtil;
@@ -54,7 +55,8 @@ import static com.wgf.cookbooks.util.Constants.SUCCESS;
  * 菜谱详细界面
  */
 public class MenuDetailActivity extends AppCompatActivity implements MenuDetailAsyncTask.IMenuDetailListener, GetCommentAsyncTask.ICommentListener,
-        CommentRecycleViewAdapter.ICommentDeleteListener, View.OnClickListener, LikeMenuAsyncTask.ILikeMenuListener, CollectMenuAsyncTask.ICollectMenuListener {
+        CommentRecycleViewAdapter.ICommentDeleteListener, View.OnClickListener, LikeMenuAsyncTask.ILikeMenuListener,
+        CollectMenuAsyncTask.ICollectMenuListener,JudgeUserHaveMenuCommentAsyncTask.IUserMenuHasCommentMenuListener {
 
     private LinearLayout mMaterialsDose;//食材及用量
     private MenuDetailAsyncTask mMenuDetailAsyncTask;
@@ -96,6 +98,9 @@ public class MenuDetailActivity extends AppCompatActivity implements MenuDetailA
 
     //菜谱在列表中的位置
     private int pos = -1;
+
+    private JudgeUserHaveMenuCommentAsyncTask mJudgeUserHaveMenuCommentAsyncTask;
+
 
 
     @Override
@@ -380,6 +385,7 @@ public class MenuDetailActivity extends AppCompatActivity implements MenuDetailA
     //删除评论回调
     @Override
     public void delete(int position) {
+
         Comment comment = comments.get(position);
         comments.remove(position);//移除
 
@@ -411,6 +417,8 @@ public class MenuDetailActivity extends AppCompatActivity implements MenuDetailA
                 if (code == SUCCESS) {
                     ToastUtils.toast(MenuDetailActivity.this, getString(R.string.text_delete_success));
                     loadComments();//重新加载数据
+                    isCurrentUserHaveComment();
+
                 } else {
                     ToastUtils.toast(MenuDetailActivity.this, getString(R.string.text_delete_failed));
                 }
@@ -422,6 +430,30 @@ public class MenuDetailActivity extends AppCompatActivity implements MenuDetailA
         });
         mDeleteCommentAsyncTask.execute(commnetPkId, 100);
     }
+
+    //判断当前用户在此菜谱中是否还有评论
+    private void isCurrentUserHaveComment() {
+        if(mJudgeUserHaveMenuCommentAsyncTask !=null){
+            return;
+        }
+        mJudgeUserHaveMenuCommentAsyncTask = new JudgeUserHaveMenuCommentAsyncTask(this);
+        mJudgeUserHaveMenuCommentAsyncTask.setmListener(this);
+        mJudgeUserHaveMenuCommentAsyncTask.execute(menuPkid);
+    }
+
+    //当前用户在此菜谱中是否还有评论
+    @Override
+    public void hasComment(boolean has) {
+        //没有了，需要移除
+        if(!has){
+            SpUtils.getEditor(this).putInt("userMenuNoComment",pos).commit();
+        }
+        if(mJudgeUserHaveMenuCommentAsyncTask !=null){
+            mJudgeUserHaveMenuCommentAsyncTask = null;
+        }
+    }
+
+
 
     @Override
     public void onClick(View v) {
@@ -527,6 +559,7 @@ public class MenuDetailActivity extends AppCompatActivity implements MenuDetailA
         intent.putExtra("flag", "menu");
         intent.putExtra("menuPkId", menuPkid);
         intent.putExtra("commentTotal", commentSize);
+        intent.putExtra("menuPos",pos);
         startActivity(intent);
     }
 
@@ -654,6 +687,7 @@ public class MenuDetailActivity extends AppCompatActivity implements MenuDetailA
             ToastUtils.toast(this, getString(R.string.text_operate_failed));
         }
     }
+
 
     class ShareClickListener implements View.OnClickListener {
 

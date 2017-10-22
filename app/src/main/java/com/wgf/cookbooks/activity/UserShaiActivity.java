@@ -23,7 +23,6 @@ import com.wgf.cookbooks.clazz.asynctask.UpCommentAsyncTask;
 import com.wgf.cookbooks.db.SqliteDao;
 import com.wgf.cookbooks.util.GetAuthorizationUtil;
 import com.wgf.cookbooks.util.IntentUtils;
-import com.wgf.cookbooks.util.L;
 import com.wgf.cookbooks.util.RecycleDivider;
 import com.wgf.cookbooks.util.SoftInputUtils;
 import com.wgf.cookbooks.util.SpUtils;

@@ -18,12 +18,12 @@ import com.wgf.cookbooks.R;
 import com.wgf.cookbooks.adapter.ShaiDetailRecycleViewAdapter;
 import com.wgf.cookbooks.bean.Comment;
 import com.wgf.cookbooks.bean.Shai;
-import com.wgf.cookbooks.clazz.asynctask.GetShaiAsyncTask;
 import com.wgf.cookbooks.clazz.asynctask.GetUserShaiAsyncTask;
 import com.wgf.cookbooks.clazz.asynctask.UpCommentAsyncTask;
 import com.wgf.cookbooks.db.SqliteDao;
 import com.wgf.cookbooks.util.GetAuthorizationUtil;
 import com.wgf.cookbooks.util.IntentUtils;
+import com.wgf.cookbooks.util.L;
 import com.wgf.cookbooks.util.RecycleDivider;
 import com.wgf.cookbooks.util.SoftInputUtils;
 import com.wgf.cookbooks.util.SpUtils;
@@ -60,6 +60,9 @@ public class UserShaiActivity extends AppCompatActivity implements ShaiDetailRec
     private UpCommentAsyncTask mUpCommentAsyncTask;
     private List<String> head;
     private SqliteDao dao;
+    private TextView mNoShai;
+    private ImageView mAddShai;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,6 +83,8 @@ public class UserShaiActivity extends AppCompatActivity implements ShaiDetailRec
      * 初始化显示的数据
      */
     private void initData() {
+        //初始化页数
+        pageNo = 1;
         if(head!= null){
             head.clear();
             head = null;
@@ -102,20 +107,37 @@ public class UserShaiActivity extends AppCompatActivity implements ShaiDetailRec
         mGetUserShaiAsyncTask = new GetUserShaiAsyncTask(UserShaiActivity.this,new GetUserShaiAsyncTask.IGetUserShaiListener() {
             @Override
             public void getShaiList(List<Shai> lists) {
-                if (lists != null) {
+
+                if (lists != null && lists.size()>0) {
+
+                    int vi = mRecyclerViewShai.getVisibility();
+                    if(vi != View.VISIBLE){
+                        //无数据提醒
+                        mNoShai.setVisibility(View.GONE);
+                        //设置为不可见
+                        mRecyclerViewShai.setVisibility(View.VISIBLE);
+                    }
                     shaiList.addAll(lists);
                     mRecycleDivider = new RecycleDivider(UserShaiActivity.this, RecycleDivider.VERITCAL_LIST);
                     mShaiDetailRecycleViewAdapter = new ShaiDetailRecycleViewAdapter(UserShaiActivity.this, lists,head);
                     mRecyclerViewShai.setLayoutManager(new LinearLayoutManager(UserShaiActivity.this));
                     mRecyclerViewShai.addItemDecoration(mRecycleDivider);
                     mRecyclerViewShai.setAdapter(mShaiDetailRecycleViewAdapter);
-
+                    mRecyclerViewShai.scrollToPosition(0);
                     mShaiDetailRecycleViewAdapter.setmIShaiClickListener(UserShaiActivity.this);
 
-                    if (mGetUserShaiAsyncTask != null) {
-                        mGetUserShaiAsyncTask = null;
-                        pageNo++;//刷新时显示下一页
+                    pageNo++;//刷新时显示下一页
+                }else{
+                    if (shaiList.size() == 0){
+                        //无数据提醒
+                        mNoShai.setVisibility(View.VISIBLE);
+                        //设置为不可见
+                        mRecyclerViewShai.setVisibility(View.GONE);
                     }
+                }
+
+                if (mGetUserShaiAsyncTask != null) {
+                    mGetUserShaiAsyncTask = null;
                 }
             }
         });
@@ -165,6 +187,10 @@ public class UserShaiActivity extends AppCompatActivity implements ShaiDetailRec
                                 mShaiDetailRecycleViewAdapter.setLoadStatus(0);
                                 havaData = false;//已经无数据，无需提醒
                             }
+
+                            if(mGetUserShaiAsyncTask!=null){
+                                mGetUserShaiAsyncTask = null;
+                            }
                         }
                     }
 
@@ -185,6 +211,14 @@ public class UserShaiActivity extends AppCompatActivity implements ShaiDetailRec
                 RecyclerView.LayoutManager layoutManager = mRecyclerViewShai.getLayoutManager();
                 LinearLayoutManager linearManager = (LinearLayoutManager) layoutManager;
                 lastVisiableItem = linearManager.findLastVisibleItemPosition();
+            }
+        });
+
+        //添加晒一晒
+        mAddShai.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                IntentUtils.jump(UserShaiActivity.this,AddShaiActivity.class);
             }
         });
     }
@@ -209,6 +243,8 @@ public class UserShaiActivity extends AppCompatActivity implements ShaiDetailRec
         mSendComment = (TextView) findViewById(R.id.id_tv_send_comment);
         mCommentLayout = (LinearLayout) findViewById(R.id.id_ll_comment);
         mCommentContent = (EditText) findViewById(R.id.id_et_comment_content);
+        mNoShai = (TextView) findViewById(R.id.id_tv_no_shai);
+        mAddShai = (ImageView) findViewById(R.id.id_iv_shai);
     }
 
 
@@ -237,6 +273,13 @@ public class UserShaiActivity extends AppCompatActivity implements ShaiDetailRec
             shaiList.remove(pos);
             mShaiDetailRecycleViewAdapter.removeItem(pos);
             SpUtils.getEditor(this).putInt("deleteShaiPosition",-1).commit();
+
+            if (shaiList.size() == 0){
+                //无数据提醒
+                mNoShai.setVisibility(View.VISIBLE);
+                //设置为不可见
+                mRecyclerViewShai.setVisibility(View.GONE);
+            }
         }
 
         //添加时候回调
@@ -347,3 +390,4 @@ public class UserShaiActivity extends AppCompatActivity implements ShaiDetailRec
         }
     }
 }
+// TODO: 2017/10/21 这里明天需要修改,需求：用户点进来，没有发布晒一晒，给一个按钮跳到发布晒一晒，然后返回，刷新列表，若删除，则需删除列表，

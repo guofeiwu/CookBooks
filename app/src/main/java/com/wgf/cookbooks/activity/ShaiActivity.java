@@ -351,10 +351,6 @@ public class ShaiActivity extends AppCompatActivity implements ShaiDetailRecycle
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mShaiDetailRecycleViewAdapter != null) {
-            mShaiDetailRecycleViewAdapter = null;
-        }
-
         if(mUpCommentAsyncTask!= null){
             mUpCommentAsyncTask = null;
         }

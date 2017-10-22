@@ -44,6 +44,8 @@ public class UserMenuActivity extends AppCompatActivity implements GetUserMenuAs
     private NestedScrollView mNestedScrollView;
     private boolean havaData = true;
     private RelativeLayout mAddMenu;
+    //还未发布菜谱的提示
+    private TextView mNoMenu;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -117,6 +119,7 @@ public class UserMenuActivity extends AppCompatActivity implements GetUserMenuAs
         mCustomToolbar = (CustomToolbar) findViewById(R.id.id_ct_user_menus_back);
         mNestedScrollView = (NestedScrollView) findViewById(R.id.id_nsv_layout);
         mAddMenu = (RelativeLayout) findViewById(R.id.id_rl_add_menu);
+        mNoMenu = (TextView) findViewById(R.id.id_tv_no_menu);
     }
 
     /**
@@ -170,6 +173,13 @@ public class UserMenuActivity extends AppCompatActivity implements GetUserMenuAs
                 mAdapter.setLoadStatus(0);
             }
             ToastUtils.toast(this,"菜谱已全部加载完成...");
+
+            //加载所有后还是无数据
+            if(menus.size() == 0 ){
+                mNoMenu.setVisibility(View.VISIBLE);
+                mRecyclerView.setVisibility(View.GONE);
+            }
+
         }
         if(mGetUserMenuAsyncTask!=null){
             mGetUserMenuAsyncTask = null;

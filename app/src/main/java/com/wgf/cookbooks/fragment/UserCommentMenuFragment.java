@@ -14,13 +14,11 @@ import android.widget.TextView;
 
 import com.wgf.cookbooks.R;
 import com.wgf.cookbooks.activity.MenuDetailActivity;
-import com.wgf.cookbooks.activity.UserCommentMenuShaiActivity1;
 import com.wgf.cookbooks.adapter.UserMenuRecycleViewAdapter;
 import com.wgf.cookbooks.bean.Menu;
 import com.wgf.cookbooks.clazz.asynctask.GetUserCommentMenuAsyncTask;
 import com.wgf.cookbooks.util.SpUtils;
 import com.wgf.cookbooks.util.ToastUtils;
-import com.wgf.cookbooks.view.CustomToolbar;
 
 import java.util.ArrayList;
 import java.util.List;

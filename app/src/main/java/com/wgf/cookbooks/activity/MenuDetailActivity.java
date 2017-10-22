@@ -26,6 +26,7 @@ import com.wgf.cookbooks.adapter.MenuStepAdapter;
 import com.wgf.cookbooks.bean.Comment;
 import com.wgf.cookbooks.bean.Materials;
 import com.wgf.cookbooks.bean.Menu;
+import com.wgf.cookbooks.clazz.asynctask.AddMenuRecordAsyncTask;
 import com.wgf.cookbooks.clazz.asynctask.CollectMenuAsyncTask;
 import com.wgf.cookbooks.clazz.asynctask.DeleteCommentAsyncTask;
 import com.wgf.cookbooks.clazz.asynctask.GetCommentAsyncTask;
@@ -99,9 +100,12 @@ public class MenuDetailActivity extends AppCompatActivity implements MenuDetailA
     //菜谱在列表中的位置
     private int pos = -1;
 
+    private int menuPkId = 0;
+
+
     private JudgeUserHaveMenuCommentAsyncTask mJudgeUserHaveMenuCommentAsyncTask;
 
-
+    private AddMenuRecordAsyncTask mAddMenuRecordAsyncTask;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -135,9 +139,6 @@ public class MenuDetailActivity extends AppCompatActivity implements MenuDetailA
         mShare.setOnClickListener(this);
     }
 
-    private int menuPkId = 0;
-
-
     /**
      * 初始化数据
      */
@@ -148,6 +149,13 @@ public class MenuDetailActivity extends AppCompatActivity implements MenuDetailA
         mMenuDetailAsyncTask = new MenuDetailAsyncTask(this);
         mMenuDetailAsyncTask.setmListener(this);
         mMenuDetailAsyncTask.execute(menuPkId);
+
+        //增加浏览记录，和浏览菜谱次数
+        if(mAddMenuRecordAsyncTask !=null){
+            return;
+        }
+        mAddMenuRecordAsyncTask = new AddMenuRecordAsyncTask(this);
+        mAddMenuRecordAsyncTask.execute(menuPkId);
     }
 
     /**
@@ -380,6 +388,11 @@ public class MenuDetailActivity extends AppCompatActivity implements MenuDetailA
         if (mGetCommentAsyncTask != null) {
             mGetCommentAsyncTask = null;
         }
+
+        if (mAddMenuRecordAsyncTask != null) {
+            mAddMenuRecordAsyncTask = null;
+        }
+
     }
 
     //删除评论回调

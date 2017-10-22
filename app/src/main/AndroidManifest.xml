@@ -57,6 +57,7 @@
         <activity android:name=".activity.UserShaiActivity"/>
         <activity android:name=".activity.UserCollectMenuActivity"/>
         <activity android:name=".activity.UserCommentMenuShaiActivity"/>
+        <activity android:name=".activity.MyMenuStepActivity"/>
 
 
 

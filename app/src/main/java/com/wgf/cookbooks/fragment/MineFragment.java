@@ -63,13 +63,12 @@ public class MineFragment extends Fragment implements View.OnClickListener{
     private LinearLayout mMenu,mCollect,mAlbum;
     private GetUserInfoAsyncTask mGetUserInfoAsyncTask;
     private CircleImageView mCircleImageView;
-    private UserSignAsyncTask mUserSignAsyncTask;
-    private GetUserMenuAsyncTask mGetUserMenuAsyncTask;
-
+    private JudgeUserSignAsyncTask mJudgeUserSignAsyncTask;
 
     private JSONObject userInfo = null;//存放用户信息
     private String userName,phone,icon,birthday,level,sex,sign;
     private SqliteDao dao;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -154,11 +153,12 @@ public class MineFragment extends Fragment implements View.OnClickListener{
             case R.id.id_sign://签到
                 if(sign.equals(NOT_SIGN)){
                     //调用签到接口
-                    if(mUserSignAsyncTask != null){
-                        return ;
+                    if(mJudgeUserSignAsyncTask!=null){
+                        return;
                     }
-                    mUserSignAsyncTask = new UserSignAsyncTask();
-                    mUserSignAsyncTask.execute();
+                    mJudgeUserSignAsyncTask = new JudgeUserSignAsyncTask();
+                    // 2 表示是进行签到
+                    mJudgeUserSignAsyncTask.execute(2);
                 }else{
                     return;
                 }
@@ -239,7 +239,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
         //判断用户是否登录
         SharedPreferences sp = SpUtils.getSharedPreferences(getActivity());
         String token  = sp.getString(AUTHORIZATION,null);
-        if(token != null){
+        if(!TextUtils.isEmpty(token)){
             boolean isShow = sp.getBoolean(SHOW_DATA,false);//未加载数据
             if(!isShow){
                 SpUtils.getEditor(getActivity()).putBoolean(SHOW_DATA,true).commit();
@@ -253,6 +253,13 @@ public class MineFragment extends Fragment implements View.OnClickListener{
                 mGetUserInfoAsyncTask = new GetUserInfoAsyncTask();
                 mGetUserInfoAsyncTask.execute(token);
             }
+
+            if(mJudgeUserSignAsyncTask!=null){
+                return;
+            }
+            mJudgeUserSignAsyncTask = new JudgeUserSignAsyncTask();
+            // 1 表示是判断是否已经签到
+            mJudgeUserSignAsyncTask.execute(1);
         }else {//未登录
             mLoginOrRegister.setText(getString(R.string.text_click_login_register));
             mSign.setVisibility(View.GONE);
@@ -260,6 +267,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
             mCircleImageView.setImageDrawable(getResources().getDrawable(R.drawable.icon_108));//设置默认头像
         }
     }
+
 
     /**
      * 获取用户信息
@@ -298,14 +306,8 @@ public class MineFragment extends Fragment implements View.OnClickListener{
                 try {
                     userName = userInfo.getString("name");
                     phone = userInfo.getString("phone");
-                   // sex = userInfo.getInt("sex") == 0 ? "男":"女";
                     icon = userInfo.getString("icon");
-                    // birthday = userInfo.getString("birthday");
-//                    level = userInfo.getString("level");
-                    sign = userInfo.getInt("sign") == 0 ? NOT_SIGN:SIGN;
                     mLoginOrRegister.setText(userName);
-                    mSign.setVisibility(View.VISIBLE);
-                    mSign.setText(sign);
                     //加载用户头像
                     Glide.with(MineFragment.this).load(BASE_URL_FILE_ICON+icon).into(mCircleImageView);
                     dao.deleteUserInfo();
@@ -319,23 +321,30 @@ public class MineFragment extends Fragment implements View.OnClickListener{
         }
     }
 
+
     /**
-     * 用户签到
+     * 判断用户是否签到和进行签到
      */
-    public class UserSignAsyncTask extends AsyncTask<Void,Void,Integer>{
+    public class JudgeUserSignAsyncTask extends AsyncTask<Integer,Void,Integer>{
 
         @Override
-        protected Integer doInBackground(Void... params) {
-            String url = BASE_URL+"/app/user/sign";
+        protected Integer doInBackground(Integer... params) {
+            int sign = params[0];
+            String url = BASE_URL+"/app/user/sign/"+sign;
             String token = SpUtils.getSharedPreferences(getActivity()).getString(AUTHORIZATION,null);
             try {
                 Response response = OkGo.<String>get(url)
                         .headers(AUTHORIZATION, token)
                         .execute();
-                String resJson = response.body().string();
-                int code = JsonUtils.getCode(resJson);
-
-                return code;
+                    String resJson = response.body().string();
+                    JSONObject jsonObject = null;
+                    try {
+                        jsonObject = new JSONObject(resJson);
+                        sign = jsonObject.getJSONObject("extend").getJSONObject("content").getInt("sign");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                return sign;
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -346,15 +355,39 @@ public class MineFragment extends Fragment implements View.OnClickListener{
         @Override
         protected void onPostExecute(Integer integer) {
             super.onPostExecute(integer);
-            mUserSignAsyncTask = null;
-            if(integer == SUCCESS){
+            mJudgeUserSignAsyncTask = null;
+            //1 已经签到
+            if(integer == 1){
+                mSign.setVisibility(View.VISIBLE);
                 sign = SIGN;
-                mSign.setText(SIGN);
+                mSign.setText(sign);
+                //2 表示还未签到
+            }else if(integer == 2){
+                mSign.setVisibility(View.VISIBLE);
+                sign = NOT_SIGN;
+                mSign.setText(sign);
+                //3 表示签到成功
+            }else if (integer == 3){
+                mSign.setVisibility(View.VISIBLE);
+                sign = SIGN;
+                mSign.setText(sign);
                 ToastUtils.toast(getActivity(),getString(R.string.text_mine_sign_success));
-            }else{
+                //4 表示签到失败
+            }else if(integer == 4){
+                mSign.setVisibility(View.VISIBLE);
+                sign = NOT_SIGN;
+                mSign.setText(sign);
                 ToastUtils.toast(getActivity(),getString(R.string.text_mine_sign_failed));
+            }else{
+                //其他的就是系统异常
+                ToastUtils.toast(getActivity(),getString(R.string.text_failed_msg));
             }
         }
     }
+
+
+
+
+
 
 }

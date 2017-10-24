@@ -19,11 +19,11 @@ public class Constants {
 
 
     /**公司的**/
-//    public static final String BASE_URL = "http://192.168.1.155:8081";
-//    public static final String BASE_URL_FILE_ICON = "http://192.168.1.155:8080/menuFiles/icon/";//Tomcat服务器用户头像地址
-//    public static final String BASE_URL_FILE_MENUS = "http://192.168.1.155:8080/menuFiles/menus/";//Tomcat服务器菜单地址
-//    public static final String BASE_URL_FILE_SHAI = "http://192.168.1.155:8080/menuFiles/shai/";//晒一晒地址
-//    public static final String BASE_URL_FILE_APP = "http://192.168.1.155:8080/menuFiles/app/";//app下载地址
+//    public static final String BASE_URL = "http://192.168.10.155:8081";
+//    public static final String BASE_URL_FILE_ICON = "http://192.168.10.155:8080/menuFiles/icon/";//Tomcat服务器用户头像地址
+//    public static final String BASE_URL_FILE_MENUS = "http://192.168.10.155:8080/menuFiles/menus/";//Tomcat服务器菜单地址
+//    public static final String BASE_URL_FILE_SHAI = "http://192.168.10.155:8080/menuFiles/shai/";//晒一晒地址
+//    public static final String BASE_URL_FILE_APP = "http://192.168.10.155:8080/menuFiles/app/";//app下载地址
 
 
 

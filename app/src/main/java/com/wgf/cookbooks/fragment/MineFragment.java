@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.lzy.okgo.OkGo;
 import com.wgf.cookbooks.R;
 import com.wgf.cookbooks.activity.LoginActivity;
+import com.wgf.cookbooks.activity.MyMenuStepActivity;
 import com.wgf.cookbooks.activity.SystemSettingActivity;
 import com.wgf.cookbooks.activity.UserCollectMenuActivity;
 import com.wgf.cookbooks.activity.UserCommentMenuShaiActivity;
@@ -202,6 +203,12 @@ public class MineFragment extends Fragment implements View.OnClickListener{
             case R.id.ml_point:
                 break;
             case R.id.ml_record:
+                token = GetAuthorizationUtil.getAuth(getActivity());
+                if(TextUtils.isEmpty(token)){
+                    IntentUtils.jump(this.getActivity(), LoginActivity.class);
+                }else{
+                    IntentUtils.jump(this.getActivity(), MyMenuStepActivity.class);
+                }
                 break;
             //系统设置
             case R.id.id_iv_setting:

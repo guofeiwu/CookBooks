@@ -13,7 +13,7 @@
         app:toolbarTitle="美食足迹"
         />
     <TextView
-        android:id="@+id/id_iv_shai"
+        android:id="@+id/id_tv_delete_all"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right|center_vertical"
@@ -22,10 +22,21 @@
         android:textColor="@color/white"
         />
 </FrameLayout>
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <android.support.v7.widget.RecyclerView
         android:id="@+id/id_rv_menu_record"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
     </android.support.v7.widget.RecyclerView>
-
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/id_tv_no_menu_record"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="赶紧去查看菜谱吧~"
+        android:gravity="center"
+        />
+</FrameLayout>
 </LinearLayout>

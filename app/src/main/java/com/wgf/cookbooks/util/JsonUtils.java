@@ -5,6 +5,7 @@ import com.wgf.cookbooks.bean.Banner;
 import com.wgf.cookbooks.bean.Comment;
 import com.wgf.cookbooks.bean.Materials;
 import com.wgf.cookbooks.bean.Menu;
+import com.wgf.cookbooks.bean.Record;
 import com.wgf.cookbooks.bean.Shai;
 import com.wgf.cookbooks.bean.Step;
 import com.wgf.cookbooks.bean.UserInfo;
@@ -27,10 +28,11 @@ import static com.wgf.cookbooks.util.Constants.BASE_URL_FILE_ICON;
 public class JsonUtils {
     /**
      * 获取返回的总code
+     *
      * @param response 返回的字符串
      * @return
      */
-    public static int getCode(String response){
+    public static int getCode(String response) {
         int code = 100;
         try {
             JSONObject jsonObject = new JSONObject(response);
@@ -43,10 +45,11 @@ public class JsonUtils {
 
     /**
      * 获取子code
+     *
      * @param response
      * @return
      */
-    public static int getSonCode(String response){
+    public static int getSonCode(String response) {
         int sonCode = -1;
         try {
             JSONObject jsonObject = new JSONObject(response);
@@ -60,10 +63,11 @@ public class JsonUtils {
 
     /**
      * 返回附加的内容（单个JsonObject）
+     *
      * @param response
      * @return
      */
-    public static JSONObject getContent(String response){
+    public static JSONObject getContent(String response) {
         JSONObject content = null;
         try {
             JSONObject jsonObject = new JSONObject(response);
@@ -76,10 +80,11 @@ public class JsonUtils {
 
     /**
      * 返回附加的内容（String）
+     *
      * @param response
      * @return
      */
-    public static String getStringContent(String response){
+    public static String getStringContent(String response) {
         String content = null;
         try {
             JSONObject jsonObject = new JSONObject(response);
@@ -91,13 +96,13 @@ public class JsonUtils {
     }
 
 
-
     /**
      * 返回附加的内容（返回一个pkId,点赞和收藏成功）
+     *
      * @param response
      * @return
      */
-    public static int getPkId(String response){
+    public static int getPkId(String response) {
         int pkId = 0;
         Map map = new HashMap();
         try {
@@ -110,14 +115,13 @@ public class JsonUtils {
     }
 
 
-
-
     /**
      * 返回附加的内容（JsonArray）
+     *
      * @param response
      * @return
      */
-    public static JSONArray getJsonArray(String response){
+    public static JSONArray getJsonArray(String response) {
         JSONArray content = null;
         try {
             JSONObject jsonObject = new JSONObject(response);
@@ -131,10 +135,11 @@ public class JsonUtils {
 
     /**
      * 返回附加的内容（list）
+     *
      * @param response
      * @return
      */
-    public static String getList(String response){
+    public static String getList(String response) {
         String content = null;
         try {
             JSONObject jsonObject = new JSONObject(response);
@@ -147,16 +152,17 @@ public class JsonUtils {
 
     /**
      * 返回附加的内容（Shai对象的集合）
+     *
      * @param response
      * @return
      */
-    public static List<Shai> getShaiList(String response){
-        List<Shai>  shais = null;
+    public static List<Shai> getShaiList(String response) {
+        List<Shai> shais = null;
         try {
             shais = new ArrayList<>();
             JSONObject jsonObject = new JSONObject(response);
             JSONArray jsonArray = jsonObject.getJSONObject("extend").getJSONArray("content");
-            for (int i = 0;i<jsonArray.length();i++){
+            for (int i = 0; i < jsonArray.length(); i++) {
                 Shai shai = new Shai();
                 JSONObject jo = jsonArray.getJSONObject(i);
                 int pkId = jo.getInt("pkid");
@@ -164,7 +170,7 @@ public class JsonUtils {
                 String icon = jo.getString("icon");
                 String descr = jo.getString("descr");
                 String address = jo.getString("address");//晒一晒图片地址
-                String time  =jo.getString("cTime");//创建时间
+                String time = jo.getString("cTime");//创建时间
                 int likes = jo.getInt("shaiLike");
                 int commentTotal = jo.getInt("commentTotal");//评论的总数
                 int lookTotal = jo.getInt("lookTotal");
@@ -188,25 +194,25 @@ public class JsonUtils {
     }
 
 
-
     /**
      * 返回附加的内容（用户信息UserInfo）
+     *
      * @param response
      * @return
      */
-    public static UserInfo getUserInfo(String response){
+    public static UserInfo getUserInfo(String response) {
         UserInfo userInfo = null;
         userInfo = new UserInfo();
         JSONObject jsonUserInfo = getContent(response);
-        try{
+        try {
             userInfo.setUserName(jsonUserInfo.getString("name"));
-            userInfo.setSex(jsonUserInfo.getInt("sex")==0?"女":"男");
+            userInfo.setSex(jsonUserInfo.getInt("sex") == 0 ? "女" : "男");
             userInfo.setBirthday(jsonUserInfo.getString("birthday"));
             userInfo.setPoint(jsonUserInfo.getInt("point"));
             userInfo.setLevel(jsonUserInfo.getString("level"));
-            userInfo.setIcon(BASE_URL_FILE_ICON+jsonUserInfo.getString("icon"));
+            userInfo.setIcon(BASE_URL_FILE_ICON + jsonUserInfo.getString("icon"));
 
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return userInfo;
@@ -215,16 +221,17 @@ public class JsonUtils {
 
     /**
      * 返回附加的内容（Comment集合）
+     *
      * @param response
      * @return
      */
-    public static List<Comment> getCommentsList(String response){
+    public static List<Comment> getCommentsList(String response) {
         List<Comment> comments = null;
         try {
             comments = new ArrayList<>();
             JSONObject jsonObject = new JSONObject(response);
             JSONArray jsonArray = jsonObject.getJSONObject("extend").getJSONArray("content");
-            for (int i = 0;i<jsonArray.length();i++){
+            for (int i = 0; i < jsonArray.length(); i++) {
                 Comment comment = new Comment();
                 JSONObject jo = jsonArray.getJSONObject(i);
                 String content = jo.getString("content");
@@ -248,30 +255,30 @@ public class JsonUtils {
     }
 
 
-
     /**
      * 返回附加的内容（单个Comment）
+     *
      * @param response
      * @return
      */
-    public static Comment getComment(String response){
+    public static Comment getComment(String response) {
         Comment comment = null;
         try {
-                comment = new Comment();
-                JSONObject jsonObject = new JSONObject(response);
-                JSONObject jo = jsonObject.getJSONObject("extend").getJSONObject("content");
-                String content = jo.getString("content");
-                String commentTime = jo.getString("commentTime");
-                String userIconUrl = jo.getString("userIconUrl");
-                String username = jo.getString("username");
-                int currentUser = jo.getInt("currentUser");
-                int commentPkId = jo.getInt("commentPkId");
-                comment.setContent(content);
-                comment.setCommentTime(commentTime);
-                comment.setUserIconUrl(userIconUrl);
-                comment.setUserName(username);
-                comment.setCurrentUser(currentUser);
-                comment.setCommnetPkId(commentPkId);
+            comment = new Comment();
+            JSONObject jsonObject = new JSONObject(response);
+            JSONObject jo = jsonObject.getJSONObject("extend").getJSONObject("content");
+            String content = jo.getString("content");
+            String commentTime = jo.getString("commentTime");
+            String userIconUrl = jo.getString("userIconUrl");
+            String username = jo.getString("username");
+            int currentUser = jo.getInt("currentUser");
+            int commentPkId = jo.getInt("commentPkId");
+            comment.setContent(content);
+            comment.setCommentTime(commentTime);
+            comment.setUserIconUrl(userIconUrl);
+            comment.setUserName(username);
+            comment.setCurrentUser(currentUser);
+            comment.setCommnetPkId(commentPkId);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -279,23 +286,21 @@ public class JsonUtils {
     }
 
 
-
-
-
     /**
      * 返回附加的内容（菜单集合）
+     *
      * @param response
      * @return
      */
-    public static List<Menu> getMenusList(String response){
+    public static List<Menu> getMenusList(String response) {
         List<Menu> menus = null;
         try {
             JSONObject jsonObject = new JSONObject(response);
             JSONArray jsonArray = jsonObject.getJSONObject("extend").getJSONArray("content");
             menus = new ArrayList<>();
 
-            for (int i = 0;i<jsonArray.length();i++){
-                Menu menu  = new Menu();
+            for (int i = 0; i < jsonArray.length(); i++) {
+                Menu menu = new Menu();
                 JSONObject jo = jsonArray.getJSONObject(i);
                 menu.setMenuPkId(jo.getInt("menuPkId"));
                 menu.setMenuName(jo.getString("menuName"));
@@ -316,10 +321,11 @@ public class JsonUtils {
 
     /**
      * 返回附加的内容（单个Shai）
+     *
      * @param response
      * @return
      */
-    public static Shai getShaiDetail(String response){
+    public static Shai getShaiDetail(String response) {
         Shai shai = null;
 
         try {
@@ -331,7 +337,7 @@ public class JsonUtils {
             String icon = jo.getString("icon");
             String descr = jo.getString("descr");
             String address = jo.getString("address");//晒一晒图片地址
-            String time  =jo.getString("cTime");//创建时间
+            String time = jo.getString("cTime");//创建时间
             int likes = jo.getInt("shaiLike");
             int commentTotal = jo.getInt("commentTotal");//评论的总数
             int lookTotal = jo.getInt("lookTotal");
@@ -356,10 +362,11 @@ public class JsonUtils {
 
     /**
      * 返回附加的内容 （获取菜谱详情）
+     *
      * @param response
      * @return
      */
-    public static Menu getMenuDetail(String response){
+    public static Menu getMenuDetail(String response) {
         Menu menu = null;
 
         try {
@@ -384,10 +391,9 @@ public class JsonUtils {
             int collectPkId = jo.getInt("collectPkId");
 
 
-
             JSONArray steps = jo.getJSONArray("steps");
             List<Step> stepList = new ArrayList<>();
-            for(int i = 0;i<steps.length();i++){
+            for (int i = 0; i < steps.length(); i++) {
                 Step step = new Step();
                 JSONObject jsonObject1 = steps.getJSONObject(i);
                 String stepDesc = jsonObject1.getString("stepDesc");
@@ -399,7 +405,7 @@ public class JsonUtils {
 
             JSONArray materials = jo.getJSONArray("materials");
             List<Materials> materialsList = new ArrayList<>();
-            for(int i = 0;i<materials.length();i++){
+            for (int i = 0; i < materials.length(); i++) {
                 Materials materials1 = new Materials();
                 JSONObject jsonObject1 = materials.getJSONObject(i);
                 String materialName = jsonObject1.getString("materialName");
@@ -435,17 +441,18 @@ public class JsonUtils {
 
     /**
      * 返回附加的内容 （Banner列表）
+     *
      * @param response
      * @return
      */
-    public static List<Banner> getBanners(String response){
+    public static List<Banner> getBanners(String response) {
         List<Banner> banners = null;
 
         try {
-            JSONObject jsonObject  = new JSONObject(response);
+            JSONObject jsonObject = new JSONObject(response);
             JSONArray jo = jsonObject.getJSONObject("extend").getJSONArray("content");
             banners = new ArrayList<>();
-            for (int i = 0;i<jo.length();i++){
+            for (int i = 0; i < jo.length(); i++) {
                 Banner banner = new Banner();
                 JSONObject j = jo.getJSONObject(i);
                 int menuPkId = j.getInt("menuPkId");
@@ -465,10 +472,11 @@ public class JsonUtils {
 
     /**
      * 返回附加的内容 （菜谱主图的名称）
+     *
      * @param response
      * @return
      */
-    public static String getMenuMainIcon(String response){
+    public static String getMenuMainIcon(String response) {
         String mainIcon = null;
         try {
             JSONObject jsonObject = new JSONObject(response);
@@ -482,18 +490,19 @@ public class JsonUtils {
 
     /**
      * 返回附加的内容 （菜谱步骤的图片的集合）
+     *
      * @param response
      * @return
      */
-    public static List<String> getMenuStepUrl(String response){
-        List<String> urls =null;
+    public static List<String> getMenuStepUrl(String response) {
+        List<String> urls = null;
         try {
             urls = new ArrayList<>();
             JSONObject jsonObject = new JSONObject(response);
             JSONArray ja = jsonObject.getJSONObject("extend").getJSONArray("content");
-            for(int i = 0;i<ja.length();i++){
+            for (int i = 0; i < ja.length(); i++) {
                 JSONObject jo = ja.getJSONObject(i);
-                String url  = jo.getString("url");
+                String url = jo.getString("url");
                 urls.add(url);
             }
         } catch (JSONException e) {
@@ -505,6 +514,7 @@ public class JsonUtils {
 
     /**
      * 返回版本信息
+     *
      * @param response
      * @return
      */
@@ -527,4 +537,43 @@ public class JsonUtils {
         }
         return appVer;
     }
+
+
+    /**
+     * 返回附加的内容（菜单集合）
+     *
+     * @param response
+     * @return
+     */
+    public static List<Record> getRecordsList(String response) {
+        List<Record> records = null;
+        try {
+            records = new ArrayList<>();
+            JSONObject jsonObject = new JSONObject(response);
+            JSONArray jsonArray = jsonObject.getJSONObject("extend").getJSONArray("content");
+            for(int i= 0;i<jsonArray.length();i++){
+                Record record = new Record();
+                Menu menu = new Menu();
+                JSONObject j1 = jsonArray.getJSONObject(i);
+                int recordPkId = j1.getInt("recordPkId");
+                JSONObject jo = j1.getJSONObject("menuDataObject");
+                menu.setMenuPkId(jo.getInt("menuPkId"));
+                menu.setMenuName(jo.getString("menuName"));
+                menu.setMainIcon(jo.getString("mainIcon"));
+                menu.setIntroduce(jo.getString("introduce"));
+                menu.setUserName(jo.getString("userName"));
+                menu.setUserIconUrl(jo.getString("userIconUrl"));
+                menu.setCurrentUser(jo.getInt("currentUser"));
+                record.setRecordPkId(recordPkId);
+                record.setMenus(menu);
+                records.add(record);
+            }
+            return records;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
 }

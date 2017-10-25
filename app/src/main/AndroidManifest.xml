@@ -58,6 +58,7 @@
         <activity android:name=".activity.UserCollectMenuActivity"/>
         <activity android:name=".activity.UserCommentMenuShaiActivity"/>
         <activity android:name=".activity.MyMenuStepActivity"/>
+        <activity android:name=".activity.MyPointActivity"/>
 
 
         <receiver android:name="com.wgf.cookbooks.util.DownloadApp$DownloadFinishReceiver"/>

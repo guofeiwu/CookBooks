@@ -1,5 +1,6 @@
 package com.wgf.cookbooks.fragment;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ import com.lzy.okgo.OkGo;
 import com.wgf.cookbooks.R;
 import com.wgf.cookbooks.activity.LoginActivity;
 import com.wgf.cookbooks.activity.MyMenuStepActivity;
+import com.wgf.cookbooks.activity.MyPointActivity;
 import com.wgf.cookbooks.activity.SystemSettingActivity;
 import com.wgf.cookbooks.activity.UserCollectMenuActivity;
 import com.wgf.cookbooks.activity.UserCommentMenuShaiActivity;
@@ -66,8 +68,9 @@ public class MineFragment extends Fragment implements View.OnClickListener{
     private JudgeUserSignAsyncTask mJudgeUserSignAsyncTask;
 
     private JSONObject userInfo = null;//存放用户信息
-    private String userName,phone,icon,birthday,level,sex,sign;
+    private String userName,phone,icon,sign;
     private SqliteDao dao;
+    private int point;
 
 
     @Override
@@ -201,6 +204,14 @@ public class MineFragment extends Fragment implements View.OnClickListener{
                 }
                 break;
             case R.id.ml_point:
+                token = GetAuthorizationUtil.getAuth(getActivity());
+                if(TextUtils.isEmpty(token)){
+                    IntentUtils.jump(this.getActivity(), LoginActivity.class);
+                }else{
+                    Intent intent = new Intent(getActivity(),MyPointActivity.class);
+                    intent.putExtra("userPoint",point);
+                    startActivity(intent);
+                }
                 break;
             case R.id.ml_record:
                 token = GetAuthorizationUtil.getAuth(getActivity());
@@ -307,6 +318,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
                     userName = userInfo.getString("name");
                     phone = userInfo.getString("phone");
                     icon = userInfo.getString("icon");
+                    point = userInfo.getInt("point");
                     mLoginOrRegister.setText(userName);
                     //加载用户头像
                     Glide.with(MineFragment.this).load(BASE_URL_FILE_ICON+icon).into(mCircleImageView);

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.wgf.cookbooks.view.CustomToolbar
+        android:id="@+id/id_ct_my_point_back"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        app:toolbarTitle="@string/text_my_point" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/id_tv_current_point"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="当前积分: 200"
+            android:textSize="@dimen/text_content_size"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:background="@color/view_white_gray"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="完成任务赚积分"
+            android:textSize="@dimen/text_small_content_size"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/id_rl_sign"
+        android:layout_marginTop="20dp"
+        android:background="?attr/selectableItemBackground"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/system_layout_height">
+
+        <ImageView
+            android:id="@+id/id_iv_sign"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/sign_gray_32"
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
+            />
+
+        <TextView
+            android:layout_toRightOf="@id/id_iv_sign"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:gravity="center"
+            android:text="签到奖励"
+            android:textSize="@dimen/text_small_content_size" />
+
+        <TextView
+            android:id="@+id/id_tv_sign"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:layout_marginRight="20dp"
+            android:text="未签到"
+             />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/view_white_gray" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_marginTop="20dp"
+        android:background="?attr/selectableItemBackground"
+        android:id="@+id/id_rl_release_menu"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/system_layout_height">
+
+        <ImageView
+            android:id="@+id/id_iv_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/menu_gray_32"
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
+            />
+
+        <TextView
+            android:layout_toRightOf="@id/id_iv_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:gravity="center"
+            android:text="发菜谱"
+            android:textSize="@dimen/text_small_content_size" />
+
+        <TextView
+            android:id="@+id/id_tv_release_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:layout_marginRight="20dp"
+            android:text="尚未完成"
+            />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/view_white_gray" />
+    </RelativeLayout>
+
+</LinearLayout>

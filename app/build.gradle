@@ -51,4 +51,5 @@ dependencies {
     compile 'com.yanzhenjie:permission:1.1.0'
     compile 'com.youth.banner:banner:1.4.10'
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
+    compile 'com.haozhang.libary:android-slanted-textview:1.2'
 }

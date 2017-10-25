@@ -10,10 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.wgf.cookbooks.R;
+import com.wgf.cookbooks.activity.MenuRankActivity;
 import com.wgf.cookbooks.activity.SearchActivity;
 import com.wgf.cookbooks.activity.ShaiActivity;
 import com.wgf.cookbooks.activity.ShaiDetailActivity;
@@ -47,6 +49,9 @@ public class DiscoverFragment extends Fragment implements View.OnClickListener{
     private List<Shai> shais;
     private EditText mEditTextSearch;
 
+
+    private ImageView mLikeRank,mCollectRank,mLookRank;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +75,9 @@ public class DiscoverFragment extends Fragment implements View.OnClickListener{
         mRecyclerViewShai = (RecyclerView) view.findViewById(R.id.id_rv_shaiyishai);
         mShaiYiShai = (RelativeLayout) view.findViewById(R.id.rl_shai_yi_shai);
         mEditTextSearch = (EditText) view.findViewById(R.id.id_et_search);
+        mLikeRank = (ImageView) view.findViewById(R.id.id_iv_like_rank);
+        mCollectRank = (ImageView) view.findViewById(R.id.id_iv_collect_rank);
+        mLookRank = (ImageView) view.findViewById(R.id.id_iv_look_rank);
     }
 
 
@@ -79,6 +87,9 @@ public class DiscoverFragment extends Fragment implements View.OnClickListener{
     private void setListener() {
         mShaiYiShai.setOnClickListener(this);
         mEditTextSearch.setOnClickListener(this);
+        mLikeRank.setOnClickListener(this);
+        mCollectRank.setOnClickListener(this);
+        mLookRank.setOnClickListener(this);
     }
 
 
@@ -144,6 +155,21 @@ public class DiscoverFragment extends Fragment implements View.OnClickListener{
                 break;
             case R.id.id_et_search:
                 IntentUtils.jump(getActivity(), SearchActivity.class);
+                break;
+            case R.id.id_iv_like_rank:
+                Intent intent1 = new Intent(getActivity(), MenuRankActivity.class);
+                intent1.putExtra("flag",1);
+                startActivity(intent1);
+                break;
+            case R.id.id_iv_collect_rank:
+                Intent intent2 = new Intent(getActivity(), MenuRankActivity.class);
+                intent2.putExtra("flag",2);
+                startActivity(intent2);
+                break;
+            case R.id.id_iv_look_rank:
+                Intent intent3 = new Intent(getActivity(), MenuRankActivity.class);
+                intent3.putExtra("flag",3);
+                startActivity(intent3);
                 break;
         }
     }

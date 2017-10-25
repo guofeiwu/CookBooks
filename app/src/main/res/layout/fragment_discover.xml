@@ -115,15 +115,23 @@
                 android:layout_marginLeft="15dp"
                 android:text="排行榜"
                 android:textSize="@dimen/text_content_size" />
-
+            <TextView
+                android:id="@+id/tv_top_ten"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/tv_rank"
+                android:text="top10 "
+                android:textSize="10sp" />
             <TextView
                 android:id="@+id/tv_rank_instr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="15dp"
-                android:layout_toRightOf="@+id/tv_rank"
-                android:text="快去围观热门吧"
+                android:layout_toRightOf="@+id/tv_top_ten"
+                android:text="@string/text_hot"
                 android:textSize="@dimen/text_small_content_size" />
         </RelativeLayout>
 
@@ -134,11 +142,13 @@
             android:orientation="horizontal">
 
             <ImageView
+                android:id="@+id/id_iv_like_rank"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:src="@drawable/rank" />
 
             <ImageView
+                android:id="@+id/id_iv_collect_rank"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_width="100dp"
@@ -146,6 +156,7 @@
                 android:src="@drawable/rank" />
 
             <ImageView
+                android:id="@+id/id_iv_look_rank"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:src="@drawable/rank" />

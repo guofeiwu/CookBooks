@@ -22,7 +22,10 @@
     <color name="common_blue_0090FF">#0090FF</color>
     <color name="color_textview_bg">#e3dede</color>
     <color name="color_gray">#c5c1c1</color>
-
+    <color name="color_rank_red">#D33A31</color>
+    <color name="color_rank_orange">#fafc6b23</color>
+    <color name="color_rank_yellow">#fafcbb15</color>
+    <color name="color_rank_gray">#a2a0a0</color>
 
 
     <color name="white">#FFFFFF</color>

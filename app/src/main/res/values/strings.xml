@@ -152,6 +152,10 @@
     <string name="text_already_complete">已完成</string>
     <string name="text_current_point">当前积分:</string>
     <string name="text_hot">快去围观热门吧</string>
+    <string name="text_like_rank">点赞排行</string>
+    <string name="text_collect_rank">收藏排行</string>
+    <string name="text_look_rank">浏览排行</string>
+    <string name="text_rank_title">XX排行</string>
 
 
     <integer name="actionId">1</integer>

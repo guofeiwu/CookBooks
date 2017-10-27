@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,12 +20,19 @@ import com.wgf.cookbooks.activity.MenuRankActivity;
 import com.wgf.cookbooks.activity.SearchActivity;
 import com.wgf.cookbooks.activity.ShaiActivity;
 import com.wgf.cookbooks.activity.ShaiDetailActivity;
+import com.wgf.cookbooks.activity.ThematicActivity;
 import com.wgf.cookbooks.adapter.ShaiRecycleViewAdapter;
+import com.wgf.cookbooks.adapter.ThematicRecycleViewAdapter;
+import com.wgf.cookbooks.bean.Menu;
 import com.wgf.cookbooks.bean.Shai;
+import com.wgf.cookbooks.bean.Thematic;
 import com.wgf.cookbooks.clazz.asynctask.GetShaiAsyncTask;
+import com.wgf.cookbooks.clazz.asynctask.GetThematicAsyncTask;
+import com.wgf.cookbooks.util.Constants;
 import com.wgf.cookbooks.util.IntentUtils;
 import com.wgf.cookbooks.util.L;
 import com.wgf.cookbooks.util.RecycleDivider;
+import com.wgf.cookbooks.util.ToastUtils;
 
 
 import java.util.ArrayList;
@@ -37,7 +45,8 @@ import static com.wgf.cookbooks.util.Constants.BASE_URL_FILE_SHAI;
  * email guofei_wu@163.com
  * 发现主页
  */
-public class DiscoverFragment extends Fragment implements View.OnClickListener{
+public class DiscoverFragment extends Fragment implements View.OnClickListener,GetThematicAsyncTask.IGetThematicListener,
+        ThematicRecycleViewAdapter.IThematicDetailListener{
 
     private RecyclerView mRecyclerViewShai;
     private ShaiRecycleViewAdapter mShaiRecycleViewAdapter;
@@ -48,9 +57,19 @@ public class DiscoverFragment extends Fragment implements View.OnClickListener{
 
     private List<Shai> shais;
     private EditText mEditTextSearch;
-
+    private RecyclerView mRecyclerViewThematics;
+    private List<Thematic> thematics;
 
     private ImageView mLikeRank,mCollectRank,mLookRank;
+
+
+    private GetThematicAsyncTask mGetThematicAsyncTask;
+    private ThematicRecycleViewAdapter mAdapter;
+    private boolean isLoading = true;
+    private boolean haveDate = true;
+    private int pageNo = 1;
+    private NestedScrollView mNestedScrollView;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,6 +97,12 @@ public class DiscoverFragment extends Fragment implements View.OnClickListener{
         mLikeRank = (ImageView) view.findViewById(R.id.id_iv_like_rank);
         mCollectRank = (ImageView) view.findViewById(R.id.id_iv_collect_rank);
         mLookRank = (ImageView) view.findViewById(R.id.id_iv_look_rank);
+        mRecyclerViewThematics = (RecyclerView) view.findViewById(R.id.id_rv_thematics);
+        mNestedScrollView = (NestedScrollView) view.findViewById(R.id.id_nsv_layout);
+
+//        mThematicFirst = (ImageView) view.findViewById(R.id.id_iv_thematic_first);
+//        mThematicSecond = (ImageView) view.findViewById(R.id.id_iv_thematic_second);
+//        mThematicThird = (ImageView) view.findViewById(R.id.id_iv_thematic_third);
     }
 
 
@@ -90,8 +115,28 @@ public class DiscoverFragment extends Fragment implements View.OnClickListener{
         mLikeRank.setOnClickListener(this);
         mCollectRank.setOnClickListener(this);
         mLookRank.setOnClickListener(this);
-    }
 
+
+        //添加滑动事件
+        mNestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                if (scrollY == (v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()) && isLoading) {
+                    mAdapter.setLoadStatus(1);
+                    isLoading = false;
+
+                    if(mGetThematicAsyncTask!=null){
+                        return;
+                    }
+                    mGetThematicAsyncTask = new GetThematicAsyncTask(getActivity());
+                    mGetThematicAsyncTask.setmListener(DiscoverFragment.this);
+                    mGetThematicAsyncTask.execute(++pageNo);
+                }else if(scrollY == (v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()) && !isLoading && haveDate){
+                    ToastUtils.toast(getActivity(), "加载专题中...");
+                }
+            }
+        });
+    }
 
     @Override
     public void onResume() {
@@ -104,6 +149,10 @@ public class DiscoverFragment extends Fragment implements View.OnClickListener{
      * 获取初始化数据
      */
     void initData() {
+
+        /**
+         * 这里是初始化晒一晒信息
+         */
         shais = new ArrayList<>();
         urls = new ArrayList<>();
         if (mGetShaiAsyncTask != null) {
@@ -146,6 +195,40 @@ public class DiscoverFragment extends Fragment implements View.OnClickListener{
         mGetShaiAsyncTask.execute(1);//开始加载第一页数据
     }
 
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager.setSmoothScrollbarEnabled(true);
+        linearLayoutManager.setAutoMeasureEnabled(true);
+        mRecyclerViewThematics.setLayoutManager(linearLayoutManager);
+        mRecyclerViewThematics.setHasFixedSize(true);
+        mRecyclerViewThematics.setNestedScrollingEnabled(false);
+        initThematic();
+    }
+
+
+    /**
+     * 初始化专题信息
+     */
+    private void initThematic(){
+        if(thematics!=null){
+            thematics.clear();
+            thematics = null;
+        }
+        thematics = new ArrayList<>();
+
+        if(mGetThematicAsyncTask!=null){
+            return;
+        }
+
+        mGetThematicAsyncTask = new GetThematicAsyncTask(getActivity());
+        mGetThematicAsyncTask.setmListener(DiscoverFragment.this);
+        mGetThematicAsyncTask.execute(pageNo);
+    }
+
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -175,37 +258,42 @@ public class DiscoverFragment extends Fragment implements View.OnClickListener{
     }
 
     /**
-     * 获取晒一晒
+     * 获取专题的回调
+     * @param list
      */
-//    private class GetShaiAsyncTask extends AsyncTask<Integer,Void,Void>{
-//
-//        @Override
-//        protected Void doInBackground(Integer... params) {
-//            String url = BASE_URL+"/app/shai/all/"+params[0];
-//            OkGo.<String>get(url)
-//                    .execute(new StringCallback() {
-//                        @Override
-//                        public void onSuccess(Response<String> response) {
-//                            String resJson = response.body().toString();
-//                            int code = JsonUtils.getCode(resJson);
-//                            if (code == SUCCESS) {
-//                                try {
-//                                    JSONArray array = JsonUtils.getJsonArray(resJson);
-//                                    for(int i = 0;i<array.length();i++){
-//                                        urls.add(BASE_URL_FILE_SHAI+array.getJSONObject(i).getString("address"));
-//                                    }
-//                                    mRecycleDivider = new RecycleDivider(getContext(), RecycleDivider.HORIZONTAL_LIST);
-//                                    mShaiRecycleViewAdapter = new ShaiRecycleViewAdapter(getActivity(),urls);
-//                                    mRecyclerViewShai.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayout.HORIZONTAL, false));
-//                                    mRecyclerViewShai.addItemDecoration(mRecycleDivider);
-//                                    mRecyclerViewShai.setAdapter(mShaiRecycleViewAdapter);
-//                                } catch (JSONException e) {
-//                                    e.printStackTrace();
-//                                }
-//                            }
-//                        }
-//                    });
-//            return null;
-//        }
-//    }
+    @Override
+    public void thematic(List<Thematic> list) {
+
+        if(mGetThematicAsyncTask!=null){
+            mGetThematicAsyncTask = null;
+        }
+        //返回有数据
+        if(list!=null&& list.size()>0){
+            thematics.addAll(list);
+            if(mAdapter == null){
+                mAdapter = new ThematicRecycleViewAdapter(getActivity(),list);
+                mAdapter.setmListener(DiscoverFragment.this);
+                mRecyclerViewThematics.setAdapter(mAdapter);
+            }else{
+                mAdapter.addMoreItem(list);
+                isLoading = true;
+            }
+        }else{
+            haveDate = false;
+            if (mAdapter != null) {
+                mAdapter.setLoadStatus(0);
+            }
+            ToastUtils.toast(getActivity(), "专题已全部加载完成...");
+        }
+    }
+    //查看专题详情的回调
+    @Override
+    public void detail(int position) {
+        ToastUtils.toast(getActivity(),"title:"+thematics.get(position).getThematicName());
+        Intent intent = new Intent(getActivity(), ThematicActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("thematic",thematics.get(position));
+        intent.putExtras(bundle);
+        startActivity(intent);
+    }
 }

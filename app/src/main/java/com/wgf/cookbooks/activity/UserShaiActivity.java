@@ -380,13 +380,8 @@ public class UserShaiActivity extends AppCompatActivity implements ShaiDetailRec
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mShaiDetailRecycleViewAdapter != null) {
-            mShaiDetailRecycleViewAdapter = null;
-        }
-
         if(mUpCommentAsyncTask!= null){
             mUpCommentAsyncTask = null;
         }
     }
 }
-// TODO: 2017/10/21 这里明天需要修改,需求：用户点进来，没有发布晒一晒，给一个按钮跳到发布晒一晒，然后返回，刷新列表，若删除，则需删除列表，

@@ -24,6 +24,7 @@ public class Constants {
     public static final String BASE_URL_FILE_MENUS = "http://192.168.10.155:8080/menuFiles/menus/";//Tomcat服务器菜单地址
     public static final String BASE_URL_FILE_SHAI = "http://192.168.10.155:8080/menuFiles/shai/";//晒一晒地址
     public static final String BASE_URL_FILE_APP = "http://192.168.10.155:8080/menuFiles/app/";//app下载地址
+    public static final String BASE_URL_FILE_THEMATIC="http://192.168.10.155:8080/menuFiles/thematic/";//专题图片地址
 
 
 
@@ -63,6 +64,10 @@ public class Constants {
     public static final String CAIXI="菜系";
     public static final String TIANDIAN ="烘焙甜点";
     public static final String ZHUSHI="主食";
+
+    public static final String SPAGHETTI ="意大利面";
+    public static final String LOSTWEIGHT="减肥";
+
 
 
 

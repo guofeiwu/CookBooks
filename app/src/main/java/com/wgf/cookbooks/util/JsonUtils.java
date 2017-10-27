@@ -8,6 +8,7 @@ import com.wgf.cookbooks.bean.Menu;
 import com.wgf.cookbooks.bean.Record;
 import com.wgf.cookbooks.bean.Shai;
 import com.wgf.cookbooks.bean.Step;
+import com.wgf.cookbooks.bean.Thematic;
 import com.wgf.cookbooks.bean.UserInfo;
 
 import org.json.JSONArray;
@@ -573,6 +574,35 @@ public class JsonUtils {
             e.printStackTrace();
             return null;
         }
+    }
+
+
+    /**
+     * 返回附加的内容（专题集合）
+     *
+     * @param response
+     * @return
+     */
+    public static List<Thematic> getThematics(String response){
+        List<Thematic> thematics = null;
+        try {
+            JSONObject jsonObject = new JSONObject(response);
+            JSONArray jsonArray = jsonObject.getJSONObject("extend").getJSONArray("content");
+            thematics =  new ArrayList<>();
+            for (int i = 0;i<jsonArray.length();i++){
+                Thematic thematic = new Thematic();
+                JSONObject jo = jsonArray.getJSONObject(i);
+                String pictureUrl = jo.getString("thematicPictureUrl");
+                String name = jo.getString("thematicName");
+                thematic.setThematicPictureUrl(pictureUrl);
+                thematic.setThematicName(name);
+                thematics.add(thematic);
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    return thematics;
     }
 
 

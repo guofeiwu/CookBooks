@@ -605,5 +605,13 @@ public class JsonUtils {
     return thematics;
     }
 
-
+    /**
+     * 返回附加的内容（推荐的标题集合）
+     *
+     * @param response
+     * @return
+     */
+    public static List<String> getRecommends(String response) {
+        return null;
+    }
 }

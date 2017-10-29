@@ -37,7 +37,8 @@
     </RelativeLayout>
 
 
-<ScrollView
+<android.support.v4.widget.NestedScrollView
+    android:id="@+id/id_nsv_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout
@@ -147,6 +148,7 @@
                 android:layout_height="100dp"
                 android:src="@drawable/rank" />
 
+
             <ImageView
                 android:id="@+id/id_iv_collect_rank"
                 android:layout_marginLeft="20dp"
@@ -190,31 +192,10 @@
                 android:text="重要时刻 美食陪伴"
                 android:textSize="@dimen/text_small_content_size" />
         </RelativeLayout>
-        <ImageView
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/id_rv_thematics"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:src="@drawable/rank"
-            />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="15dp"
-            android:layout_alignParentBottom="true"
-            android:background="@color/view_small_gray" />
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:src="@drawable/rank"
-            />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="15dp"
-            android:layout_alignParentBottom="true"
-            android:background="@color/view_small_gray" />
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:src="@drawable/rank"
-            />
+            android:layout_height="match_parent"/>
     </LinearLayout>
-</ScrollView>
+</android.support.v4.widget.NestedScrollView>
 </LinearLayout>

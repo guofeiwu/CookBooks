@@ -14,6 +14,7 @@ import com.wgf.cookbooks.fragment.HomePageFragment;
 import com.wgf.cookbooks.fragment.MenuFragment;
 import com.wgf.cookbooks.fragment.MineFragment;
 import com.wgf.cookbooks.util.SwitchAnimationUtils;
+import com.wgf.cookbooks.util.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     private FragmentManager mFragmentManager;
     private FragmentTransaction mTransaction;
     private Fragment homepage,dicover,menu,mine;
+    //记录第一下按下时间
+    private long time= 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         mFragments = new ArrayList<>();
-        mBottomNavigationBar = (BottomNavigationBar) findViewById(R.id.my_bottom__navigation_bar);
+        mBottomNavigationBar = (BottomNavigationBar) findViewById(R.id.my_bottom_navigation_bar);
 
         if (homepage == null) {
             homepage = new HomePageFragment();
@@ -161,10 +164,13 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
-
-
-
-
-
+    @Override
+    public void onBackPressed() {
+        if(System.currentTimeMillis() - time<2000){
+            System.exit(0);
+        }else{
+            ToastUtils.toast(this,"在按一次退出程序");
+            time = System.currentTimeMillis();
+        }
+    }
 }

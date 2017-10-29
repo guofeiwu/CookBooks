@@ -13,11 +13,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.wgf.cookbooks.R;
 import com.wgf.cookbooks.activity.AddMenuActivity;
 import com.wgf.cookbooks.activity.LoginActivity;
 import com.wgf.cookbooks.activity.MenuDetailActivity;
+import com.wgf.cookbooks.activity.MenuHotActivity;
+import com.wgf.cookbooks.activity.MenuRankActivity;
+import com.wgf.cookbooks.activity.RandomMenuActivity;
 import com.wgf.cookbooks.activity.SearchActivity;
 import com.wgf.cookbooks.adapter.MenuRecycleViewAdapter;
 import com.wgf.cookbooks.bean.Menu;
@@ -59,6 +64,9 @@ public class HomePageFragment extends Fragment implements MenuAsyncTask.IGetMenu
     private EditText mEditTextSearch;
     private GetBannerAsyncTask mGetBannerAsyncTask;
     private ImageView mImageViewAddMenu;
+    private LinearLayout mRecommend;
+    private LinearLayout mHotRecommend;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -82,16 +90,6 @@ public class HomePageFragment extends Fragment implements MenuAsyncTask.IGetMenu
         mNestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-//                if (scrollY > oldScrollY) {
-//                    L.e("Scroll DOWN");
-//                }
-//                if (scrollY < oldScrollY) {
-//                    L.e("Scroll UP");
-//                }
-//
-//                if (scrollY == 0) {
-//                    L.e("TOP SCROLL");
-//                }
                 if (scrollY == (v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()) && isLoading) {
                     L.e("BOTTOM SCROLL");
                     mAdapter.setLoadStatus(1);
@@ -112,6 +110,8 @@ public class HomePageFragment extends Fragment implements MenuAsyncTask.IGetMenu
 
         mEditTextSearch.setOnClickListener(this);
         mImageViewAddMenu.setOnClickListener(this);
+        mRecommend.setOnClickListener(this);
+        mHotRecommend.setOnClickListener(this);
     }
 
     /**
@@ -124,8 +124,22 @@ public class HomePageFragment extends Fragment implements MenuAsyncTask.IGetMenu
         mNestedScrollView = (NestedScrollView) view.findViewById(R.id.id_nsv_parent);
         mEditTextSearch = (EditText) view.findViewById(R.id.id_et_search);
         mImageViewAddMenu = (ImageView) view.findViewById(R.id.iv_add_menu);
+        mRecommend = (LinearLayout) view.findViewById(R.id.id_ll_today_recommend);
+        mHotRecommend = (LinearLayout) view.findViewById(R.id.id_ll_hot_layout);
     }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        initRecommend();
+    }
+
+    /**
+     * 初始化推荐数据
+     */
+    private void initRecommend() {
+
+    }
 
     /**
      * 初始化banner数据
@@ -218,6 +232,12 @@ public class HomePageFragment extends Fragment implements MenuAsyncTask.IGetMenu
                 }else{
                     IntentUtils.jump(getActivity(),AddMenuActivity.class);
                 }
+                break;
+            case R.id.id_ll_today_recommend:
+                IntentUtils.jump(getActivity(), RandomMenuActivity.class);
+                break;
+            case R.id.id_ll_hot_layout:
+                IntentUtils.jump(getActivity(), MenuHotActivity.class);
                 break;
         }
     }

@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <com.ashokvarma.bottomnavigation.BottomNavigationBar
-            android:id="@+id/my_bottom__navigation_bar"
+            android:id="@+id/my_bottom_navigation_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
         </com.ashokvarma.bottomnavigation.BottomNavigationBar>

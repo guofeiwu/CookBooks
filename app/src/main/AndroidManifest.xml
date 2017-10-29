@@ -61,6 +61,8 @@
         <activity android:name=".activity.MyPointActivity"/>
         <activity android:name=".activity.MenuRankActivity"/>
         <activity android:name=".activity.ThematicActivity"/>
+        <activity android:name=".activity.RandomMenuActivity"/>
+        <activity android:name=".activity.MenuHotActivity"/>
 
 
         <receiver android:name="com.wgf.cookbooks.util.DownloadApp$DownloadFinishReceiver"/>

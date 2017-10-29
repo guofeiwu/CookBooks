@@ -80,7 +80,7 @@ public class MenuRankActivity extends AppCompatActivity implements MenuRankAsync
             url = BASE_URL+"/app/menu/collectRank";
             mCustomToolbar.setToolbarTitle(getString(R.string.text_collect_rank));
         }else if(flag == 3){
-            url = BASE_URL+"/app/menu/lookRank";
+            url = BASE_URL+"/app/menu/lookRank/1";
             mCustomToolbar.setToolbarTitle(getString(R.string.text_look_rank));
         }
         if(mMenuRankAsyncTask!=null){

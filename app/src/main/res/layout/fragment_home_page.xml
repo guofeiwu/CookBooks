@@ -99,41 +99,40 @@
                     android:layout_marginBottom="10dp"
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="90dp">
                     <LinearLayout
+                        android:id="@+id/id_ll_today_recommend"
+                        android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:gravity="center"
+                        android:layout_marginLeft="15dp"
+                        android:background="@color/orange"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
-                        <ImageView
-                            android:layout_width="wrap_content"
+                        android:layout_height="90dp">
+                        <TextView
+                            android:layout_gravity="center"
+                            android:layout_width="match_parent"
+
                             android:layout_height="wrap_content"
-                            android:src="@drawable/main1"
+                            android:text="今日推荐"
+                            android:gravity="center"
                             />
                     </LinearLayout>
                     <LinearLayout
+                        android:id="@+id/id_ll_hot_layout"
+                        android:layout_gravity="center"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content">
                         <ImageView
-                            android:layout_weight="1"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:src="@drawable/main4"
-                            android:id="@+id/imageView2" />
-                        <ImageView
-                            android:layout_weight="1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/main4"
-                            android:id="@+id/imageView3" />
+                            />
                     </LinearLayout>
 
                 </LinearLayout>
-
                 <View
-                    android:id="@+id/view"
                     android:layout_width="match_parent"
                     android:layout_height="15dp"
                     android:layout_alignParentBottom="true"
@@ -164,6 +163,7 @@
                     android:text="到处都是美味"
                     android:textSize="@dimen/text_small_content_size" />
             </RelativeLayout>
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/id_rv_menu_list"
                 android:layout_width="match_parent"

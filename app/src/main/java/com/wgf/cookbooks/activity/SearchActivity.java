@@ -78,6 +78,12 @@ public class SearchActivity extends AppCompatActivity implements MenuAsyncTask.I
                         ToastUtils.toast(SearchActivity.this, "请输入要搜索的内容");
                         return true;
                     } else {
+                        if(menus!=null && menus.size()>0){
+                            menus.clear();
+                        }
+                        if (mAdapter != null) {
+                            mAdapter= null;
+                        }
                         if (mMenuAsyncTask != null) {
                             return true;
                         }

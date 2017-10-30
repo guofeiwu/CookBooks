@@ -46,6 +46,7 @@ public class MenuListActivity extends AppCompatActivity implements MenuAsyncTask
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_list);
+
         Intent intent = getIntent();
         position = intent.getIntExtra("pos", 0);
         type = intent.getStringExtra("type");
@@ -286,6 +287,7 @@ public class MenuListActivity extends AppCompatActivity implements MenuAsyncTask
         if (mMenuAsyncTask != null) {
             mMenuAsyncTask = null;
         }
+
     }
 
     @Override
@@ -308,4 +310,5 @@ public class MenuListActivity extends AppCompatActivity implements MenuAsyncTask
         intent.putExtra("menuPkId", menus.get(position).getMenuPkId());
         startActivity(intent);
     }
+
 }

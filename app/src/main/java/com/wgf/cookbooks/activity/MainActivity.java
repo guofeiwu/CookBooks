@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
 
         mBottomNavigationBar.addItem(new BottomNavigationItem(R.drawable.homepage_fill, "首页"))
                 .addItem(new BottomNavigationItem(R.drawable.discover_32, "发现"))
-                .addItem(new BottomNavigationItem(R.drawable.category_32, "菜谱"))
+                .addItem(new BottomNavigationItem(R.drawable.menu_gray_32, "菜谱"))
                 .addItem(new BottomNavigationItem(R.drawable.mine_32, "我的"))
                 .initialise();
 

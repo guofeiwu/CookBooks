@@ -1,8 +1,10 @@
 package com.wgf.cookbooks.activity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -34,10 +36,18 @@ public class MenuRankActivity extends AppCompatActivity implements MenuRankAsync
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu_rank);
+
+
+
+
         //这个是用来判断加载哪种类型的排行，1表示是从点赞排行，2表示是收藏排行，3表示浏览排行
         flag = getIntent().getIntExtra("flag",-1);
         initView();
         setListener();
+
+        loadingDialog();
+
+
         initData();
 
     }
@@ -103,7 +113,15 @@ public class MenuRankActivity extends AppCompatActivity implements MenuRankAsync
             mAdapter = new MenuRankRecycleViewAdapter(this,list);
             mAdapter.setmListener(this);
             mRankRecyclerView.setAdapter(mAdapter);
+
+            if(dialog!=null){
+                dialog.dismiss();
+            }
+
         }else{
+            if(dialog!=null){
+                dialog.dismiss();
+            }
             ToastUtils.toast(this,getString(R.string.text_failed_msg));
         }
     }
@@ -114,4 +132,19 @@ public class MenuRankActivity extends AppCompatActivity implements MenuRankAsync
         intent.putExtra("menuPkId", menus.get(position).getMenuPkId());
         startActivity(intent);
     }
+
+
+
+
+    private Dialog dialog;
+
+    //加载数据对话框
+    private void loadingDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(R.layout.loading_dialog);
+        dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+    }
+
 }

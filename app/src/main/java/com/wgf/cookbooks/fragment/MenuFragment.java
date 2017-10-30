@@ -28,20 +28,20 @@ import java.util.Map;
 public class MenuFragment extends Fragment {
     private GridView mThreeMeals,mCaiShi,mCaiXi,mTianDian,mZhuShi;
 
-    private int[] threeMealsImageId = {R.drawable.np,R.drawable.type_menu,R.drawable.type_menu,R.drawable.type_menu};
+    private int[] threeMealsImageId = {R.drawable.breakfast,R.drawable.launch,R.drawable.dinner,R.drawable.yexiao};
     private String[] threeMealsTitles = {"早餐","中餐","晚餐","夜宵"};
 
-    private int[] caiShiImageId = {R.drawable.type_menu,R.drawable.type_menu,R.drawable.type_menu,R.drawable.type_menu,R.drawable.type_menu,R.drawable.type_menu};
+    private int[] caiShiImageId = {R.drawable.jiachangcai,R.drawable.sucai,R.drawable.tang,R.drawable.liangcai,R.drawable.sifangcai,R.drawable.huncai};
     private String[] caiShiTitles = {"家常菜","素菜","汤","凉菜","私房菜","荤菜"};
 
-    private int[] caiXiImageId = {R.drawable.type_menu,R.drawable.type_menu,R.drawable.type_menu,R.drawable.type_menu,R.drawable.type_menu,R.drawable.type_menu};
+    private int[] caiXiImageId = {R.drawable.chuancai,R.drawable.yuecai,R.drawable.dongbeicai,R.drawable.xiangcai,R.drawable.lucai,R.drawable.qingzhen};
     private String[] caiXiTitles = {"川菜","粤菜","东北菜","湘菜","鲁菜","清真"};
 
 
-    private int[] tianDianImageId = {R.drawable.type_menu,R.drawable.type_menu,R.drawable.type_menu,R.drawable.type_menu};
+    private int[] tianDianImageId = {R.drawable.cake,R.drawable.binggan,R.drawable.danta,R.drawable.yinping};
     private String[] tianDianTitles = {"蛋糕","饼干","蛋挞","饮品"};
 
-    private int[] zhuShiImageId = {R.drawable.type_menu,R.drawable.type_menu,R.drawable.type_menu,R.drawable.type_menu,R.drawable.type_menu};
+    private int[] zhuShiImageId = {R.drawable.mifan,R.drawable.miantiao,R.drawable.gaodian,R.drawable.zhou,R.drawable.mifen};
     private String[] zhuShiTitles = {"饭","面","糕点","粥","米粉"};
 
 

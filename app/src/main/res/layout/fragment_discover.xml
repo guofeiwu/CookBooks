@@ -143,25 +143,30 @@
             android:orientation="horizontal">
 
             <ImageView
+                android:layout_marginLeft="30dp"
+                android:layout_weight="1"
                 android:id="@+id/id_iv_like_rank"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@drawable/rank" />
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/like_rank" />
 
 
             <ImageView
+                android:layout_weight="1"
                 android:id="@+id/id_iv_collect_rank"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@drawable/rank" />
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/collect_rank" />
 
             <ImageView
+                android:layout_marginRight="30dp"
+                android:layout_weight="1"
                 android:id="@+id/id_iv_look_rank"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@drawable/rank" />
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:src="@drawable/look_rank" />
         </LinearLayout>
         <View
             android:layout_width="match_parent"

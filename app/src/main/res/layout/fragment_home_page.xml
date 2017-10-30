@@ -93,45 +93,27 @@
                         android:text="去看看 总有你喜欢的"
                         android:textSize="@dimen/text_small_content_size" />
                 </RelativeLayout>
-
-                <LinearLayout
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="10dp"
-                    android:orientation="horizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="90dp">
                     <LinearLayout
                         android:id="@+id/id_ll_today_recommend"
                         android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:layout_marginLeft="15dp"
-                        android:background="@color/orange"
-                        android:layout_width="wrap_content"
-                        android:layout_height="90dp">
-                        <TextView
-                            android:layout_gravity="center"
-                            android:layout_width="match_parent"
-
-                            android:layout_height="wrap_content"
-                            android:text="今日推荐"
-                            android:gravity="center"
-                            />
-                    </LinearLayout>
-                    <LinearLayout
-                        android:id="@+id/id_ll_hot_layout"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
                         android:gravity="center"
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content">
                         <ImageView
+                            android:layout_marginLeft="5dp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/main4"
+                            android:src="@drawable/dayday"
+                            />
+                        <ImageView
+                            android:id="@+id/id_iv_hot_menu"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/hot_menus"
                             />
                     </LinearLayout>
-
-                </LinearLayout>
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="15dp"

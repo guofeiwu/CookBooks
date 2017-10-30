@@ -65,7 +65,7 @@ public class HomePageFragment extends Fragment implements MenuAsyncTask.IGetMenu
     private GetBannerAsyncTask mGetBannerAsyncTask;
     private ImageView mImageViewAddMenu;
     private LinearLayout mRecommend;
-    private LinearLayout mHotRecommend;
+    private ImageView mHotMenu;
 
     @Nullable
     @Override
@@ -111,7 +111,7 @@ public class HomePageFragment extends Fragment implements MenuAsyncTask.IGetMenu
         mEditTextSearch.setOnClickListener(this);
         mImageViewAddMenu.setOnClickListener(this);
         mRecommend.setOnClickListener(this);
-        mHotRecommend.setOnClickListener(this);
+        mHotMenu.setOnClickListener(this);
     }
 
     /**
@@ -125,7 +125,7 @@ public class HomePageFragment extends Fragment implements MenuAsyncTask.IGetMenu
         mEditTextSearch = (EditText) view.findViewById(R.id.id_et_search);
         mImageViewAddMenu = (ImageView) view.findViewById(R.id.iv_add_menu);
         mRecommend = (LinearLayout) view.findViewById(R.id.id_ll_today_recommend);
-        mHotRecommend = (LinearLayout) view.findViewById(R.id.id_ll_hot_layout);
+        mHotMenu = (ImageView) view.findViewById(R.id.id_iv_hot_menu);
     }
 
     @Override
@@ -236,7 +236,7 @@ public class HomePageFragment extends Fragment implements MenuAsyncTask.IGetMenu
             case R.id.id_ll_today_recommend:
                 IntentUtils.jump(getActivity(), RandomMenuActivity.class);
                 break;
-            case R.id.id_ll_hot_layout:
+            case R.id.id_iv_hot_menu:
                 IntentUtils.jump(getActivity(), MenuHotActivity.class);
                 break;
         }

@@ -11,14 +11,6 @@
         <item name="actionMenuTextColor">@color/color_white</item> <!--  敲定颜色-->
         <item name="android:textSize">18sp</item> <!--  搞定字体大小-->
     </style>
-    <style name="text_editStyle" >
-        <item name="android:layout_height">47dp</item>
-        <item name="android:layout_width">47dp</item>
-        <item name="android:background">@drawable/bg_verify</item>
-        <item name="android:gravity">center</item>
-        <item name="android:textColor">@color/common_blue_0090FF</item>
-        <item name="android:textSize">18sp</item>
-    </style>
 
     <style name="text_tabLayout">
         <item name="android:textSize">16sp</item>

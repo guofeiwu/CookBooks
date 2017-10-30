@@ -159,6 +159,9 @@
     <string name="text_hot_menu">热门菜谱</string>
     <string name="text_hot_menu_load_complete">热门菜谱全部加载完成</string>
     <string name="text_loading">正在加载数据中...</string>
+    <string name="text_home">首页</string>
+    <string name="text_discover">发现</string>
+    <string name="text_category">分类</string>
 
     <integer name="actionId">1</integer>
 

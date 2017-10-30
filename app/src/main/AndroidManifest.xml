@@ -21,8 +21,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.MainActivity"
-            android:windowSoftInputMode="adjustPan|stateHidden"
+        <activity android:name=".activity.SplashActivity"
             >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -63,6 +62,9 @@
         <activity android:name=".activity.ThematicActivity"/>
         <activity android:name=".activity.RandomMenuActivity"/>
         <activity android:name=".activity.MenuHotActivity"/>
+        <activity android:name=".activity.MainActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            />
 
 
         <receiver android:name="com.wgf.cookbooks.util.DownloadApp$DownloadFinishReceiver"/>

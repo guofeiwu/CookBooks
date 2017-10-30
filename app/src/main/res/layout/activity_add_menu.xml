@@ -31,6 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="100dp">
         <TextView
+            android:textColor="@color/color_black"
             android:id="@+id/id_tv_cover"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -38,8 +39,8 @@
             android:layout_marginRight="10dp"
             android:layout_marginLeft="10dp"
             android:layout_centerVertical="true"
-            />
-            <ImageView
+            android:layout_alignParentStart="true" />
+        <ImageView
                 android:layout_toRightOf="@id/id_tv_cover"
                 android:layout_gravity="center"
                 android:id="@+id/id_iv_cover"
@@ -57,6 +58,8 @@
             android:layout_height="wrap_content"
             android:src="@drawable/right_narrow"
             />
+
+
     </RelativeLayout>
     <View
         android:layout_width="match_parent"
@@ -69,6 +72,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
+            android:textColor="@color/color_black"
             android:id="@+id/id_tv_menu_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -86,6 +90,7 @@
             android:layout_width="wrap_content"
             android:layout_height="40dp" />
         <TextView
+            android:textColor="@color/color_black"
             android:id="@+id/id_tv_menu_length"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -106,12 +111,14 @@
         android:layout_width="match_parent"
         android:layout_height="40dp">
         <TextView
+            android:textColor="@color/color_black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:text="所属类别"
             />
         <TextView
+            android:textColor="@color/color_black"
             android:textSize="@dimen/text_small_content_size"
             android:id="@+id/id_tv_type"
             android:layout_width="wrap_content"
@@ -120,6 +127,7 @@
             android:text="请选择"
             />
         <TextView
+            android:textColor="@color/color_black"
             android:visibility="gone"
             android:textSize="@dimen/text_small_content_size"
             android:id="@+id/id_tv_sun_type"
@@ -141,6 +149,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
+            android:textColor="@color/color_black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="介绍"
@@ -168,6 +177,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
+            android:textColor="@color/color_black"
             android:id="@+id/id_tv_menu_desc_length"
             android:textSize="@dimen/text_small_content_size"
             android:layout_width="wrap_content"

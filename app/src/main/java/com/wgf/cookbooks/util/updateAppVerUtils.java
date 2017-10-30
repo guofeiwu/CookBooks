@@ -18,7 +18,14 @@ import com.wgf.cookbooks.bean.AppVer;
  * 更新app
  */
 public class UpdateAppVerUtils {
-    public static int updateApp(Context context,AppVer appVer){
+    /**
+     * 更新app
+     * @param context
+     * @param appVer
+     * @param flag 判断是否需要显示toast
+     * @return
+     */
+    public static int updateApp(Context context,AppVer appVer,boolean flag){
         float versionCode = appVer.getVer();
         String downloadUrl = appVer.getDownloadUrl();
         String updateDesc = appVer.getVerDesc();
@@ -30,7 +37,9 @@ public class UpdateAppVerUtils {
             if(versionCode>currentVersionCode){
                 confirmDialog(context,downloadUrl,updateDesc,versionCode);
             }else{
-                ToastUtils.toast(context,"已经是最新版本");
+                if(flag) {
+                    ToastUtils.toast(context, "已经是最新版本");
+                }
             }
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();

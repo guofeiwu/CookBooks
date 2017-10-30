@@ -314,7 +314,7 @@ public class SystemSettingActivity  extends AppCompatActivity implements View.On
                 mPoint.setVisibility(View.GONE);
             }
             if(click){
-                UpdateAppVerUtils.updateApp(this,appVer);
+                UpdateAppVerUtils.updateApp(this,appVer,true);
             }
         }else{
             ToastUtils.toast(this,"检查更新失败");

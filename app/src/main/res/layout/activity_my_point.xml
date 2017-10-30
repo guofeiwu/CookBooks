@@ -16,7 +16,7 @@
             android:id="@+id/id_tv_current_point"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="当前积分: 200"
+            android:text="当前积分: 0"
             android:textSize="@dimen/text_content_size"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="10dp"
@@ -50,7 +50,7 @@
             android:id="@+id/id_iv_sign"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/sign_gray_32"
+            android:src="@drawable/sign_red_32"
             android:layout_marginLeft="10dp"
             android:layout_centerVertical="true"
             />
@@ -93,7 +93,7 @@
             android:id="@+id/id_iv_menu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/menu_gray_32"
+            android:src="@drawable/menu_red_32"
             android:layout_marginLeft="10dp"
             android:layout_centerVertical="true"
             />

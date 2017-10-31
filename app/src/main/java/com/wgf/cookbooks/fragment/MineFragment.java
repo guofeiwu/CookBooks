@@ -352,7 +352,10 @@ public class MineFragment extends Fragment implements View.OnClickListener{
                     JSONObject jsonObject = null;
                     try {
                         jsonObject = new JSONObject(resJson);
-                        sign = jsonObject.getJSONObject("extend").getJSONObject("content").getInt("sign");
+                        JSONObject jo = jsonObject.getJSONObject("extend").getJSONObject("content");
+                        sign = jo.getInt("sign");
+                        point = jo.getInt("point");
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

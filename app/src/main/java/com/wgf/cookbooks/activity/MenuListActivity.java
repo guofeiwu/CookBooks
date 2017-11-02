@@ -92,7 +92,7 @@ public class MenuListActivity extends AppCompatActivity implements MenuAsyncTask
                     mCustomToolbar.setToolbarTitle("晚餐");
                     break;
                 case 3://夜宵
-                    map.put("sunType", 2);
+                    map.put("sunType", 3);
                     mCustomToolbar.setToolbarTitle("夜宵");
                     break;
             }

@@ -86,8 +86,6 @@ public class MenuFragment extends Fragment {
         mThreeMeals.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ToastUtils.toast(getActivity(),"pos:"+position);
-                //
                 Intent intent = new Intent(getActivity(), MenuListActivity.class);
                 intent.putExtra("type", Constants.YIRISANCAN);
                 intent.putExtra("pos",position);

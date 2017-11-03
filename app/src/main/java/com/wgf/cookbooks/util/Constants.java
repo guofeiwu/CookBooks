@@ -9,14 +9,15 @@ public class Constants {
 
     public static final String APP_ID = "";
     public static boolean DOWNLOADING = false;
+    public static boolean FIRSTSHOW = true;
 
       /**住宿的**/
-    public static final String BASE_URL = "http://192.168.11.103:8081";
-    public static final String BASE_URL_FILE_MENUS = "http://192.168.11.103:8080/menuFiles/menus/";//Tomcat服务器菜单文件地址
-    public static final String BASE_URL_FILE_ICON = "http://192.168.11.103:8080/menuFiles/icon/";//Tomcat服务器用户头像地址
-    public static final String BASE_URL_FILE_SHAI = "http://192.168.11.103:8080/menuFiles/shai/";//晒一晒地址
-    public static final String BASE_URL_FILE_APP = "http://192.168.11.103:8080/menuFiles/app/";//app下载地址
-    public static final String BASE_URL_FILE_THEMATIC="http://192.168.11.103:8080/menuFiles/thematic/";//专题图片地址
+//    public static final String BASE_URL = "http://192.168.11.103:8081";
+//    public static final String BASE_URL_FILE_MENUS = "http://192.168.11.103:8080/menuFiles/menus/";//Tomcat服务器菜单文件地址
+//    public static final String BASE_URL_FILE_ICON = "http://192.168.11.103:8080/menuFiles/icon/";//Tomcat服务器用户头像地址
+//    public static final String BASE_URL_FILE_SHAI = "http://192.168.11.103:8080/menuFiles/shai/";//晒一晒地址
+//    public static final String BASE_URL_FILE_APP = "http://192.168.11.103:8080/menuFiles/app/";//app下载地址
+//    public static final String BASE_URL_FILE_THEMATIC="http://192.168.11.103:8080/menuFiles/thematic/";//专题图片地址
 
     /**公司的**/
 //    public static final String BASE_URL = "http://192.168.10.155:8081";
@@ -25,6 +26,23 @@ public class Constants {
 //    public static final String BASE_URL_FILE_SHAI = "http://192.168.10.155:8080/menuFiles/shai/";//晒一晒地址
 //    public static final String BASE_URL_FILE_APP = "http://192.168.10.155:8080/menuFiles/app/";//app下载地址
 //    public static final String BASE_URL_FILE_THEMATIC="http://192.168.10.155:8080/menuFiles/thematic/";//专题图片地址
+
+//    /**寝室**/
+    public static final String BASE_URL = "http://192.168.43.120:8081";
+    public static final String BASE_URL_FILE_ICON = "http://192.168.43.120:8080/menuFiles/icon/";//Tomcat服务器用户头像地址
+    public static final String BASE_URL_FILE_MENUS = "http://192.168.43.120:8080/menuFiles/menus/";//Tomcat服务器菜单地址
+    public static final String BASE_URL_FILE_SHAI = "http://192.168.43.120:8080/menuFiles/shai/";//晒一晒地址
+    public static final String BASE_URL_FILE_APP = "http://192.168.43.120:8080/menuFiles/app/";//app下载地址
+    public static final String BASE_URL_FILE_THEMATIC="http://192.168.43.120:8080/menuFiles/thematic/";//专题图片地址
+
+    /**寝室**/
+//    public static final String BASE_URL = "http://10.128.94.193:8081";
+//    public static final String BASE_URL_FILE_ICON = "http://10.128.94.193:8080/menuFiles/icon/";//Tomcat服务器用户头像地址
+//    public static final String BASE_URL_FILE_MENUS = "http://10.128.94.193:8080/menuFiles/menus/";//Tomcat服务器菜单地址
+//    public static final String BASE_URL_FILE_SHAI = "http://10.128.94.193:8080/menuFiles/shai/";//晒一晒地址
+//    public static final String BASE_URL_FILE_APP = "http://10.128.94.193:8080/menuFiles/app/";//app下载地址
+//    public static final String BASE_URL_FILE_THEMATIC="http://10.128.94.193:8080/menuFiles/thematic/";//专题图片地址
+
 
 
 

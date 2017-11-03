@@ -64,6 +64,7 @@ import top.zibin.luban.OnCompressListener;
 
 import static com.wgf.cookbooks.util.Constants.AUTHORIZATION;
 import static com.wgf.cookbooks.util.Constants.BASE_URL;
+import static com.wgf.cookbooks.util.Constants.BASE_URL_FILE_ICON;
 import static com.wgf.cookbooks.util.Constants.FAILED;
 import static com.wgf.cookbooks.util.Constants.REQUEST_CODE_ALBUM;
 import static com.wgf.cookbooks.util.Constants.REQUEST_CODE_CAMERA;
@@ -117,10 +118,12 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
                         mUserBirthday.setContent(userInfo.getBirthday());
                         mUserPoint.setContent(userInfo.getPoint()+"");
                         mUserLevel.setContent(userInfo.getLevel());
-                        Glide.with(UserInfoActivity.this)
-                                .load(userInfo.getIcon())
-                                //.placeholder(R.drawable.icon_108)
-                                .into(mCircleImageView);
+
+                        String icon = userInfo.getIcon();
+                        //加载用户头像
+                        if(!icon.equals(BASE_URL_FILE_ICON+"null") && !icon.equals(BASE_URL_FILE_ICON) &&!TextUtils.isEmpty(icon) ) {
+                            Glide.with(UserInfoActivity.this).load(icon).into(mCircleImageView);
+                        }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }finally {

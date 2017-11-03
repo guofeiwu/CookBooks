@@ -81,12 +81,13 @@ public class ShaiActivity extends AppCompatActivity implements ShaiDetailRecycle
      * 初始化显示的数据
      */
     private void initData() {
+        pageNo = 1;
         if(head!=null){
             head.clear();
             head = null;
         }
         head = new ArrayList<>();
-        head.add("");
+        head.add("0");
         head.add("2017，说出你和美食的故事");
 
         if(shaiList!=null){

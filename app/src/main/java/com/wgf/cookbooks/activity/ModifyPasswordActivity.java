@@ -204,7 +204,7 @@ public class ModifyPasswordActivity extends AppCompatActivity implements View.On
 
 
         //倒计时，模拟时间6s
-        mCountDownTimer = new CountDownTimer(6*1000,1000) {
+        mCountDownTimer = new CountDownTimer(60*1000,1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 mVerifiyCode.setText(millisUntilFinished / 1000 + "S");

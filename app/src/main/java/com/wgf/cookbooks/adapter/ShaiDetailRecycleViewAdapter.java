@@ -63,7 +63,7 @@ public class ShaiDetailRecycleViewAdapter extends RecyclerView.Adapter<RecyclerV
     private LikeAsyncTask mLikeAsyncTask;
     private List<String> head;
 
-    public ShaiDetailRecycleViewAdapter(Context context, List<Shai> shaiLists,List<String> head) {
+    public ShaiDetailRecycleViewAdapter(Context context, List<Shai> shaiLists, List<String> head) {
         this.context = context;
         this.shaiLists = shaiLists;
         this.head = head;
@@ -73,6 +73,7 @@ public class ShaiDetailRecycleViewAdapter extends RecyclerView.Adapter<RecyclerV
 
     /**
      * 获取当前用户所有的like晒晒点赞
+     *
      * @return
      */
     private void getLikes() {
@@ -121,16 +122,18 @@ public class ShaiDetailRecycleViewAdapter extends RecyclerView.Adapter<RecyclerV
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
-        if (viewHolder instanceof HeadViewHolder){
+        if (viewHolder instanceof HeadViewHolder) {
             hHolder = (HeadViewHolder) viewHolder;
-            //设置图片
-            Glide.with(context)
-                    .load(BASE_URL_FILE_ICON+head.get(0))
-                    .placeholder(R.drawable.icon_108)
-                    .into(hHolder.mCover);
-            //设置标题
-            hHolder.mTitle.setText(head.get(1)+"");
-        }else if (viewHolder instanceof FooterViewHolder) {
+            if (head != null && head.size() > 0) {
+                //设置图片
+                Glide.with(context)
+                        .load(BASE_URL_FILE_ICON + head.get(0))
+                        .placeholder(R.drawable.icon_108)
+                        .into(hHolder.mCover);
+                //设置标题
+                hHolder.mTitle.setText(head.get(1) + "");
+            }
+        } else if (viewHolder instanceof FooterViewHolder) {
             fholder = (FooterViewHolder) viewHolder;
             switch (status) {
                 case 0:
@@ -238,6 +241,7 @@ public class ShaiDetailRecycleViewAdapter extends RecyclerView.Adapter<RecyclerV
     protected class HeadViewHolder extends RecyclerView.ViewHolder {
         private CircleImageView mCover;
         private TextView mTitle;
+
         public HeadViewHolder(View itemView) {
             super(itemView);
             mCover = (CircleImageView) itemView.findViewById(R.id.id_civ_shai_cover);
@@ -302,51 +306,52 @@ public class ShaiDetailRecycleViewAdapter extends RecyclerView.Adapter<RecyclerV
     /**
      * 刷新likeContent 获取当前用户的晒晒的所以的点赞
      */
-    public void flashLikeContent(){
+    public void flashLikeContent() {
         getLikes();
         notifyDataSetChanged();
     }
 
 
-
-
     /**
      * 某一项数据更新时
+     *
      * @param position
      */
     private int shaiPkId = 0;
-    public void flashItem(int position){
+
+    public void flashItem(int position) {
         Shai shai = shaiLists.get(position);
         shaiPkId = shai.getShaiPkId();
         int likes = shai.getLikes();
         int likePkId = likeContent.optInt(String.valueOf(shaiPkId));
-        if(likePkId>0){//取消收藏
-            if(likes >= 1){
-                shai.setLikes(likes-1);
+        if (likePkId > 0) {//取消收藏
+            if (likes >= 1) {
+                shai.setLikes(likes - 1);
                 likeContent.remove(String.valueOf(shaiPkId));
-               String url = BASE_URL+"/app/shai/dislike/"+likePkId;
-                if(mLikeAsyncTask != null){
+                String url = BASE_URL + "/app/shai/dislike/" + likePkId;
+                if (mLikeAsyncTask != null) {
                     return;
                 }
                 mLikeAsyncTask = new LikeAsyncTask();
-                mLikeAsyncTask.execute(url,"dislike");
+                mLikeAsyncTask.execute(url, "dislike");
             }
-        }else{//收藏
-              shai.setLikes(likes+1);
-                if(mLikeAsyncTask != null){
-                    return;
-                }
-                String url = BASE_URL+"/app/shai/like/"+shaiPkId;
-                mLikeAsyncTask = new LikeAsyncTask();
-                mLikeAsyncTask.execute(url,"like");
+        } else {//收藏
+            shai.setLikes(likes + 1);
+            if (mLikeAsyncTask != null) {
+                return;
+            }
+            String url = BASE_URL + "/app/shai/like/" + shaiPkId;
+            mLikeAsyncTask = new LikeAsyncTask();
+            mLikeAsyncTask.execute(url, "like");
         }
     }
 
     /**
      * 用户点赞，取消点赞
      */
-    private class LikeAsyncTask extends AsyncTask<String,Void,Integer>{
+    private class LikeAsyncTask extends AsyncTask<String, Void, Integer> {
         String flag = null;
+
         @Override
         protected Integer doInBackground(String... params) {
             String url = params[0];
@@ -357,14 +362,14 @@ public class ShaiDetailRecycleViewAdapter extends RecyclerView.Adapter<RecyclerV
                         .execute();
                 String resJson = response.body().string();
                 int code = JsonUtils.getCode(resJson);
-                if(code == SUCCESS){
-                    if(flag.equals("like")){
+                if (code == SUCCESS) {
+                    if (flag.equals("like")) {
                         int likePkId = JsonUtils.getContent(resJson).getInt("likePkId");
                         return likePkId;
-                    }else {
+                    } else {
                         return SUCCESS;
                     }
-                }else{
+                } else {
                     return FAILED;
                 }
             } catch (Exception e) {
@@ -377,16 +382,16 @@ public class ShaiDetailRecycleViewAdapter extends RecyclerView.Adapter<RecyclerV
         protected void onPostExecute(Integer integer) {
             super.onPostExecute(integer);
             mLikeAsyncTask = null;
-            if(integer == SUCCESS){
+            if (integer == SUCCESS) {
                 notifyDataSetChanged();
-                ToastUtils.toast(context,"操作成功");
-            }else if(integer == FAILED){
-                ToastUtils.toast(context,"操作失败");
-            }else{
+                ToastUtils.toast(context, "操作成功");
+            } else if (integer == FAILED) {
+                ToastUtils.toast(context, "操作失败");
+            } else {
                 try {
-                    likeContent.put(String.valueOf(shaiPkId),integer);
+                    likeContent.put(String.valueOf(shaiPkId), integer);
                     notifyDataSetChanged();
-                    ToastUtils.toast(context,"操作成功");
+                    ToastUtils.toast(context, "操作成功");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

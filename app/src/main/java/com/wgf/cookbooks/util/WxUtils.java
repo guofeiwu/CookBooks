@@ -112,7 +112,7 @@ public class WxUtils {
         WXMediaMessage msg = new WXMediaMessage(webpageObject);
         msg.title = menuName;
         msg.description = menuDesc;
-        Bitmap thumb = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);
+        Bitmap thumb = BitmapFactory.decodeResource(context.getResources(), R.drawable.icon_108);
 //            Bitmap thumb = BitmapFactory.decodeResource(context.getResources(),R.drawable.icon);
         msg.thumbData = bmpToByteArray(thumb, true);
 

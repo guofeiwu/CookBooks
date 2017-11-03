@@ -24,6 +24,8 @@ import com.wgf.cookbooks.util.UpdateAppVerUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.wgf.cookbooks.util.Constants.FIRSTSHOW;
+
 /**
  * author guofei_wu
  * email guofei_wu@163.com
@@ -50,10 +52,10 @@ public class MainActivity extends AppCompatActivity implements GetAppVerAsyncTas
 
         setContentView(R.layout.activity_main);
 
-
-        checkVersion();
-
-
+        //第一次显示才更新
+        if(FIRSTSHOW) {
+            checkVersion();
+        }
 
         mFragments = new ArrayList<>();
         mBottomNavigationBar = (BottomNavigationBar) findViewById(R.id.my_bottom_navigation_bar);
@@ -182,6 +184,7 @@ public class MainActivity extends AppCompatActivity implements GetAppVerAsyncTas
         if(System.currentTimeMillis() - time<2000){
             //System.exit(0);
             finish();
+            FIRSTSHOW = true;
         }else{
             ToastUtils.toast(this,"在按一次退出程序");
             time = System.currentTimeMillis();
@@ -213,6 +216,7 @@ public class MainActivity extends AppCompatActivity implements GetAppVerAsyncTas
     public void appVer(AppVer appVer) {
         if(appVer!=null) {
             UpdateAppVerUtils.updateApp(this, appVer,false);
+            FIRSTSHOW = false;
         }
     }
 }

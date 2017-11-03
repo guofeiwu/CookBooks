@@ -197,7 +197,7 @@ public class SmsFastLoginActivity extends AppCompatActivity implements View.OnCl
 
 
         //倒计时，模拟时间6s
-        mCountDownTimer = new CountDownTimer(6*1000,1000) {
+        mCountDownTimer = new CountDownTimer(60*1000,1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 mTvVerifyCode.setText(millisUntilFinished / 1000 + "S后获取");

@@ -39,6 +39,7 @@ import com.wgf.cookbooks.view.MineLayout;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 
@@ -146,11 +147,9 @@ public class MineFragment extends Fragment implements View.OnClickListener{
         switch (v.getId()){
             case R.id.id_tv_login_or_register:
                 token =  GetAuthorizationUtil.getAuth(getActivity());
-                if(token == null){//未登录，跳转到登录界面
+                //未登录，跳转到登录界面 否则，什么都不做
+                if(token == null){
                     IntentUtils.jump(this.getActivity(), LoginActivity.class);
-                }else{//用户信息显示界面
-                    // TODO: 2017/9/30 用户信息详情界面
-                    ToastUtils.toast(getActivity(),"已登录");
                 }
                 break;
             case R.id.id_sign://签到
@@ -321,7 +320,9 @@ public class MineFragment extends Fragment implements View.OnClickListener{
                     point = userInfo.getInt("point");
                     mLoginOrRegister.setText(userName);
                     //加载用户头像
-                    Glide.with(MineFragment.this).load(BASE_URL_FILE_ICON+icon).into(mCircleImageView);
+                    if(!TextUtils.isEmpty(icon) && !icon.equals("null")  && !icon.equals("")) {
+                        Glide.with(MineFragment.this).load(BASE_URL_FILE_ICON + icon).into(mCircleImageView);
+                    }
                     dao.deleteUserInfo();
                     dao.insertUserInfo(userName,icon,phone);
                 } catch (JSONException e) {
@@ -354,7 +355,7 @@ public class MineFragment extends Fragment implements View.OnClickListener{
                         jsonObject = new JSONObject(resJson);
                         JSONObject jo = jsonObject.getJSONObject("extend").getJSONObject("content");
                         sign = jo.getInt("sign");
-                        point = jo.getInt("point");
+                        point = jo.optInt("point");
 
                     } catch (JSONException e) {
                         e.printStackTrace();

@@ -7,6 +7,7 @@ import com.lzy.okgo.callback.StringCallback;
 import com.lzy.okgo.model.Response;
 import com.wgf.cookbooks.bean.Shai;
 import com.wgf.cookbooks.util.JsonUtils;
+import com.wgf.cookbooks.util.L;
 
 import org.json.JSONArray;
 
@@ -45,6 +46,13 @@ public class GetShaiAsyncTask extends AsyncTask<Integer, Void, Void> {
                             }else{
                                 listener.getShaiList(null);
                             }
+                        }
+
+
+                        @Override
+                        public void onError(Response<String> response) {
+                            super.onError(response);
+                            L.e("onError ...");
                         }
                     });
         } catch (Exception e) {

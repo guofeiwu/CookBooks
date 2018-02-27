@@ -67,8 +67,6 @@ public class UserCommentShaiFragment extends Fragment implements  UserShaiDetail
     private SqliteDao dao;
     private TextView mNoShai;
 
-    // TODO: 2017/10/23 这有有点小问题，那个返回的晒一晒的发布者的图片，在列表显示有问题。
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

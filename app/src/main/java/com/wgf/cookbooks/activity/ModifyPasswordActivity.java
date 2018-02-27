@@ -99,7 +99,6 @@ public class ModifyPasswordActivity extends AppCompatActivity implements View.On
             mModify.setEnabled(true);//确认修改可见
             if(integer == Constants.SUCCESS){
                 ToastUtils.toast(ModifyPasswordActivity.this,getString(R.string.text_modify_success));
-                // TODO: 2017/9/28 还没实现修改成功跳转逻辑
                 finish();
             }else if (integer == Constants.LOGIN_ERROR_CODE){
                 ToastUtils.toast(ModifyPasswordActivity.this,getString(R.string.text_modify_failed));

@@ -59,7 +59,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             if (msg.what == Constants.SUCCESS) {
-                // TODO: 2017/9/28 调用注册接口
                 if(mRegisterAsyncTask != null){
                     return;
                 }
@@ -273,7 +272,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         ToastUtils.toast(RegisterActivity.this,getString(R.string.text_verify_code));
                         return;
                     }
-                    // TODO: 2017/9/28 发短信的逻辑没问题
                     SMSSDK.submitVerificationCode("86",number,code);
                     mRegister.setEnabled(false);//不可见
                     //mHandler.sendEmptyMessage(Constants.SUCCESS);

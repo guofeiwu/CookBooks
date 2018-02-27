@@ -147,7 +147,6 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
         mUserName.setOnClickListener(this);
         mUserSex.setOnClickListener(this);
         mUserBirthday.setOnClickListener(this);
-        mUserPoint.setOnClickListener(this);
         mUserLevel.setOnClickListener(this);
 
         mChangeIcon.setOnClickListener(this);
@@ -187,9 +186,6 @@ public class UserInfoActivity extends AppCompatActivity implements View.OnClickL
                 break;
             case R.id.id_user_birthday:
                 modifyBirthday();
-                break;
-            case R.id.id_user_point:
-                // TODO: 2017/10/1 跳转到任务界面
                 break;
             case R.id.id_tv_change_icon:
                 changeIcon();

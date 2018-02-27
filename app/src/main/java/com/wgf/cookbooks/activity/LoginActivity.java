@@ -230,7 +230,6 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
      */
 
     private boolean isnumberValid(String number) {
-        //TODO: Replace this with your own logic
         return number.length()==11;
     }
 
@@ -240,7 +239,6 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
      * @return
      */
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
         return password.length() > 5;
     }
 
@@ -315,7 +313,6 @@ public class LoginActivity extends AppCompatActivity implements OnClickListener{
         protected Integer doInBackground(Void... params) {
             int flag = Constants.FAILED;
             // 尝试对网络服务的身份验证。
-            //TODO 修改这个就可以
             String url = Constants.BASE_URL + "/login";
             final Map<String, String> json = new HashMap<>();
             json.put("phone", mNumber);

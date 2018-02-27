@@ -93,7 +93,6 @@ public class MenuDetailActivity extends AppCompatActivity implements MenuDetailA
     private int collectSize;//收藏总数
     private ImageView mShare;
 
-    // TODO: 2017/10/17 添加微信分享功能
     // IWXAPI 是第三方app和微信通信的openapi接口
     private IWXAPI api;
 

@@ -164,13 +164,11 @@ public class ShaiDetailRecycleViewAdapter extends RecyclerView.Adapter<RecyclerV
             holder.mShaiDesc.setText(descr);
             Glide.with(context).load(BASE_URL_FILE_SHAI + address).into(holder.mImageViewShai);
             holder.mShaiTime.setText(time);
-            // TODO: 2017/10/5 这里有问题
             if (likeContent != null) {
                 try {
                     Integer value = likeContent.optInt(String.valueOf(shaiPkId));//这里是like的主键，这里处理问题
 
                     if (value == null || value == 0 || value.equals("")) {
-                        // TODO: 2017/10/5 设置图片这边貌似还有点问题，待处理,,调试一步一步走没问题。。但是直接就有问题
                         holder.mImageViewLike.setImageResource(R.drawable.not_like_32);
                     } else {
                         holder.mImageViewLike.setImageResource(R.drawable.like_32);

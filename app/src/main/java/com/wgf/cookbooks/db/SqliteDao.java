@@ -26,7 +26,6 @@ public class SqliteDao {
     }
 
 
-    // TODO: 2017/10/15  点击下一步，清空表，插入数据
     public int  insertMenuInfo(InsertMenu insertMenu){
         SQLiteDatabase db = helper.getWritableDatabase();
         db.beginTransaction();
@@ -54,7 +53,7 @@ public class SqliteDao {
         db.beginTransaction();
         Cursor cursor = db.query(helper.MENU_INFO,null,null,null,null,null,null,null);
         InsertMenu insertMenu = null;
-        if (cursor.moveToNext()){ // TODO: 2017/10/16 这里有问题
+        if (cursor.moveToNext()){
             int id = cursor.getInt(cursor.getColumnIndex("Id"));
             String mainIcon = cursor.getString(cursor.getColumnIndex("mainIcon"));
             String menuName = cursor.getString(cursor.getColumnIndex("menuName"));

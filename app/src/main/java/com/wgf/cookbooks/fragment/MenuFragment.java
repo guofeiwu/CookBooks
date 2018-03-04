@@ -26,24 +26,23 @@ import java.util.Map;
  * email guofei_wu@163.com
  */
 public class MenuFragment extends Fragment {
-    private GridView mThreeMeals,mCaiShi,mCaiXi,mTianDian,mZhuShi;
+    private GridView mThreeMeals, mCaiShi, mCaiXi, mTianDian, mZhuShi;
 
-    private int[] threeMealsImageId = {R.drawable.breakfast,R.drawable.launch,R.drawable.dinner,R.drawable.yexiao};
-    private String[] threeMealsTitles = {"早餐","中餐","晚餐","夜宵"};
+    private int[] threeMealsImageId = {R.drawable.breakfast, R.drawable.launch, R.drawable.dinner, R.drawable.yexiao};
+    private String[] threeMealsTitles = {"早餐", "中餐", "晚餐", "夜宵"};
 
-    private int[] caiShiImageId = {R.drawable.jiachangcai,R.drawable.sucai,R.drawable.tang,R.drawable.liangcai,R.drawable.sifangcai,R.drawable.huncai};
-    private String[] caiShiTitles = {"家常菜","素菜","汤","凉菜","私房菜","荤菜"};
+    private int[] caiShiImageId = {R.drawable.jiachangcai, R.drawable.sucai, R.drawable.tang, R.drawable.liangcai, R.drawable.sifangcai, R.drawable.huncai};
+    private String[] caiShiTitles = {"家常菜", "素菜", "汤", "凉菜", "私房菜", "荤菜"};
 
-    private int[] caiXiImageId = {R.drawable.chuancai,R.drawable.yuecai,R.drawable.dongbeicai,R.drawable.xiangcai,R.drawable.lucai,R.drawable.qingzhen};
-    private String[] caiXiTitles = {"川菜","粤菜","东北菜","湘菜","鲁菜","清真"};
+    private int[] caiXiImageId = {R.drawable.chuancai, R.drawable.yuecai, R.drawable.dongbeicai, R.drawable.xiangcai, R.drawable.lucai, R.drawable.qingzhen};
+    private String[] caiXiTitles = {"川菜", "粤菜", "东北菜", "湘菜", "鲁菜", "清真"};
 
 
-    private int[] tianDianImageId = {R.drawable.cake,R.drawable.binggan,R.drawable.danta,R.drawable.yinping};
-    private String[] tianDianTitles = {"蛋糕","饼干","蛋挞","饮品"};
+    private int[] tianDianImageId = {R.drawable.cake, R.drawable.binggan, R.drawable.danta, R.drawable.yinping};
+    private String[] tianDianTitles = {"蛋糕", "饼干", "蛋挞", "饮品"};
 
-    private int[] zhuShiImageId = {R.drawable.mifan,R.drawable.miantiao,R.drawable.gaodian,R.drawable.zhou,R.drawable.mifen};
-    private String[] zhuShiTitles = {"饭","面","糕点","粥","米粉"};
-
+    private int[] zhuShiImageId = {R.drawable.mifan, R.drawable.miantiao, R.drawable.gaodian, R.drawable.zhou, R.drawable.mifen};
+    private String[] zhuShiTitles = {"饭", "面", "糕点", "粥", "米粉"};
 
 
     private MenuTypeAdapter threeAdapter;
@@ -51,11 +50,11 @@ public class MenuFragment extends Fragment {
     private MenuTypeAdapter caiXiAdapter;
     private MenuTypeAdapter tianDianAdapter;
     private MenuTypeAdapter zhuShiAdapter;
-    private List<Map<String,Object>> threeMaps;
-    private List<Map<String,Object>> caiShiMaps;
-    private List<Map<String,Object>> caiXiMaps;
-    private List<Map<String,Object>> tianDianMaps;
-    private List<Map<String,Object>> zhuShiMaps;
+    private List<Map<String, Object>> threeMaps;
+    private List<Map<String, Object>> caiShiMaps;
+    private List<Map<String, Object>> caiXiMaps;
+    private List<Map<String, Object>> tianDianMaps;
+    private List<Map<String, Object>> zhuShiMaps;
 
     @Nullable
     @Override
@@ -82,24 +81,18 @@ public class MenuFragment extends Fragment {
     /**
      * 初始化监听
      */
-    private void setListener(){
+    private void setListener() {
         mThreeMeals.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity(), MenuListActivity.class);
-                intent.putExtra("type", Constants.YIRISANCAN);
-                intent.putExtra("pos",position);
-                startActivity(intent);
+                goToMenuListActivity(position, Constants.YIRISANCAN);
             }
         });
 
         mCaiShi.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity(), MenuListActivity.class);
-                intent.putExtra("type", Constants.CAISHI);
-                intent.putExtra("pos",position);
-                startActivity(intent);
+                goToMenuListActivity(position, Constants.CAISHI);
             }
         });
 
@@ -107,10 +100,7 @@ public class MenuFragment extends Fragment {
         mCaiXi.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity(), MenuListActivity.class);
-                intent.putExtra("type", Constants.CAIXI);
-                intent.putExtra("pos",position);
-                startActivity(intent);
+                goToMenuListActivity(position, Constants.CAIXI);
             }
         });
 
@@ -118,10 +108,7 @@ public class MenuFragment extends Fragment {
         mTianDian.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity(), MenuListActivity.class);
-                intent.putExtra("type", Constants.TIANDIAN);
-                intent.putExtra("pos",position);
-                startActivity(intent);
+                goToMenuListActivity(position, Constants.TIANDIAN);
             }
         });
 
@@ -129,41 +116,47 @@ public class MenuFragment extends Fragment {
         mZhuShi.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity(), MenuListActivity.class);
-                intent.putExtra("type", Constants.ZHUSHI);
-                intent.putExtra("pos",position);
-                startActivity(intent);
+                goToMenuListActivity(position, Constants.ZHUSHI);
             }
         });
     }
 
-
-
-
+    /**
+     * 跳转界面
+     *
+     * @param position
+     * @param type
+     */
+    private void goToMenuListActivity(int position, String type) {
+        Intent intent = new Intent(getActivity(), MenuListActivity.class);
+        intent.putExtra("type", type);
+        intent.putExtra("pos", position);
+        startActivity(intent);
+    }
 
 
     /**
      * 初始化适配器
      */
-    private void initAdapter(){
-        if(threeAdapter == null){
+    private void initAdapter() {
+        if (threeAdapter == null) {
             threeAdapter = new MenuTypeAdapter(threeMaps);
             mThreeMeals.setAdapter(threeAdapter);
         }
 
-        if(caiShiAdapter == null){
+        if (caiShiAdapter == null) {
             caiShiAdapter = new MenuTypeAdapter(caiShiMaps);
             mCaiShi.setAdapter(caiShiAdapter);
         }
-        if(caiXiAdapter == null){
+        if (caiXiAdapter == null) {
             caiXiAdapter = new MenuTypeAdapter(caiXiMaps);
             mCaiXi.setAdapter(caiXiAdapter);
         }
-        if(tianDianAdapter == null){
+        if (tianDianAdapter == null) {
             tianDianAdapter = new MenuTypeAdapter(tianDianMaps);
             mTianDian.setAdapter(tianDianAdapter);
         }
-        if(zhuShiAdapter == null){
+        if (zhuShiAdapter == null) {
             zhuShiAdapter = new MenuTypeAdapter(zhuShiMaps);
             mZhuShi.setAdapter(zhuShiAdapter);
         }
@@ -173,44 +166,44 @@ public class MenuFragment extends Fragment {
     /**
      * 初始化item的数据
      */
-    private void initItem(){
+    private void initItem() {
         threeMaps = new ArrayList<>();
-        for (int i = 0;i<threeMealsImageId.length;i++){
-            Map<String,Object> map = new HashMap<>();
-            map.put("imageId",threeMealsImageId[i]);
-            map.put("title",threeMealsTitles[i]);
+        for (int i = 0; i < threeMealsImageId.length; i++) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("imageId", threeMealsImageId[i]);
+            map.put("title", threeMealsTitles[i]);
             threeMaps.add(map);
         }
 
-        caiShiMaps= new ArrayList<>();
-        for (int i = 0;i<caiShiImageId.length;i++){
-            Map<String,Object> map = new HashMap<>();
-            map.put("imageId",caiShiImageId[i]);
-            map.put("title",caiShiTitles[i]);
+        caiShiMaps = new ArrayList<>();
+        for (int i = 0; i < caiShiImageId.length; i++) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("imageId", caiShiImageId[i]);
+            map.put("title", caiShiTitles[i]);
             caiShiMaps.add(map);
         }
 
-        caiXiMaps= new ArrayList<>();
-        for (int i = 0;i<caiXiImageId.length;i++){
-            Map<String,Object> map = new HashMap<>();
-            map.put("imageId",caiXiImageId[i]);
-            map.put("title",caiXiTitles[i]);
+        caiXiMaps = new ArrayList<>();
+        for (int i = 0; i < caiXiImageId.length; i++) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("imageId", caiXiImageId[i]);
+            map.put("title", caiXiTitles[i]);
             caiXiMaps.add(map);
         }
 
-        tianDianMaps= new ArrayList<>();
-        for (int i = 0;i<tianDianImageId.length;i++){
-            Map<String,Object> map = new HashMap<>();
-            map.put("imageId",tianDianImageId[i]);
-            map.put("title",tianDianTitles[i]);
+        tianDianMaps = new ArrayList<>();
+        for (int i = 0; i < tianDianImageId.length; i++) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("imageId", tianDianImageId[i]);
+            map.put("title", tianDianTitles[i]);
             tianDianMaps.add(map);
         }
 
-        zhuShiMaps= new ArrayList<>();
-        for (int i = 0;i<zhuShiImageId.length;i++){
-            Map<String,Object> map = new HashMap<>();
-            map.put("imageId",zhuShiImageId[i]);
-            map.put("title",zhuShiTitles[i]);
+        zhuShiMaps = new ArrayList<>();
+        for (int i = 0; i < zhuShiImageId.length; i++) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("imageId", zhuShiImageId[i]);
+            map.put("title", zhuShiTitles[i]);
             zhuShiMaps.add(map);
         }
     }

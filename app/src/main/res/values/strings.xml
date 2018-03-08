@@ -161,7 +161,7 @@
     <string name="text_loading">正在加载数据中...</string>
     <string name="text_home">首页</string>
     <string name="text_discover">发现</string>
-    <string name="text_category">分类</string>
+    <string name="text_main_menu">菜谱</string>
 
     <integer name="actionId">1</integer>
 

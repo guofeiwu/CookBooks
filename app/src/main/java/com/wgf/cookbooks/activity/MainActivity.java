@@ -73,35 +73,18 @@ public class MainActivity extends AppCompatActivity implements GetAppVerAsyncTas
         mTransaction.commit();//提交事务
 
 
-//        Intent intent = getIntent();
-//        if(intent!=null){
-//            loginFlag = intent.getStringExtra("flag");
-//
-//            switch (loginFlag){
-//                case Constants.LOGIN_FLAG_MIME:
-//                    if(mFragments.get(3) != null){
-//
-//                }
-//                    break;
-//            }
-//    }
-
-
         mBottomNavigationBar
                 .setMode(BottomNavigationBar.MODE_FIXED);
         mBottomNavigationBar
                 .setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_STATIC);
-        //mBottomNavigationBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_RIPPLE);
         mBottomNavigationBar
                 .setActiveColor(R.color.color_red)
-                .setInActiveColor(R.color.text_gray)
-        // .setBarBackgroundColor(R.color.color_white)
-        ;
+                .setInActiveColor(R.color.text_gray);
 
 
         mBottomNavigationBar.addItem(new BottomNavigationItem(R.drawable.homepage_fill, getString(R.string.text_home)))
                 .addItem(new BottomNavigationItem(R.drawable.discover_32, getString(R.string.text_discover)))
-                .addItem(new BottomNavigationItem(R.drawable.category_32, getString(R.string.text_category)))
+                .addItem(new BottomNavigationItem(R.drawable.category_32, getString(R.string.text_main_menu)))
                 .addItem(new BottomNavigationItem(R.drawable.mine_32, getString(R.string.text_mine)))
                 .initialise();
 
@@ -113,10 +96,7 @@ public class MainActivity extends AppCompatActivity implements GetAppVerAsyncTas
                 //隐藏其他的fragment
                 if (mFragments.size() > 0) {
                     for (int i = 0; i < mFragments.size(); i++) {
-                        //if (i != position) {
-                        // L.e("hide position:"+i);
                         mTransaction.hide(mFragments.get(i));
-                        //}
                     }
                 }
                 switch (position){

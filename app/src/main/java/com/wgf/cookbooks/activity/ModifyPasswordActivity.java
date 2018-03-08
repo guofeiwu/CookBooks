@@ -257,10 +257,9 @@ public class ModifyPasswordActivity extends AppCompatActivity implements View.On
                         ToastUtils.toast(ModifyPasswordActivity.this,getString(R.string.text_verify_code));
                         return;
                     }
-                    // TODO: 2017/9/28 发短信的逻辑没问题
+
                     SMSSDK.submitVerificationCode("86",number,code);
                     mModify.setEnabled(false);//不可见
-                    //mHandler.sendEmptyMessage(Constants.SUCCESS);
                 }
                 break;
             case R.id.get_verify_code:
